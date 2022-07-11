@@ -2062,7 +2062,8 @@ func resourceProvisionVpxRead(ctx context.Context, d *schema.ResourceData, m int
 	d.Set("ipv4_address", getResponseData["ipv4_address"].(string))
 	d.Set("profile_name", getResponseData["profile_name"].(string))
 	d.Set("backplane", getResponseData["backplane"].(string))
-	d.Set("network_interfaces", getResponseData["network_interfaces"].([]interface{}))
+	// d.Set("network_interfaces", getResponseData["network_interfaces"].([]interface{}))
+	d.Set("network_interfaces", parseNetworkInterface(d, getResponseData["network_interfaces"].([]interface{})))
 	d.Set("state", getResponseData["state"].(string))
 	d.Set("last_updated_time", getResponseData["last_updated_time"].(string))
 	d.Set("license_edition", getResponseData["license_edition"].(string))
@@ -2177,6 +2178,73 @@ func resourceProvisionVpxRead(ctx context.Context, d *schema.ResourceData, m int
 	return diags
 }
 
+func parseNetworkInterface(d *schema.ResourceData, nif []interface{}) []interface{} {
+	var nifSchemaAttributes = []string{
+		"port_name",
+		"name_server",
+		"is_mgmt_ifc",
+		"gateway",
+		"vrid_list_ipv6",
+		"parent_id",
+		"vrid_list_ipv4",
+		"is_member_ifc",
+		"mac_address",
+		"netmask",
+		// "ip_address",
+		"l2_enabled",
+		"id",
+		"interface_name",
+		"parent_name",
+		"vlan_whitelist_array",
+		"mac_mode",
+		"managed_device_id",
+		"vlan",
+		"vrid_list_ipv4_array",
+		"receiveuntagged",
+		// "sdx_formation_network_id",
+		"vrid_list_ipv6_array",
+		"is_vlan_applied",
+		"vlan_whitelist",
+	}
+	var nifs []interface{}
+
+	if v, ok := d.GetOk("network_interfaces"); ok {
+		inputNifs := v.([]interface{})
+
+		// get the portnames of all the inputNifs
+		var inputNifPortNames []string
+		for _, inputNif := range inputNifs {
+			inputNif := inputNif.(map[string]interface{})
+			inputNifPortNames = append(inputNifPortNames, inputNif["port_name"].(string))
+		}
+
+		for _, nif := range nif {
+			nifMap := nif.(map[string]interface{})
+			if len(nifMap) == 0 {
+				continue
+			}
+			// if nifMap["port_name"] is in inputNifPortNames, then add it to the nifs, else skip it
+			if !service.Contains(inputNifPortNames, nifMap["port_name"].(string)) {
+				continue
+			}
+			// iterate through nifMap and only keep the keys that are in the nifSchemaAttributes
+			var nifMap2 map[string]interface{}
+			nifMap2 = make(map[string]interface{})
+			for k, v := range nifMap {
+				// // if v not in nifSchemaAttributes, skip
+				// if !service.Contains(nifSchemaAttributes, k) {
+				// 	continue
+				// }
+
+				if service.Contains(nifSchemaAttributes, k) {
+					nifMap2[k] = v
+				}
+			}
+			nifs = append(nifs, nifMap2)
+		}
+	}
+	return nifs
+}
 func resourceProvisionVpxUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	log.Printf("In resourceProvisionVpxUpdate")
 	c := m.(*service.NitroClient)
