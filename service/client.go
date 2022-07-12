@@ -121,7 +121,7 @@ func maskHeaders(headers http.Header) http.Header {
 	maskedHeaders := make(http.Header, len(headers))
 	for k, v := range headers {
 		upperKey := strings.ToUpper(k)
-		if contains(headersToBeMasked, upperKey) {
+		if Contains(headersToBeMasked, upperKey) {
 			maskedHeaders[k] = []string{"*********"}
 		} else {
 			maskedHeaders[k] = v
@@ -240,7 +240,7 @@ func (c *NitroClient) WaitForActivityCompletion(activityID string) error {
 	}
 }
 
-func contains(slice []string, val string) bool {
+func Contains(slice []string, val string) bool {
 	for _, item := range slice {
 		if strings.EqualFold(item, val) {
 			return true

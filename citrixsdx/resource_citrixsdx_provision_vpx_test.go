@@ -11,8 +11,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-// Assumption before running this test:
-// 1. There is a ADM agent with IP `AGENT_IP` already registered with CitrixADM
 const (
 	testAccProvisionVpxPlaceholder = `
 	resource "citrixsdx_provision_vpx" "device1" {

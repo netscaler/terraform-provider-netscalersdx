@@ -7,8 +7,6 @@ import (
 	"strconv"
 	"strings"
 
-	// "fmt"
-	// "strings"
 	"terraform-provider-citrixsdx/service"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
