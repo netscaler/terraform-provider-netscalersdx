@@ -1,0 +1,10 @@
+owner: sumanthl
+pipeline:
+  citool: ''
+  releaseBranch: ''
+  sonarqube: null
+productionUse: CustomerCurrent
+repoType: Service (OnPrem)
+reporting:
+  product: Networking
+  teamname: ADC
