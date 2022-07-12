@@ -358,7 +358,7 @@ func resourceProvisionVpx() *schema.Resource {
 			},
 			"network_interfaces": {
 				Description: "Network Interfaces.",
-				Type:        schema.TypeList,
+				Type:        schema.TypeSet,
 				Optional:    true,
 				Computed:    true,
 				Elem: &schema.Resource{
@@ -1496,7 +1496,7 @@ func getProvisionVpxPayload(d *schema.ResourceData) interface{} {
 	}
 
 	if v, ok := d.GetOk("network_interfaces"); ok {
-		data["network_interfaces"] = v.([]interface{})
+		data["network_interfaces"] = v.(*schema.Set).List()
 	}
 
 	if v, ok := d.GetOk("state"); ok {
@@ -2062,7 +2062,9 @@ func resourceProvisionVpxRead(ctx context.Context, d *schema.ResourceData, m int
 	d.Set("ipv4_address", getResponseData["ipv4_address"].(string))
 	d.Set("profile_name", getResponseData["profile_name"].(string))
 	d.Set("backplane", getResponseData["backplane"].(string))
-	d.Set("network_interfaces", parseNetworkInterface(d, getResponseData["network_interfaces"].([]interface{})))
+	if err := d.Set("network_interfaces", parseNetworkInterface(d, getResponseData["network_interfaces"].([]interface{}))); err != nil {
+		return diag.FromErr(err)
+	}
 	d.Set("state", getResponseData["state"].(string))
 	d.Set("last_updated_time", getResponseData["last_updated_time"].(string))
 	d.Set("license_edition", getResponseData["license_edition"].(string))
@@ -2177,7 +2179,7 @@ func resourceProvisionVpxRead(ctx context.Context, d *schema.ResourceData, m int
 	return diags
 }
 
-func parseNetworkInterface(d *schema.ResourceData, nif []interface{}) []interface{} {
+func parseNetworkInterface(d *schema.ResourceData, nif []interface{}) []map[string]interface{} {
 	var nifSchemaAttributes = []string{
 		"port_name",
 		"name_server",
@@ -2203,10 +2205,10 @@ func parseNetworkInterface(d *schema.ResourceData, nif []interface{}) []interfac
 		"is_vlan_applied",
 		"vlan_whitelist",
 	}
-	var nifs []interface{}
+	var nifs []map[string]interface{}
 
 	if v, ok := d.GetOk("network_interfaces"); ok {
-		inputNifs := v.([]interface{})
+		inputNifs := v.(*schema.Set).List()
 
 		// get the portnames of all the inputNifs
 		var inputNifPortNames []string
