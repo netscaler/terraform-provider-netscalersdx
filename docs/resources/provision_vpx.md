@@ -80,7 +80,7 @@ Configuration forProvision VPX resource
 - `mgmt_ip_address` (String) Management IP Address for thisProvision VPX. Minimum length =  1 Maximum length =  64
 - `name` (String) Name of provision VPX. Minimum length =  1 Maximum length =  128
 - `netmask` (String) Netmask of provision VPX. Minimum length =  1 Maximum length =  64
-- `network_interfaces` (Block List) Network Interfaces. (see [below for nested schema](#nestedblock--network_interfaces))
+- `network_interfaces` (Block Set) Network Interfaces. (see [below for nested schema](#nestedblock--network_interfaces))
 - `nexthop` (String) Next Hop IP address. Minimum length =  1 Maximum length =  64
 - `nexthop_v6` (String) Next Hop IPv6 Address.
 - `node_id` (String) Node identification of a device.
