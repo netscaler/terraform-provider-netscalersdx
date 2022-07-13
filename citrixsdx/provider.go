@@ -60,8 +60,11 @@ func Provider() *schema.Provider {
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"citrixsdx_provision_vpx": resourceProvisionVpx(),
+			"citrixsdx_vpx_state":     resourceVpxState(),
 		},
-		DataSourcesMap:       map[string]*schema.Resource{},
+		DataSourcesMap: map[string]*schema.Resource{
+			"citrixsdx_vpx": dataSourceVpx(),
+		},
 		ConfigureContextFunc: providerConfigure,
 	}
 }

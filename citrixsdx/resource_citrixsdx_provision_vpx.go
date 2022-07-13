@@ -3,7 +3,6 @@ package citrixsdx
 import (
 	"bytes"
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -1979,21 +1978,6 @@ func resourceProvisionVpxCreate(ctx context.Context, d *schema.ResourceData, m i
 
 	d.SetId(vpxID)
 	return resourceProvisionVpxRead(ctx, d, m)
-}
-
-func getProvisionVpxID(c *service.NitroClient, ipAddress string) (string, error) {
-	endpoint := "ns"
-	returnData, err := c.GetAllResource(endpoint)
-	if err != nil {
-		return "", err
-	}
-
-	for _, v := range returnData[endpoint].([]interface{}) {
-		if v.(map[string]interface{})["ip_address"].(string) == ipAddress {
-			return v.(map[string]interface{})["id"].(string), nil
-		}
-	}
-	return "", errors.New("Failed to find provision VPX resource ID with IP: " + ipAddress)
 }
 
 func resourceProvisionVpxRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

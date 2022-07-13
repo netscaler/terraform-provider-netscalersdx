@@ -137,11 +137,6 @@ func (c *NitroClient) MakeNitroRequest(n NitroRequestParams) ([]byte, error) {
 
 	if n.Method == "POST" || n.Method == "PUT" {
 		payload := map[string]interface{}{n.Resource: n.ResourceData}
-		// if n.ActionParams != "" {
-		// 	payload["params"] = map[string]interface{}{
-		// 		"action": n.ActionParams,
-		// 	}
-		// }
 		buff, err = JSONMarshal(payload)
 		if err != nil {
 			return nil, err
@@ -352,12 +347,16 @@ func (c *NitroClient) AddResource(resource string, resourceData interface{}) (ma
 }
 
 // AddResourceWithActionParams adds a resource with action params
-func (c *NitroClient) AddResourceWithActionParams(resource string, resourceData interface{}, actionParam string) (map[string]interface{}, error) {
+func (c *NitroClient) AddResourceWithActionParams(resource string, resourceData interface{}, actionParam string, resourceID string) (map[string]interface{}, error) {
 	log.Println("AddResourceWithActionParams method:", resource, resourceData, actionParam)
 	var returnData map[string]interface{}
 
 	var resourcePath string
-	resourcePath = fmt.Sprintf("nitro/v1/config/%s", resource)
+	if resourceID == "" {
+		resourcePath = fmt.Sprintf("nitro/v1/config/%s?action=%s", resource, actionParam)
+	} else {
+		resourcePath = fmt.Sprintf("nitro/v1/config/%s/%s?action=%s", resource, resourceID, actionParam)
+	}
 
 	n := NitroRequestParams{
 		Resource:           resource,
