@@ -1,8 +1,10 @@
 package citrixsdx
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"time"
 
@@ -361,6 +363,7 @@ func resourceProvisionVpx() *schema.Resource {
 				Type:        schema.TypeSet,
 				Optional:    true,
 				Computed:    true,
+				Set:         provisionVpxNetworkInterfacesMappingHash,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"port_name": {
@@ -2179,7 +2182,7 @@ func resourceProvisionVpxRead(ctx context.Context, d *schema.ResourceData, m int
 	return diags
 }
 
-func parseNetworkInterface(d *schema.ResourceData, nif []interface{}) []map[string]interface{} {
+func parseNetworkInterface(d *schema.ResourceData, nif []interface{}) *schema.Set {
 	var nifSchemaAttributes = []string{
 		"port_name",
 		"name_server",
@@ -2236,8 +2239,23 @@ func parseNetworkInterface(d *schema.ResourceData, nif []interface{}) []map[stri
 			nifs = append(nifs, nifMap2)
 		}
 	}
-	return nifs
+
+	// create custom Hash before storing in the state file
+	processedNifs := make([]interface{}, 0, len(nifs))
+	for _, nif := range nifs {
+		node := make(map[string]interface{})
+
+		if _, ok := nif["port_name"]; ok {
+			node["port_name"] = nif["port_name"].(string)
+		}
+		processedNifs = append(processedNifs, node)
+	}
+
+	updatedSet := schema.NewSet(provisionVpxNetworkInterfacesMappingHash, processedNifs)
+	log.Printf("updatedSet %v\n", updatedSet)
+	return updatedSet
 }
+
 func resourceProvisionVpxUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	log.Printf("In resourceProvisionVpxUpdate")
 	c := m.(*service.NitroClient)
@@ -2272,4 +2290,15 @@ func resourceProvisionVpxDelete(ctx context.Context, d *schema.ResourceData, m i
 	d.SetId("")
 
 	return diags
+}
+
+func provisionVpxNetworkInterfacesMappingHash(v interface{}) int {
+	log.Printf("[DEBUG]  citrixadc-provider: In provisionVpxNetworkInterfacesMappingHash")
+	var buf bytes.Buffer
+
+	// port_name is the required key in network_interfaces. Hence we can use it to generate the hash.
+	d := v.(map[string]interface{})
+	buf.WriteString(fmt.Sprintf("%s-", d["port_name"].(string)))
+
+	return schema.HashString(buf.String())
 }
