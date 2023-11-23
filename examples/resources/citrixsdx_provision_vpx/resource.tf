@@ -17,27 +17,31 @@ resource "citrixsdx_provision_vpx" "device1" {
   license                    = "Standard"
   number_of_acu              = 0
   number_of_scu              = "0"
-  vm_memory_total            = "2048"
-  pps                        = "1000000"
+  vm_memory_total            = 2048
+  pps                        = 1000000
   number_of_cores            = "0"
   l2_enabled                 = "false"
   if_0_1                     = true
-  vlan_id_0_1                = ""
+  vlan_id_0_1                = "0"
   if_0_2                     = true
-  vlan_id_0_2                = ""
-  network_interfaces {
-    port_name       = "LA/1"
-    mac_address     = ""
-    mac_mode        = "default"
-    receiveuntagged = "true"
-  }
-  network_interfaces {
-    port_name       = "LA/2"
-    mac_address     = ""
-    mac_mode        = "default"
-    receiveuntagged = "true"
-  }
-  nsvlan_id         = ""
+  vlan_id_0_2                = "0"
+  network_interfaces = [{
+    port_name            = "LA/1"
+    mac_mode             = "default"
+    receiveuntagged      = "true"
+    vlan_whitelist       = "2,3,5"
+    vlan_whitelist_array = [2, 3, 5]
+    },
+    {
+      port_name            = "LA/2"
+      mac_mode             = "default"
+      receiveuntagged      = "true"
+      vlan_whitelist       = ""
+      vlan_whitelist_array = []
+      is_vlan_applied      = false
+    },
+  ]
+  nsvlan_id         = "0"
   vlan_type         = 1
   nsvlan_tagged     = "false"
   nsvlan_interfaces = []

@@ -5,10 +5,17 @@ import (
 	"flag"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+	"terraform-provider-citrixsdx/internal/provider"
+)
 
-	"terraform-provider-citrixsdx/citrixsdx"
+var (
+	// these will be set by the goreleaser configuration
+	// to appropriate values for the compiled binary.
+	version string = "dev"
+
+	// goreleaser can pass other information to the main package, such as the specific commit
+	// https://goreleaser.com/cookbooks/using-main.version/
 )
 
 func main() {
@@ -17,20 +24,14 @@ func main() {
 	flag.BoolVar(&debugMode, "debug", false, "set to true to run the provider with support for debuggers like delve")
 	flag.Parse()
 
-	opts := &plugin.ServeOpts{
-		ProviderFunc: func() *schema.Provider {
-			return citrixsdx.Provider()
-		},
+	opts := providerserver.ServeOpts{
+		Address: "registry.terraform.io/citrix/citrixsdx",
+		Debug:   debugMode,
 	}
 
-	if debugMode {
-		// TODO: update this string with the full name of your provider as used in your configs
-		err := plugin.Debug(context.Background(), "registry.terraform.io/citrix/citrixsdx", opts)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		return
-	}
+	err := providerserver.Serve(context.Background(), provider.New(version), opts)
 
-	plugin.Serve(opts)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
