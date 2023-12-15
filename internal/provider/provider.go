@@ -3,10 +3,10 @@ package provider
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
-	
+
+	"terraform-provider-citrixsdx/internal/ns"
 	"terraform-provider-citrixsdx/internal/service"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -86,13 +86,13 @@ func (p *sdxprovider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 
 func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		resourceProvisionVpx,
-		resourceVpxState,
+		ns.ProvisionVpxResource,
+		ns.VpxStateResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		dataSourceVpx,
+		ns.VpxDataSource,
 	}
 }
 
@@ -100,7 +100,6 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 func (p *sdxprovider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
 
 	var params service.NitroParams
-	log.Printf("req.Config: %s", req.Config)
 
 	diags := req.Config.Get(ctx, &params)
 

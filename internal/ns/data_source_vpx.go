@@ -1,4 +1,4 @@
-package provider
+package ns
 
 import (
 	"context"
@@ -13,26 +13,26 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-var _ datasource.DataSource = &VpxDataSource{}
+var _ datasource.DataSource = &vpxDataSource{}
 
-func dataSourceVpx() datasource.DataSource {
-	return &VpxDataSource{}
+func VpxDataSource() datasource.DataSource {
+	return &vpxDataSource{}
 }
 
-type VpxDataSource struct {
+type vpxDataSource struct {
 	client *service.NitroClient
 }
 
-type VpxDataSourceModel struct {
+type vpxDataSourceModel struct {
 	IpAddress types.String `tfsdk:"ip_address"`
 	Id        types.String `tfsdk:"id"`
 }
 
-func (d *VpxDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *vpxDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_vpx"
 }
 
-func (d *VpxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *vpxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Get a VPX device ID by IP address",
 		Attributes: map[string]schema.Attribute{
@@ -48,7 +48,7 @@ func (d *VpxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 	}
 }
 
-func (d *VpxDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *vpxDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -56,9 +56,9 @@ func (d *VpxDataSource) Configure(ctx context.Context, req datasource.ConfigureR
 	d.client = *req.ProviderData.(**service.NitroClient)
 }
 
-func (d *VpxDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	tflog.Debug(ctx, "In Read Method of VpxDataSource")
-	var data VpxDataSourceModel
+func (d *vpxDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	tflog.Debug(ctx, "In Read Method of vpxDataSource")
+	var data vpxDataSourceModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

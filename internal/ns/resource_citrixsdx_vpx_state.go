@@ -1,4 +1,4 @@
-package provider
+package ns
 
 import (
 	"context"
@@ -25,7 +25,7 @@ type vpxStateResource struct {
 	client *service.NitroClient
 }
 
-func resourceVpxState() resource.Resource {
+func VpxStateResource() resource.Resource {
 	return &vpxStateResource{}
 }
 

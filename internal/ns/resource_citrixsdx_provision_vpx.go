@@ -1,14 +1,14 @@
-package provider
+package ns
 
 import (
 	"context"
 	"fmt"
 
-	"log"
 	"strconv"
 	"time"
 
 	"terraform-provider-citrixsdx/internal/service"
+	"terraform-provider-citrixsdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -31,7 +31,7 @@ type provisionVpxResource struct {
 	client *service.NitroClient
 }
 
-func resourceProvisionVpx() resource.Resource {
+func ProvisionVpxResource() resource.Resource {
 	return &provisionVpxResource{}
 }
 
@@ -1455,7 +1455,7 @@ func (r *provisionVpxResource) Create(ctx context.Context, req resource.CreateRe
 		if instanceState == "Up" {
 			break
 		}
-		log.Printf("VPX instance_state is %s", instanceState)
+		tflog.Debug(ctx, fmt.Sprintf("VPX instance_state is %s", instanceState))
 	}
 
 	// Set the ID of the created resource
@@ -1564,45 +1564,45 @@ func getThePayloadFromtheConfig(ctx context.Context, data *provisionVpxResourceM
 		Nexthop:                    data.Nexthop.ValueString(),
 		PltBwConfig:                data.PltBwConfig.ValueString(),
 		CryptoChangeRequiresReboot: data.CryptoChangeRequiresReboot.ValueString(),
-		NsvlanInterfaces:           typeListToStringList(data.NsvlanInterfaces),
+		NsvlanInterfaces:           utils.TypeListToStringList(data.NsvlanInterfaces),
 		RebootVmOnCpuChange:        data.RebootVmOnCpuChange.ValueString(),
 		L2Enabled:                  data.L2Enabled.ValueString(),
 		ProfilePassword:            data.ProfilePassword.ValueString(),
 		ProfileUsername:            data.ProfileUsername.ValueString(),
 		IsNewCrypto:                data.IsNewCrypto.ValueString(),
 		SaveConfig:                 data.SaveConfig.ValueString(),
-		VridListIpv4101:            typeListToStringList(data.VridListIpv4101),
-		VridListIpv4102:            typeListToStringList(data.VridListIpv4102),
-		VridListIpv4103:            typeListToStringList(data.VridListIpv4103),
-		VridListIpv4104:            typeListToStringList(data.VridListIpv4104),
-		VridListIpv4105:            typeListToStringList(data.VridListIpv4105),
-		VridListIpv4106:            typeListToStringList(data.VridListIpv4106),
-		VridListIpv4107:            typeListToStringList(data.VridListIpv4107),
-		VridListIpv4108:            typeListToStringList(data.VridListIpv4108),
-		VridListIpv411:             typeListToStringList(data.VridListIpv411),
-		VridListIpv412:             typeListToStringList(data.VridListIpv412),
-		VridListIpv413:             typeListToStringList(data.VridListIpv413),
-		VridListIpv414:             typeListToStringList(data.VridListIpv414),
-		VridListIpv415:             typeListToStringList(data.VridListIpv415),
-		VridListIpv416:             typeListToStringList(data.VridListIpv416),
-		VridListIpv417:             typeListToStringList(data.VridListIpv417),
-		VridListIpv418:             typeListToStringList(data.VridListIpv418),
-		VridListIpv6101:            typeListToStringList(data.VridListIpv6101),
-		VridListIpv6102:            typeListToStringList(data.VridListIpv6102),
-		VridListIpv6103:            typeListToStringList(data.VridListIpv6103),
-		VridListIpv6104:            typeListToStringList(data.VridListIpv6104),
-		VridListIpv6105:            typeListToStringList(data.VridListIpv6105),
-		VridListIpv6106:            typeListToStringList(data.VridListIpv6106),
-		VridListIpv6107:            typeListToStringList(data.VridListIpv6107),
-		VridListIpv6108:            typeListToStringList(data.VridListIpv6108),
-		VridListIpv611:             typeListToStringList(data.VridListIpv611),
-		VridListIpv612:             typeListToStringList(data.VridListIpv612),
-		VridListIpv613:             typeListToStringList(data.VridListIpv613),
-		VridListIpv614:             typeListToStringList(data.VridListIpv614),
-		VridListIpv615:             typeListToStringList(data.VridListIpv615),
-		VridListIpv616:             typeListToStringList(data.VridListIpv616),
-		VridListIpv617:             typeListToStringList(data.VridListIpv617),
-		VridListIpv618:             typeListToStringList(data.VridListIpv618),
+		VridListIpv4101:            utils.TypeListToStringList(data.VridListIpv4101),
+		VridListIpv4102:            utils.TypeListToStringList(data.VridListIpv4102),
+		VridListIpv4103:            utils.TypeListToStringList(data.VridListIpv4103),
+		VridListIpv4104:            utils.TypeListToStringList(data.VridListIpv4104),
+		VridListIpv4105:            utils.TypeListToStringList(data.VridListIpv4105),
+		VridListIpv4106:            utils.TypeListToStringList(data.VridListIpv4106),
+		VridListIpv4107:            utils.TypeListToStringList(data.VridListIpv4107),
+		VridListIpv4108:            utils.TypeListToStringList(data.VridListIpv4108),
+		VridListIpv411:             utils.TypeListToStringList(data.VridListIpv411),
+		VridListIpv412:             utils.TypeListToStringList(data.VridListIpv412),
+		VridListIpv413:             utils.TypeListToStringList(data.VridListIpv413),
+		VridListIpv414:             utils.TypeListToStringList(data.VridListIpv414),
+		VridListIpv415:             utils.TypeListToStringList(data.VridListIpv415),
+		VridListIpv416:             utils.TypeListToStringList(data.VridListIpv416),
+		VridListIpv417:             utils.TypeListToStringList(data.VridListIpv417),
+		VridListIpv418:             utils.TypeListToStringList(data.VridListIpv418),
+		VridListIpv6101:            utils.TypeListToStringList(data.VridListIpv6101),
+		VridListIpv6102:            utils.TypeListToStringList(data.VridListIpv6102),
+		VridListIpv6103:            utils.TypeListToStringList(data.VridListIpv6103),
+		VridListIpv6104:            utils.TypeListToStringList(data.VridListIpv6104),
+		VridListIpv6105:            utils.TypeListToStringList(data.VridListIpv6105),
+		VridListIpv6106:            utils.TypeListToStringList(data.VridListIpv6106),
+		VridListIpv6107:            utils.TypeListToStringList(data.VridListIpv6107),
+		VridListIpv6108:            utils.TypeListToStringList(data.VridListIpv6108),
+		VridListIpv611:             utils.TypeListToStringList(data.VridListIpv611),
+		VridListIpv612:             utils.TypeListToStringList(data.VridListIpv612),
+		VridListIpv613:             utils.TypeListToStringList(data.VridListIpv613),
+		VridListIpv614:             utils.TypeListToStringList(data.VridListIpv614),
+		VridListIpv615:             utils.TypeListToStringList(data.VridListIpv615),
+		VridListIpv616:             utils.TypeListToStringList(data.VridListIpv616),
+		VridListIpv617:             utils.TypeListToStringList(data.VridListIpv617),
+		VridListIpv618:             utils.TypeListToStringList(data.VridListIpv618),
 		If101:                      data.If101.ValueString(),
 		If102:                      data.If102.ValueString(),
 		If103:                      data.If103.ValueString(),
@@ -1676,7 +1676,7 @@ func networkInterfaceFromConfigToSchema(ctx context.Context, nidata basetypes.Li
 					mapNi[key] = val.(basetypes.Int64Value).ValueInt64()
 				case types.BoolType:
 					mapNi[key] = val.(basetypes.BoolValue).ValueBool()
-				case types.ListType{types.StringType}:
+				case types.ListType{ElemType: types.StringType}:
 					if len(val.(basetypes.ListValue).Elements()) == 0 {
 						mapNi[key] = []string{}
 						continue
@@ -1696,8 +1696,6 @@ func networkInterfaceFromConfigToSchema(ctx context.Context, nidata basetypes.Li
 }
 
 func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	log.Printf("req.State: %v", req.State)
-
 	var resId types.String
 	req.State.GetAttribute(ctx, path.Root("id"), &resId)
 	tflog.Debug(ctx, fmt.Sprintf("[DEBUG] In Read Method of provisionVpxResource with Id: %s", resId))
@@ -1964,7 +1962,7 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 		state.CryptoChangeRequiresReboot = types.StringValue(getResponseData["crypto_change_requires_reboot"].(string))
 	}
 	if !state.NsvlanInterfaces.IsNull() {
-		state.NsvlanInterfaces = stringListToTypeList(toStringList(getResponseData["nsvlan_interfaces"].([]interface{})))
+		state.NsvlanInterfaces = utils.StringListToTypeList(utils.ToStringList(getResponseData["nsvlan_interfaces"].([]interface{})))
 	}
 	if !state.RebootVmOnCpuChange.IsNull() {
 		state.RebootVmOnCpuChange = types.StringValue(getResponseData["reboot_vm_on_cpu_change"].(string))
@@ -1985,100 +1983,100 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 		state.SaveConfig = types.StringValue(getResponseData["save_config"].(string))
 	}
 	if !state.VridListIpv4101.IsNull() {
-		state.VridListIpv4101 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_101"].([]interface{})))
+		state.VridListIpv4101 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_101"].([]interface{})))
 	}
 	if !state.VridListIpv4102.IsNull() {
-		state.VridListIpv4102 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_102"].([]interface{})))
+		state.VridListIpv4102 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_102"].([]interface{})))
 	}
 	if !state.VridListIpv4103.IsNull() {
-		state.VridListIpv4103 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_103"].([]interface{})))
+		state.VridListIpv4103 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_103"].([]interface{})))
 	}
 	if !state.VridListIpv4104.IsNull() {
-		state.VridListIpv4104 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_104"].([]interface{})))
+		state.VridListIpv4104 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_104"].([]interface{})))
 	}
 	if !state.VridListIpv4105.IsNull() {
-		state.VridListIpv4105 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_105"].([]interface{})))
+		state.VridListIpv4105 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_105"].([]interface{})))
 	}
 	if !state.VridListIpv4106.IsNull() {
-		state.VridListIpv4106 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_106"].([]interface{})))
+		state.VridListIpv4106 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_106"].([]interface{})))
 	}
 	if !state.VridListIpv4107.IsNull() {
-		state.VridListIpv4107 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_107"].([]interface{})))
+		state.VridListIpv4107 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_107"].([]interface{})))
 	}
 	if !state.VridListIpv4108.IsNull() {
-		state.VridListIpv4108 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_108"].([]interface{})))
+		state.VridListIpv4108 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_108"].([]interface{})))
 	}
 	if !state.VridListIpv411.IsNull() {
-		state.VridListIpv411 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_11"].([]interface{})))
+		state.VridListIpv411 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_11"].([]interface{})))
 	}
 	if !state.VridListIpv412.IsNull() {
-		state.VridListIpv412 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_12"].([]interface{})))
+		state.VridListIpv412 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_12"].([]interface{})))
 	}
 	if !state.VridListIpv413.IsNull() {
-		state.VridListIpv413 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_13"].([]interface{})))
+		state.VridListIpv413 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_13"].([]interface{})))
 	}
 	if !state.VridListIpv414.IsNull() {
-		state.VridListIpv414 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_14"].([]interface{})))
+		state.VridListIpv414 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_14"].([]interface{})))
 	}
 	if !state.VridListIpv415.IsNull() {
-		state.VridListIpv415 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_15"].([]interface{})))
+		state.VridListIpv415 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_15"].([]interface{})))
 	}
 	if !state.VridListIpv416.IsNull() {
-		state.VridListIpv416 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_16"].([]interface{})))
+		state.VridListIpv416 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_16"].([]interface{})))
 	}
 	if !state.VridListIpv417.IsNull() {
-		state.VridListIpv417 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_17"].([]interface{})))
+		state.VridListIpv417 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_17"].([]interface{})))
 	}
 	if !state.VridListIpv418.IsNull() {
-		state.VridListIpv418 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv4_18"].([]interface{})))
+		state.VridListIpv418 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_18"].([]interface{})))
 	}
 	if !state.VridListIpv6101.IsNull() {
-		state.VridListIpv6101 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_101"].([]interface{})))
+		state.VridListIpv6101 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_101"].([]interface{})))
 	}
 	if !state.VridListIpv6102.IsNull() {
-		state.VridListIpv6102 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_102"].([]interface{})))
+		state.VridListIpv6102 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_102"].([]interface{})))
 	}
 	if !state.VridListIpv6103.IsNull() {
-		state.VridListIpv6103 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_103"].([]interface{})))
+		state.VridListIpv6103 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_103"].([]interface{})))
 	}
 	if !state.VridListIpv6104.IsNull() {
-		state.VridListIpv6104 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_104"].([]interface{})))
+		state.VridListIpv6104 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_104"].([]interface{})))
 	}
 	if !state.VridListIpv6105.IsNull() {
-		state.VridListIpv6105 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_105"].([]interface{})))
+		state.VridListIpv6105 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_105"].([]interface{})))
 	}
 	if !state.VridListIpv6106.IsNull() {
-		state.VridListIpv6106 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_106"].([]interface{})))
+		state.VridListIpv6106 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_106"].([]interface{})))
 	}
 	if !state.VridListIpv6107.IsNull() {
-		state.VridListIpv6107 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_107"].([]interface{})))
+		state.VridListIpv6107 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_107"].([]interface{})))
 	}
 	if !state.VridListIpv6108.IsNull() {
-		state.VridListIpv6108 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_108"].([]interface{})))
+		state.VridListIpv6108 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_108"].([]interface{})))
 	}
 	if !state.VridListIpv611.IsNull() {
-		state.VridListIpv611 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_11"].([]interface{})))
+		state.VridListIpv611 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_11"].([]interface{})))
 	}
 	if !state.VridListIpv612.IsNull() {
-		state.VridListIpv612 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_12"].([]interface{})))
+		state.VridListIpv612 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_12"].([]interface{})))
 	}
 	if !state.VridListIpv613.IsNull() {
-		state.VridListIpv613 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_13"].([]interface{})))
+		state.VridListIpv613 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_13"].([]interface{})))
 	}
 	if !state.VridListIpv614.IsNull() {
-		state.VridListIpv614 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_14"].([]interface{})))
+		state.VridListIpv614 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_14"].([]interface{})))
 	}
 	if !state.VridListIpv615.IsNull() {
-		state.VridListIpv615 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_15"].([]interface{})))
+		state.VridListIpv615 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_15"].([]interface{})))
 	}
 	if !state.VridListIpv616.IsNull() {
-		state.VridListIpv616 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_16"].([]interface{})))
+		state.VridListIpv616 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_16"].([]interface{})))
 	}
 	if !state.VridListIpv617.IsNull() {
-		state.VridListIpv617 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_17"].([]interface{})))
+		state.VridListIpv617 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_17"].([]interface{})))
 	}
 	if !state.VridListIpv618.IsNull() {
-		state.VridListIpv618 = stringListToTypeList(toStringList(getResponseData["vrid_list_ipv6_18"].([]interface{})))
+		state.VridListIpv618 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_18"].([]interface{})))
 	}
 
 	diags = resp.State.Set(ctx, &state)
@@ -2086,8 +2084,6 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	log.Printf("Successfully read resource %s", state.Id.ValueString())
 }
 
 func networkinterfaceTonetworkinterfaceTF(nif []interface{}, stateNetworkInterface basetypes.ListValue, ctx context.Context) basetypes.ListValue {
