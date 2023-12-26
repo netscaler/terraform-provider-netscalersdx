@@ -31,8 +31,6 @@ resource "citrixsdx_vpx_state" "stop_device1" {
 - `state` (String) Desired state of the VPX
 - `vpx_id` (String) VPX ID
 
-### Read-Only
+### Optional
 
-- `id` (String) The ID of this resource.
-
-
+- `id` (String) ID of the resource

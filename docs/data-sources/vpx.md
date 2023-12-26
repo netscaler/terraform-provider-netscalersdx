@@ -31,6 +31,4 @@ output "instance1_id" {
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
-
-
+- `id` (String) ID of the resource
