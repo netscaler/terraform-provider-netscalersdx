@@ -5,6 +5,7 @@ terraform {
     }
   }
 }
+
 provider "netscalersdx" {
   host       = "https://10.10.10.10" # Optionally use NETSCALERSDX_HOST env var
   username   = "nsroot"              # Optionally use NETSCALERSDX_USERNAME env var

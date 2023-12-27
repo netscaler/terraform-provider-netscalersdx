@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"terraform-provider-citrixsdx/internal/provider"
+	"terraform-provider-netscalersdx/internal/provider"
 )
 
 var (
@@ -25,7 +25,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/citrix/citrixsdx",
+		Address: "registry.terraform.io/netscaler/netscalersdx",
 		Debug:   debugMode,
 	}
 

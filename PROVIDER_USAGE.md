@@ -12,12 +12,12 @@ Refer [README.md](./README.md)'s Build the provider section
    Eg: Let's assume you need to provision a VPX on SDX.
 
    ```sh
-   cd examples/resources/citrixsdx_provision_vpx
+   cd examples/resources/netscalersdx_provision_vpx
    ```
 
 2. Configure the `provider.tf` file - There are two ways
    1. Provide `host`, `username`, `password` and `ssl_verify` details in the `provider.tf` file, OR
-   2. Have the respective ENVIRONMENT variables set: `CITRIXSDX_HOST`, `CITRIXSDX_USERNAME`, `CITRIXSDX_PASSWORD` and `CITRIXSDX_SSL_VERIFY`.
+   2. Have the respective ENVIRONMENT variables set: `NETSCALERSDX_HOST`, `NETSCALERSDX_USERNAME`, `NETSCALERSDX_PASSWORD` and `NETSCALERSDX_SSL_VERIFY`.
 
 3. Run the `terraform init` command.
 4. Run the `terraform plan` command.

@@ -1,4 +1,4 @@
-module terraform-provider-citrixsdx
+module terraform-provider-netscalersdx
 
 go 1.20
 

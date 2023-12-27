@@ -6,8 +6,9 @@ import (
 	"os"
 	"strconv"
 
-	"terraform-provider-citrixsdx/internal/ns"
-	"terraform-provider-citrixsdx/internal/service"
+	"terraform-provider-netscalersdx/internal/ns"
+
+	"terraform-provider-netscalersdx/internal/service"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -35,7 +36,7 @@ type sdxprovider struct {
 }
 
 func (p *sdxprovider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "citrixsdx"
+	resp.TypeName = "netscalersdx"
 	resp.Version = p.version
 }
 
@@ -44,24 +45,24 @@ func (p *sdxprovider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 		Attributes: map[string]schema.Attribute{
 			"host": schema.StringAttribute{
 				Optional:    true,
-				Description: "Citrix SDX host. Can be specified with `CITRIXSDX_HOST` environment variable. This has to start with https://",
+				Description: "NetScaler SDX host. Can be specified with `NETSCALERSDX_HOST` environment variable. This has to start with https://",
 			},
 			"username": schema.StringAttribute{
 				Optional:    true,
-				Description: "Citrix SDX username. Can be specified with `CITRIXSDX_USERNAME` environment variable.",
+				Description: "NetScaler SDX username. Can be specified with `NETSCALERSDX_USERNAME` environment variable.",
 			},
 			"password": schema.StringAttribute{
 				Optional:    true,
 				Sensitive:   true,
-				Description: "Citrix SDX password. Can be specified with `CITRIXSDX_PASSWORD` environment variable.",
+				Description: "NetScaler SDX password. Can be specified with `NETSCALERSDX_PASSWORD` environment variable.",
 			},
 			"ssl_verify": schema.BoolAttribute{
 				Optional:    true,
-				Description: "Ignore validity of SDX TLS certificate if true. Can be specified with `CITRIXSDX_SSL_VERIFY` environment variable.",
+				Description: "Ignore validity of SDX TLS certificate if true. Can be specified with `NETSCALERSDX_SSL_VERIFY` environment variable.",
 			},
 			"log_level": schema.StringAttribute{
 				Optional:    true,
-				Description: "Log level (Default is INFO). Can be specified with `CITRIXSDX_LOG_LEVEL` environment variable.",
+				Description: "Log level (Default is INFO). Can be specified with `NETSCALERSDX_LOG_LEVEL` environment variable.",
 			},
 			"server_name": schema.StringAttribute{
 				Optional:    true,
@@ -114,24 +115,24 @@ func (p *sdxprovider) Configure(ctx context.Context, req provider.ConfigureReque
 	}
 
 	// Use values in environment variables if the values aren't set in the configuration.
-	hostEnv := os.Getenv("CITRIXSDX_HOST")
+	hostEnv := os.Getenv("NETSCALERSDX_HOST")
 	if params.Host.IsNull() && hostEnv != "" {
 		params.Host = types.StringValue(hostEnv)
 	}
-	usernameEnv := os.Getenv("CITRIXSDX_USERNAME")
+	usernameEnv := os.Getenv("NETSCALERSDX_USERNAME")
 	if params.Username.IsNull() && usernameEnv != "" {
 		params.Username = types.StringValue(usernameEnv)
 	}
-	passwordEnv := os.Getenv("CITRIXSDX_PASSWORD")
+	passwordEnv := os.Getenv("NETSCALERSDX_PASSWORD")
 	if params.Password.IsNull() && passwordEnv != "" {
 		params.Password = types.StringValue(passwordEnv)
 	}
 	if params.SslVerify.IsNull() {
-		envSslVerify, _ := strconv.ParseBool(os.Getenv("CITRIXSDX_SSL_VERIFY"))
+		envSslVerify, _ := strconv.ParseBool(os.Getenv("NETSCALERSDX_SSL_VERIFY"))
 		params.SslVerify = types.BoolValue(envSslVerify)
 	}
 	if params.LogLevel.IsNull() {
-		params.LogLevel = types.StringValue(os.Getenv("CITRIXSDX_LOG_LEVEL"))
+		params.LogLevel = types.StringValue(os.Getenv("NETSCALERSDX_LOG_LEVEL"))
 	}
 
 	if params.Host.IsNull() {
@@ -139,7 +140,7 @@ func (p *sdxprovider) Configure(ctx context.Context, req provider.ConfigureReque
 			path.Root("host"),
 			"host is required",
 			fmt.Sprintf("The provider cannot create the Nitro API client as there is an unknown configuration "+
-				"value for the Host. Either set the value statically in the configuration, or use the CITRIXSDX_HOST "+
+				"value for the Host. Either set the value statically in the configuration, or use the NETSCALERSDX_HOST "+
 				"environment variable."),
 		)
 	}
@@ -148,7 +149,7 @@ func (p *sdxprovider) Configure(ctx context.Context, req provider.ConfigureReque
 			path.Root("username"),
 			"username is required",
 			fmt.Sprintf("The provider cannot create the Nitro API client as there is an unknown configuration "+
-				"value for the Username. Either set the value statically in the configuration, or use the CITRIXSDX_USERNAME "+
+				"value for the Username. Either set the value statically in the configuration, or use the NETSCALERSDX_USERNAME "+
 				"environment variable."),
 		)
 	}
@@ -157,7 +158,7 @@ func (p *sdxprovider) Configure(ctx context.Context, req provider.ConfigureReque
 			path.Root("password"),
 			"password is required",
 			fmt.Sprintf("The provider cannot create the Nitro API client as there is an unknown configuration "+
-				"value for the Password. Either set the value statically in the configuration, or use the CITRIXSDX_PASSWORD "+
+				"value for the Password. Either set the value statically in the configuration, or use the NETSCALERSDX_PASSWORD "+
 				"environment variable."),
 		)
 	}

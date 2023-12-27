@@ -66,8 +66,8 @@ type NitroClient struct {
 	password  string
 	sslVerify bool
 	client    *http.Client
-	headers map[string]string
-	logger  hclog.Logger
+	headers   map[string]string
+	logger    hclog.Logger
 }
 
 // NewNitroClientFromParams returns a usable NitroClient. Does not check validity of supplied parameters
@@ -118,7 +118,7 @@ func NewNitroClientFromParams(params NitroParamsapi) (*NitroClient, error) {
 	}
 
 	c.logger = hclog.New(&hclog.LoggerOptions{
-		Name:            "citrixsdx-client",
+		Name:            "netscalersdx-client",
 		Level:           hclog.LevelFromString(params.LogLevel),
 		Color:           hclog.AutoColor,
 		JSONFormat:      params.JSONLogFormat,

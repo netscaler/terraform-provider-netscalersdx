@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"terraform-provider-citrixsdx/internal/service"
+	"terraform-provider-netscalersdx/internal/service"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"

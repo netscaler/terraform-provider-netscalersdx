@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"terraform-provider-citrixsdx/internal/service"
+	"terraform-provider-netscalersdx/internal/service"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"

@@ -1,4 +1,4 @@
-resource "citrixsdx_provision_vpx" "device1" {
+resource "netscalersdx_provision_vpx" "device1" {
   name                       = "device1"
   ip_address                 = "10.222.74.177"
   if_internal_ip_enabled     = false
@@ -8,7 +8,7 @@ resource "citrixsdx_provision_vpx" "device1" {
   gateway                    = "10.222.74.129"
   nexthop                    = ""
   image_name                 = "NSVPX-XEN-13.1-17.42_nc_64.xva"
-  profile_name               = "nsroot_Notnsroot250"
+  profile_name               = "nsroot_Verysecret"
   description                = "from tf"
   throughput_allocation_mode = "0"
   throughput                 = "1000"

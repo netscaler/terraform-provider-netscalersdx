@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	"terraform-provider-citrixsdx/internal/service"
-	"terraform-provider-citrixsdx/internal/utils"
+	"terraform-provider-netscalersdx/internal/service"
+	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
