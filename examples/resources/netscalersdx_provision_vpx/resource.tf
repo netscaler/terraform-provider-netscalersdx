@@ -1,11 +1,11 @@
 resource "netscalersdx_provision_vpx" "device1" {
   name                       = "device1"
-  ip_address                 = "10.222.74.177"
+  ip_address                 = "10.10.10.11"
   if_internal_ip_enabled     = false
   config_type                = 0
-  ipv4_address               = "10.222.74.177"
+  ipv4_address               = "10.10.10.11"
   netmask                    = "255.255.255.0"
-  gateway                    = "10.222.74.129"
+  gateway                    = "10.10.10.12"
   nexthop                    = ""
   image_name                 = "NSVPX-XEN-13.1-17.42_nc_64.xva"
   profile_name               = "nsroot_Verysecret"

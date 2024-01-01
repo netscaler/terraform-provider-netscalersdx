@@ -14,7 +14,7 @@ Change the state of a VPX
 
 ```terraform
 data "netscalersdx_vpx" "instance1" {
-  ip_address = "10.222.74.176"
+  ip_address = "10.10.10.176"
 }
 
 resource "netscalersdx_vpx_state" "stop_device1" {

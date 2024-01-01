@@ -1,5 +1,5 @@
 data "netscalersdx_vpx" "instance1" {
-  ip_address = "10.222.74.177"
+  ip_address = "10.10.10.11"
 }
 
 output "instance1_id" {
