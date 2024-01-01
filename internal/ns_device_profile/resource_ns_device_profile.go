@@ -47,7 +47,7 @@ func (r *nsDeviceProfileResource) Configure(ctx context.Context, req resource.Co
 
 func (r *nsDeviceProfileResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Configuration for Device profile for Citrix ADC(MPX/VPX/CPX/Gateway) instances resource.",
+		Description: "Configuration for Device profile for NetScaler ADC(MPX/VPX/CPX/Gateway) instances resource.",
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
 				Required: true,
@@ -95,7 +95,7 @@ func (r *nsDeviceProfileResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: "Profile Name, This is one of the already created Citrix ADC profiles.",
+				Description: "Profile Name, This is one of the already created NetScaler ADC profiles.",
 			},
 			"password": schema.StringAttribute{
 				Required:  true,
@@ -232,7 +232,7 @@ func (r *nsDeviceProfileResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: "Max waiting time to reboot Citrix ADC.",
+				Description: "Max waiting time to reboot NetScaler ADC.",
 			},
 			"snmpprivpassword": schema.StringAttribute{
 				Optional: true,
@@ -248,7 +248,7 @@ func (r *nsDeviceProfileResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: "Profile Name, This is one of the already created Citrix SD-WAN profiles.",
+				Description: "Profile Name, This is one of the already created NetScaler SD-WAN profiles.",
 			},
 			"snmpauthpassword": schema.StringAttribute{
 				Optional: true,
