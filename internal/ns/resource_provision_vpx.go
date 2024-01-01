@@ -411,12 +411,12 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			"ns_ip_address": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
-				Description: "Citrix ADC IP Address for this provision VPX. Minimum length =  1 Maximum length =  128",
+				Description: "NetScaler ADC IP Address for this provision VPX. Minimum length =  1 Maximum length =  128",
 			},
 			"password": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
-				Description: "Password for specified user on Citrix ADC Instance. Minimum length =  1 Maximum length =  127",
+				Description: "Password for specified user on NetScaler ADC Instance. Minimum length =  1 Maximum length =  127",
 			},
 			"gateway_ipv6": schema.StringAttribute{
 				Optional:    true,
@@ -451,7 +451,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			"vlan_type": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
-				Description: "VLAN Type, Citrix ADC or L2 VLAN. Maximum value =  ",
+				Description: "VLAN Type, NetScaler ADC or L2 VLAN. Maximum value =  ",
 			},
 			"ent_bw_total": schema.StringAttribute{
 				Optional:    true,
@@ -626,7 +626,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			"username": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
-				Description: "Username for specified user on Citrix ADC Instance. Minimum length =  1 Maximum length =  127",
+				Description: "Username for specified user on NetScaler ADC Instance. Minimum length =  1 Maximum length =  127",
 			},
 			"fips_partition_name": schema.StringAttribute{
 				Optional:    true,
@@ -878,7 +878,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			"cmd_policy": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
-				Description: "true if you want to allow shell/sftp/scp access to Citrix ADC Instance administrator. Minimum length =  1 Maximum length =  1024.",
+				Description: "true if you want to allow shell/sftp/scp access to NetScaler ADC Instance administrator. Minimum length =  1 Maximum length =  1024.",
 			},
 			"node_id": schema.StringAttribute{
 				Optional:    true,
@@ -898,7 +898,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			"pps": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
-				Description: "Assign packets per seconds to Citrix ADC Instance. Maximum value =  ",
+				Description: "Assign packets per seconds to NetScaler ADC Instance. Maximum value =  ",
 			},
 			"plugin_netmask": schema.StringAttribute{
 				Description: "Signaling Netmask. Minimum length =  1 Maximum length =  64",
@@ -1052,7 +1052,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Computed:    false,
 			},
 			"profile_username": schema.StringAttribute{
-				Description: "User Name specified by the user for this Citrix ADC Instance.. Minimum length =  1 Maximum length =  128",
+				Description: "User Name specified by the user for this NetScaler ADC Instance.. Minimum length =  1 Maximum length =  128",
 				Optional:    true,
 				Computed:    false,
 			},
@@ -1133,7 +1133,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Computed:    false,
 			},
 			"profile_password": schema.StringAttribute{
-				Description: "Password specified by the user for this Citrix ADC Instance.. Minimum length =  1 Maximum length =  128",
+				Description: "Password specified by the user for this NetScaler ADC Instance.. Minimum length =  1 Maximum length =  128",
 				Optional:    true,
 				Computed:    false,
 			},
@@ -1400,7 +1400,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Computed:    false,
 			},
 			"id": schema.StringAttribute{
-				Description: "ID of the Citrix ADC Instance.",
+				Description: "ID of the NetScaler ADC Instance.",
 				Optional:    true,
 				Computed:    true,
 			},

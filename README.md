@@ -1,6 +1,6 @@
-# Terraform `Netscaler SDX` Provider
+# Terraform `NetScaler SDX` Provider
 
-Terraform provider for [Netscaler SDX](https://docs.citrix.com/en-us/citrix-hardware-platforms/sdx.html) provides [Infrastructure as Code (IaC)](https://en.wikipedia.org/wiki/Infrastructure_as_code) to manage your ADCs via SDX. Using the terraform provider you can provision VPXs on SDX, start, stop, reboot the VPXs on SDX.
+Terraform provider for [NetScaler SDX](https://docs.netscaler.com/en-us/netscaler-hardware-platforms/sdx.html) provides [Infrastructure as Code (IaC)](https://en.wikipedia.org/wiki/Infrastructure_as_code) to manage your ADCs via SDX. Using the terraform provider you can provision VPXs on SDX, start, stop, reboot the VPXs on SDX.
 
 ## Requirements
 

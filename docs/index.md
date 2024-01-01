@@ -1,13 +1,13 @@
 ---
 layout: ""
-page_title: "Provider: NetscalerSDX"
+page_title: "Provider: NetScalerSDX"
 description: |-
-  The NetscalerSDX provider allows you to manage Netscaler SDX resources.
+  The NetScalerSDX provider allows you to manage NetScaler SDX resources.
 ---
 
-# NetscalerSDX Provider
+# NetScalerSDX Provider
 
-The NetscalerSDX provider allows you to manage Netscaler SDX resources.
+The NetScalerSDX provider allows you to manage NetScaler SDX resources.
 
 ## Example Usage
 

@@ -74,7 +74,7 @@ resource "netscalersdx_provision_vpx" "device1" {
 
 - `backplane` (String) Backplane Interface. Minimum length =  1
 - `burst_priority` (String) Burst Priority of the VM Instance between 1 and 4.
-- `cmd_policy` (String) true if you want to allow shell/sftp/scp access to Citrix ADC Instance administrator. Minimum length =  1 Maximum length =  1024
+- `cmd_policy` (String) true if you want to allow shell/sftp/scp access to NetScaler ADC Instance administrator. Minimum length =  1 Maximum length =  1024
 - `config_type` (String) Configuration Type. Values: 0: IPv4, 1: IPv6, 2: Both. 
 - `crypto_change_requires_reboot` (String) True if the current changes made by user requires a reboot of the VM else false.
 - `customid` (String) Custom ID.
@@ -122,9 +122,9 @@ resource "netscalersdx_provision_vpx" "device1" {
 - `l2_enabled` (String) L2mode status of VM Instance.
 - `la_mgmt` (String) Bond consisting of management ports on VM Instance.
 - `last_updated_time` (String) Last Updated Time.
-- `license` (String) Feature License for Citrix ADC Instance, needs to be set while provisioning (standard, enterprise, platinum). Minimum length =  1 Maximum length =  64
+- `license` (String) Feature License for NetScaler ADC Instance, needs to be set while provisioning (standard, enterprise, platinum). Minimum length =  1 Maximum length =  64
 - `license_edition` (String) Edition of instance.
-- `license_grace_time` (String) Grace for this Citrix Instance..
+- `license_grace_time` (String) Grace for this NetScaler Instance..
 - `mastools_version` (String) Mastools version if the device is embedded agent.
 - `max_burst_throughput` (String) Maximum burst throughput in Mbps of VM Instance.
 - `metrics_collection` (String) Flag to check if metrics collection is enabled or disabled..
@@ -135,7 +135,7 @@ resource "netscalersdx_provision_vpx" "device1" {
 - `nexthop` (String) Next Hop IP address. Minimum length =  1 Maximum length =  64
 - `nexthop_v6` (String) Next Hop IPv6 Address.
 - `node_id` (String) Node identification of a device.
-- `ns_ip_address` (String) Citrix ADC IP Address for this provision VPX. Minimum length =  1 Maximum length =  128
+- `ns_ip_address` (String) NetScaler ADC IP Address for this provision VPX. Minimum length =  1 Maximum length =  128
 - `nsvlan_id` (String) VLAN Id. 
 - `nsvlan_interfaces` (List of String) VLAN Interfaces. Minimum length =  1 Maximum length =  50
 - `nsvlan_tagged` (String) NSVLAN Tagged.
@@ -146,16 +146,16 @@ resource "netscalersdx_provision_vpx" "device1" {
 - `number_of_ssl_cards` (String) Number of SSL Cards.
 - `number_of_ssl_cores` (String) Assign number of ssl virtual functions to VM Instance.
 - `number_of_ssl_cores_up` (String) Number of SSL Cores Up.
-- `password` (String) Password for specified user on Citrix ADC Instance. Minimum length =  1 Maximum length =  127
+- `password` (String) Password for specified user on NetScaler ADC Instance. Minimum length =  1 Maximum length =  127
 - `plt_bw_available` (String) Platinum Bandwidth Available.
 - `plt_bw_config` (String) Platinum Bandwidth configured.
 - `plt_bw_total` (String) Total Platinum Bandwidth.
 - `plugin_ip_address` (String) Signaling IP Address. Minimum length =  1 Maximum length =  64
 - `plugin_netmask` (String) Signaling Netmask. Minimum length =  1 Maximum length =  64
-- `pps` (String) Assign packets per seconds to Citrix ADC Instance. 
+- `pps` (String) Assign packets per seconds to NetScaler ADC Instance. 
 - `profile_name` (String) Device Profile Name that is attached with this provision VPX. Minimum length =  1 Maximum length =  128
-- `profile_password` (String) Password specified by the user for this Citrix ADC Instance.. Minimum length =  1 Maximum length =  128
-- `profile_username` (String) User Name specified by the user for this Citrix ADC Instance.. Minimum length =  1 Maximum length =  128
+- `profile_password` (String) Password specified by the user for this NetScaler ADC Instance.. Minimum length =  1 Maximum length =  128
+- `profile_username` (String) User Name specified by the user for this NetScaler ADC Instance.. Minimum length =  1 Maximum length =  128
 - `reboot_vm_on_cpu_change` (String) Reboot VMs on CPU change during resource allocation.
 - `receiveuntagged_10_1` (String) This property is deprecated by network_interfaces Receive Untagged Packets on 10/1 on VM Instance.
 - `receiveuntagged_10_2` (String) This property is deprecated by network_interfaces Receive Untagged Packets on 10/2 on VM Instance.
@@ -183,7 +183,7 @@ resource "netscalersdx_provision_vpx" "device1" {
 - `throughput_allocation_mode` (String) Throughput Allocation Mode: 0-Fixed, 1-Burst-able.
 - `throughput_limit` (String) Throughput Limit in Mbps set for VM Instance.
 - `type` (String) Type of device, (Xen | NS). Minimum length =  1 Maximum length =  64
-- `username` (String) User Name (except nsroot) to be configured on Citrix ADC Instance. Minimum length =  1 Maximum length =  127
+- `username` (String) User Name (except nsroot) to be configured on NetScaler ADC Instance. Minimum length =  1 Maximum length =  127
 - `vcpu_config` (String) Number of vCPU allocated for the device.
 - `vlan_10_1` (String) This property is deprecated by network_interfaces VLAN for Network 10/1 on VM Instance. 
 - `vlan_10_2` (String) This property is deprecated by network_interfaces VLAN for Network 10/2 on VM Instance. 
@@ -203,7 +203,7 @@ resource "netscalersdx_provision_vpx" "device1" {
 - `vlan_1_8` (String) This property is deprecated by network_interfaces VLAN for Network 1/8 on VM Instance. 
 - `vlan_id_0_1` (String) VLAN id for the management interface 0/1. 
 - `vlan_id_0_2` (String) VLAN id for the management interface 0/2. 
-- `vlan_type` (String) VLAN Type, Citrix ADC or L2 VLAN. 
+- `vlan_type` (String) VLAN Type, NetScaler ADC or L2 VLAN. 
 - `vm_memory_total` (String) Total Memory of VM Instance in MB. 2048MB, 5120MB.
 - `vpx_id` (String) Id is system generated key for all the provision VPXs.
 - `vrid_list_ipv4_10_1` (List of String) This property is deprecated by network_interfaces VRID List for Interface 10/1 for IPV4 VMAC Generation.
