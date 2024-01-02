@@ -6,10 +6,11 @@ import (
 	"os"
 	"strconv"
 
+	"terraform-provider-netscalersdx/internal/cipher_group"
 	"terraform-provider-netscalersdx/internal/ns"
 	"terraform-provider-netscalersdx/internal/ns_device_profile"
-	"terraform-provider-netscalersdx/internal/ntp_server"
 	"terraform-provider-netscalersdx/internal/ns_save_config"
+	"terraform-provider-netscalersdx/internal/ntp_server"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -95,6 +96,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		ns_device_profile.NsDeviceProfileResource,
 		ntp_server.NtpServerResource,
 		ns_save_config.NsSaveConfigResource,
+		cipher_group.CipherGroupResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
