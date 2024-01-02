@@ -1,29 +1,29 @@
 ---
 layout: ""
-page_title: "Provider: CitrixSDX"
+page_title: "Provider: NetScalerSDX"
 description: |-
-  The CitrixSDX provider allows you to manage Citrix SDX resources.
+  The NetScalerSDX provider allows you to manage NetScaler SDX resources.
 ---
 
-# CitrixSDX Provider
+# NetScalerSDX Provider
 
-The CitrixSDX provider allows you to manage Citrix SDX resources.
+The NetScalerSDX provider allows you to manage NetScaler SDX resources.
 
 ## Example Usage
 
 ```terraform
 terraform {
   required_providers {
-    citrixsdx = {
-      source = "citrix/citrixsdx"
+    netscalersdx = {
+      source = "netscaler/netscalersdx"
     }
   }
 }
-provider "citrixsdx" {
-  host       = "https://10.10.10.10" # Optionally use CITRIXSDX_HOST env var
-  username   = "nsroot"              # Optionally use CITRIXSDX_USERNAME env var
-  password   = "secretpassword"      # Optionally use CITRIXSDX_PASSWORD env var
-  ssl_verify = false                 # Optionally use CITRIXSDX_SSL_VERIFY env var
+provider "netscalersdx" {
+  host       = "https://10.10.10.10" # Optionally use NETSCALERSDX_HOST env var
+  username   = "nsroot"              # Optionally use NETSCALERSDX_USERNAME env var
+  password   = "secretpassword"      # Optionally use NETSCALERSDX_PASSWORD env var
+  ssl_verify = false                 # Optionally use NETSCALERSDX_SSL_VERIFY env var
 }
 ```
 
@@ -32,8 +32,12 @@ provider "citrixsdx" {
 
 ### Optional
 
-- `host` (String) Citrix SDX host. Can be specified with `CITRIXSDX_HOST` environment variable. This has to start with https://
-- `log_level` (String) Log level (Default is INFO). Can be specified with `CITRIXSDX_LOG_LEVEL` environment variable.
-- `password` (String, Sensitive) Citrix SDX password. Can be specified with `CITRIXSDX_PASSWORD` environment variable.
-- `ssl_verify` (Boolean) Ignore validity of SDX TLS certificate if true. Can be specified with `CITRIXSDX_SSL_VERIFY` environment variable.
-- `username` (String) Citrix SDX username. Can be specified with `CITRIXSDX_USERNAME` environment variable.
+- `headers` (Map of String) TODO
+- `host` (String) NetScaler SDX host. Can be specified with `NETSCALERSDX_HOST` environment variable. This has to start with https://
+- `json_log_format` (Boolean) TODO
+- `log_level` (String) Log level (Default is INFO). Can be specified with `NETSCALERSDX_LOG_LEVEL` environment variable.
+- `password` (String, Sensitive) NetScaler SDX password. Can be specified with `NETSCALERSDX_PASSWORD` environment variable.
+- `root_ca_path` (String) TODO
+- `server_name` (String) TODO
+- `ssl_verify` (Boolean) Ignore validity of SDX TLS certificate if true. Can be specified with `NETSCALERSDX_SSL_VERIFY` environment variable.
+- `username` (String) NetScaler SDX username. Can be specified with `NETSCALERSDX_USERNAME` environment variable.

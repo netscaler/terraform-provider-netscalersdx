@@ -1,6 +1,6 @@
-# Terraform `Citrix SDX` Provider
+# Terraform `NetScaler SDX` Provider
 
-Terraform provider for [Citrix SDX](https://docs.citrix.com/en-us/citrix-hardware-platforms/sdx.html) provides [Infrastructure as Code (IaC)](https://en.wikipedia.org/wiki/Infrastructure_as_code) to manage your ADCs via SDX. Using the terraform provider you can provision VPXs on SDX, start, stop, reboot the VPXs on SDX.
+Terraform provider for [NetScaler SDX](https://docs.netscaler.com/en-us/netscaler-hardware-platforms/sdx.html) provides [Infrastructure as Code (IaC)](https://en.wikipedia.org/wiki/Infrastructure_as_code) to manage your ADCs via SDX. Using the terraform provider you can provision VPXs on SDX, start, stop, reboot the VPXs on SDX.
 
 ## Requirements
 
@@ -15,7 +15,7 @@ Example terraform scripts can be found in [examples](./examples/) folder
 
 Till the provider is available in terraform registry, you can install the provider via the following steps:
 
-The latest released version of the provider is available on [the Release Page](https://github.com/citrix/terraform-provider-citrixsdx/releases).
+The latest released version of the provider is available on [the Release Page](https://github.com/netscaler/terraform-provider-netscalersdx/releases).
 
 Download the zip file as per your operating system and architecture.
 
@@ -23,6 +23,7 @@ Click below against your operating system to know how to install the provider.
 
 <details>
   <summary>Linux</summary>
+
 
   1. Extract the zip file and copy the binary to `~/.terraform.d/plugins/registry.terraform.io/citrix/citrixsdx/<VERSION>/linux_amd64` directory. Create the directory if this is not already present.
 
@@ -33,6 +34,7 @@ Click below against your operating system to know how to install the provider.
 <details>
   <summary>MacOS</summary>
 
+
   1. Extract the zip file and copy the binary to `~/.terraform.d/plugins/registry.terraform.io/citrix/citrixsdx/<VERSION>/darwin_amd64` directory. Create the directory if this is not already present.
 
     1. where `<VERSION>` is the version of the provider you have downloaded. Eg: `0.1.0`
@@ -41,6 +43,7 @@ Click below against your operating system to know how to install the provider.
 
 <details>
   <summary>Windows</summary>
+
 
   1. Extract the zip file and copy the `.exe` file to `%APPDATA%/terraform.d/plugins/registry.terraform.io/citrix/citrixsdx/<version>/<OSARCH>/` directory. Create the directory if this is not already present.
 
