@@ -32,7 +32,7 @@ install: build
 	mv ${BINARY} ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 
 testacc:
-	# Usage: make testacc VPX_IP=10.10.10.10 VPX_NETMASK=255.255.255.0 VPX_GATEWAY=10.10.10.1 VPX_IMAGE=NSVPX-XEN-13.1-17.42_nc_64.xva VPX_PROFILE=vpx_provile1
+	# Usage: make testacc VPX_IP=10.10.10.10 VPX_NETMASK=255.255.255.0 VPX_GATEWAY=10.10.10.1 VPX_IMAGE=NSVPX-XEN-13.1-17.42_nc_64.xva VPX_PROFILE=vpx_provile1 NETWORK=10.10.10.11 GATEWAY=10.10.10.12
 	- rm internal/acctest/netscalersdx.acctest.log 
 	TF_ACC=1 TF_ACC_LOG_PATH=./netscalersdx.acctest.log TF_LOG=TRACE VPX_IP=$(VPX_IP) VPX_NETMASK=$(VPX_NETMASK) VPX_GATEWAY=$(VPX_GATEWAY) VPX_IMAGE=$(VPX_IMAGE) VPX_PROFILE=$(VPX_PROFILE) go test terraform-provider-netscalersdx/internal/acctest -v
 
