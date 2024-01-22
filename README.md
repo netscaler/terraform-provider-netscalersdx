@@ -25,7 +25,7 @@ Click below against your operating system to know how to install the provider.
   <summary>Linux</summary>
 
 
-  1. Extract the zip file and copy the binary to `~/.terraform.d/plugins/registry.terraform.io/citrix/citrixsdx/<VERSION>/linux_amd64` directory. Create the directory if this is not already present.
+  1. Extract the zip file and copy the binary to `~/.terraform.d/plugins/registry.terraform.io/netscaler/netscalersdx/<VERSION>/linux_amd64` directory. Create the directory if this is not already present.
 
     1. where `<VERSION>` is the version of the provider you have downloaded. Eg: `0.1.0`
 
@@ -35,7 +35,7 @@ Click below against your operating system to know how to install the provider.
   <summary>MacOS</summary>
 
 
-  1. Extract the zip file and copy the binary to `~/.terraform.d/plugins/registry.terraform.io/citrix/citrixsdx/<VERSION>/darwin_amd64` directory. Create the directory if this is not already present.
+  1. Extract the zip file and copy the binary to `~/.terraform.d/plugins/registry.terraform.io/netscaler/netscalersdx/<VERSION>/darwin_amd64` directory. Create the directory if this is not already present.
 
     1. where `<VERSION>` is the version of the provider you have downloaded. Eg: `0.1.0`
 
@@ -45,7 +45,7 @@ Click below against your operating system to know how to install the provider.
   <summary>Windows</summary>
 
 
-  1. Extract the zip file and copy the `.exe` file to `%APPDATA%/terraform.d/plugins/registry.terraform.io/citrix/citrixsdx/<version>/<OSARCH>/` directory. Create the directory if this is not already present.
+  1. Extract the zip file and copy the `.exe` file to `%APPDATA%/terraform.d/plugins/registry.terraform.io/netscaler/netscalersdx/<version>/<OSARCH>/` directory. Create the directory if this is not already present.
 
      1. Where, `<version>` is the version of the provider. e.g., `0.1.0`, `<OSARCH>` is the operating system and architecture. e.g., `windows_amd64`(usually this will be the one) or `windows_386`
      2. ![](./media/windows-custom-terraform-provider-plugin-installation/plugin_location.png)
