@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 
+	"terraform-provider-netscalersdx/internal/blx_device_profile"
 	"terraform-provider-netscalersdx/internal/cipher_group"
 	"terraform-provider-netscalersdx/internal/device_group"
 	"terraform-provider-netscalersdx/internal/device_profile"
@@ -113,6 +114,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		device_profile.DeviceProfileResource,
 		radius_server.RadiusServerResource,
 		device_group.DeviceGroupResource,
+		blx_device_profile.BlxDeviceProfileResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
