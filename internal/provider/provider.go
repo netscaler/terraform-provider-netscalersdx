@@ -11,6 +11,7 @@ import (
 	"terraform-provider-netscalersdx/internal/ns_device_profile"
 	"terraform-provider-netscalersdx/internal/ns_save_config"
 	"terraform-provider-netscalersdx/internal/ntp_server"
+	"terraform-provider-netscalersdx/internal/smtp_server"
 	"terraform-provider-netscalersdx/internal/static_route"
 	"terraform-provider-netscalersdx/internal/syslog_server"
 
@@ -101,6 +102,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		cipher_group.CipherGroupResource,
 		syslog_server.SyslogServerResource,
 		static_route.StaticRouteResource,
+		smtp_server.SmtpServerResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
