@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"terraform-provider-netscalersdx/internal/cipher_group"
+	"terraform-provider-netscalersdx/internal/ldap_server"
 	"terraform-provider-netscalersdx/internal/ns"
 	"terraform-provider-netscalersdx/internal/ns_device_profile"
 	"terraform-provider-netscalersdx/internal/ns_save_config"
@@ -105,6 +106,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		static_route.StaticRouteResource,
 		smtp_server.SmtpServerResource,
 		tacacs_server.TacacsServerResource,
+		ldap_server.LdapServerResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
