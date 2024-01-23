@@ -14,6 +14,7 @@ import (
 	"terraform-provider-netscalersdx/internal/smtp_server"
 	"terraform-provider-netscalersdx/internal/static_route"
 	"terraform-provider-netscalersdx/internal/syslog_server"
+	"terraform-provider-netscalersdx/internal/tacacs_server"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -103,6 +104,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		syslog_server.SyslogServerResource,
 		static_route.StaticRouteResource,
 		smtp_server.SmtpServerResource,
+		tacacs_server.TacacsServerResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
