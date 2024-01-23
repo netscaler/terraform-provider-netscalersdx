@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"terraform-provider-netscalersdx/internal/cipher_group"
+	"terraform-provider-netscalersdx/internal/device_group"
 	"terraform-provider-netscalersdx/internal/device_profile"
 	"terraform-provider-netscalersdx/internal/ldap_server"
 	"terraform-provider-netscalersdx/internal/ns"
@@ -111,6 +112,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		ldap_server.LdapServerResource,
 		device_profile.DeviceProfileResource,
 		radius_server.RadiusServerResource,
+		device_group.DeviceGroupResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
