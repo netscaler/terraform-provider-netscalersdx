@@ -23,6 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `vpx_state`
 
 
-[Unreleased]: https://github.com/netscaler/terraform-provider-citrixsdx/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/netscaler/terraform-provider-citrixsdx/releases/tag/v0.1.0
-[#5]: https://github.com/netscaler/terraform-provider-citrixsdx/issues/5
+[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/netscaler/terraform-provider-netscalersdx/releases/tag/v0.1.0
+[#5]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/5
