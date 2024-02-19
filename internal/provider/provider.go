@@ -18,6 +18,7 @@ import (
 	"terraform-provider-netscalersdx/internal/radius_server"
 	"terraform-provider-netscalersdx/internal/smtp_server"
 	"terraform-provider-netscalersdx/internal/static_route"
+	"terraform-provider-netscalersdx/internal/syslog_params"
 	"terraform-provider-netscalersdx/internal/syslog_server"
 	"terraform-provider-netscalersdx/internal/tacacs_server"
 
@@ -115,6 +116,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		radius_server.RadiusServerResource,
 		device_group.DeviceGroupResource,
 		blx_device_profile.BlxDeviceProfileResource,
+		syslog_params.SyslogParamsResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
