@@ -14,6 +14,7 @@ import (
 	"terraform-provider-netscalersdx/internal/ns"
 	"terraform-provider-netscalersdx/internal/ns_device_profile"
 	"terraform-provider-netscalersdx/internal/ns_save_config"
+	"terraform-provider-netscalersdx/internal/ntp_param"
 	"terraform-provider-netscalersdx/internal/ntp_server"
 	"terraform-provider-netscalersdx/internal/radius_server"
 	"terraform-provider-netscalersdx/internal/smtp_server"
@@ -117,6 +118,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		device_group.DeviceGroupResource,
 		blx_device_profile.BlxDeviceProfileResource,
 		syslog_params.SyslogParamsResource,
+		ntp_param.NtpParamResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
