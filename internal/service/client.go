@@ -398,7 +398,12 @@ func (c *NitroClient) UpdateResource(resource string, resourceData interface{}, 
 	var returnData map[string]interface{}
 
 	var resourcePath string
-	resourcePath = fmt.Sprintf("nitro/v1/config/%s/%s", resource, resourceID)
+
+	if resourceID == "" {
+		resourcePath = fmt.Sprintf("nitro/v1/config/%s", resource)
+	} else {
+		resourcePath = fmt.Sprintf("nitro/v1/config/%s/%s", resource, resourceID)
+	}
 
 	n := NitroRequestParams{
 		Resource:           resource,

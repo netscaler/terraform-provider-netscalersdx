@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -32,6 +33,16 @@ func StringListToTypeList(stringList []string) (typeList basetypes.ListValue) {
 		valueList = append(valueList, basetypes.NewStringValue(s))
 	}
 	val, _ := basetypes.NewListValue(types.StringType, valueList)
+	return val
+}
+
+func StringListToTypeInt64List(stringList []string) (typeList basetypes.ListValue) {
+	var valueList []attr.Value
+	for _, s := range stringList {
+		sInt, _ := strconv.ParseInt(s, 10, 64)
+		valueList = append(valueList, basetypes.NewInt64Value(sInt))
+	}
+	val, _ := basetypes.NewListValue(types.Int64Type, valueList)
 	return val
 }
 
