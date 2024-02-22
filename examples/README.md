@@ -12,7 +12,7 @@ Below is the table showing the usecase you would like to achieve and where you c
 | Stop, Start, Reboot, Forcestop, Forcereboot VPX | [resources/netscalersdx_vpx_state](./resources/netscalersdx_vpx_state) | [HERE](../docs/resources/vpx_state.md)| [HERE](https://youtu.be/48xVFXLMJlE) |
 | Configuration for Device profile for NetScaler ADC(MPX/VPX/CPX/Gateway) instances resource | [resources/netscalersdx_ns_device_profile](./resources/netscalersdx_ns_device_profile) | [HERE](../docs/resources/ns_device_profile.md)| TODO |
 | Configuration for Save configuration on NetScaler ADC resource | [resources/netscalersdx_ns_save_config](./resources/netscalersdx_ns_save_config) | [HERE](../docs/resources/ns_save_config.md)| TODO |
-| Configuration for Device profile for Citrix ADC BLX instances resource | [resources/netscalersdx_blx_device_profile](./resources/netscalersdx_blx_device_profile) | [HERE](../docs/resources/blx_device_profile)| TODO |
+| Configuration for Device profile for Citrix ADC BLX instances resource | [resources/netscalersdx_blx_device_profile](./resources/netscalersdx_blx_device_profile) | [HERE](../docs/resources/blx_device_profile.md)| TODO |
 | Configuration for Cipher Group resource | [resources/netscalersdx_cipher_group](./resources/netscalersdx_cipher_group) | [HERE](../docs/resources/cipher_group.md)| TODO |
 | Configuration for Device Group resource | [resources/netscalersdx_device_group](./resources/netscalersdx_device_group) | [HERE](../docs/resources/device_group.md)| TODO |
 | Configuration for Device Profile resource | [resources/netscalersdx_device_profile](./resources/netscalersdx_device_profile) | [HERE](../docs/resources/device_profile.md)| TODO |
