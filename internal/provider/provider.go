@@ -20,6 +20,7 @@ import (
 	"terraform-provider-netscalersdx/internal/ntp_server"
 	"terraform-provider-netscalersdx/internal/radius_server"
 	"terraform-provider-netscalersdx/internal/smtp_server"
+	"terraform-provider-netscalersdx/internal/snmp_manager"
 	"terraform-provider-netscalersdx/internal/snmp_user"
 	"terraform-provider-netscalersdx/internal/static_route"
 	"terraform-provider-netscalersdx/internal/syslog_params"
@@ -123,6 +124,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		snmp_user.SnmpUserResource,
 		syslog_params.SyslogParamsResource,
 		ntp_param.NtpParamResource,
+		snmp_manager.SnmpManagerResource,
 		mpsuser.MpsuserResource,
 		mpsgroup.MpsgroupResource,
 	}
