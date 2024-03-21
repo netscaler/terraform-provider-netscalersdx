@@ -8,6 +8,7 @@ import (
 
 	"terraform-provider-netscalersdx/internal/blx_device_profile"
 	"terraform-provider-netscalersdx/internal/cipher_group"
+	"terraform-provider-netscalersdx/internal/current_timezone"
 	"terraform-provider-netscalersdx/internal/device_group"
 	"terraform-provider-netscalersdx/internal/device_profile"
 	"terraform-provider-netscalersdx/internal/ldap_server"
@@ -126,6 +127,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		snmp_user.SnmpUserResource,
 		syslog_params.SyslogParamsResource,
 		ntp_param.NtpParamResource,
+		current_timezone.CurrentTimezoneResource,
 		snmp_alarm_config.SnmpAlarmConfigResource,
 		snmp_trap.SnmpTrapResource,
 		snmp_manager.SnmpManagerResource,
