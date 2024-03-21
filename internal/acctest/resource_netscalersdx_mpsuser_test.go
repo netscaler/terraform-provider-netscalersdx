@@ -69,7 +69,6 @@ func testAccCheckMpsuserExists(n string) resource.TestCheckFunc {
 	}
 }
 
-
 func testAccCheckMpsuserDestroy(s *terraform.State) error {
 	client, err := testAccApiClient()
 	if err != nil {

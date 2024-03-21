@@ -36,7 +36,7 @@ func TestAccSnmpView_basic(t *testing.T) {
 	})
 }
 
-func testAccCheckSnmpViewExists(n string,) resource.TestCheckFunc {
+func testAccCheckSnmpViewExists(n string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
 		if !ok {
