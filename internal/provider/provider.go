@@ -11,6 +11,7 @@ import (
 	"terraform-provider-netscalersdx/internal/device_group"
 	"terraform-provider-netscalersdx/internal/device_profile"
 	"terraform-provider-netscalersdx/internal/ldap_server"
+	"terraform-provider-netscalersdx/internal/mpsuser"
 	"terraform-provider-netscalersdx/internal/mpsgroup"
 	"terraform-provider-netscalersdx/internal/ns"
 	"terraform-provider-netscalersdx/internal/ns_device_profile"
@@ -122,6 +123,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		snmp_user.SnmpUserResource,
 		syslog_params.SyslogParamsResource,
 		ntp_param.NtpParamResource,
+		mpsuser.MpsuserResource,
 		mpsgroup.MpsgroupResource,
 	}
 }
