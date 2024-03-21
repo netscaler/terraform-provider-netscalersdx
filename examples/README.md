@@ -26,3 +26,11 @@ Below is the table showing the usecase you would like to achieve and where you c
 | Configuration for Syslog Parameters resource | [resources/netscalersdx_syslog_params](./resources/netscalersdx_syslog_params) | [HERE](../docs/resources/syslog_params.md)| TODO |
 | Configuration for NTP Parameters resource | [resources/netscalersdx_ntp_param](./resources/netscalersdx_ntp_param) | [HERE](../docs/resources/ntp_param.md)| TODO |
 | Configuration for SNMP User resource | [resources/netscalersdx_snmp_user](./resources/netscalersdx_snmp_user) | [HERE](../docs/resources/snmp_user.md)| TODO |
+| Configuration for SNMP Trap Destinations resource | [resources/netscalersdx_snmp_trap](./resources/netscalersdx_snmp_trap) | [HERE](../docs/resources/snmp_trap.md)| TODO |
+| Configuration for SNMP Agent Manager configuration resource | [resources/netscalersdx_snmp_manager](./resources/netscalersdx_snmp_manager) | [HERE](../docs/resources/snmp_manager.md)| TODO |
+| Configuration for SNMP view resource | [resources/netscalersdx_snmp_view](./resources/netscalersdx_snmp_view) | [HERE](../docs/resources/snmp_view.md)| TODO |
+| Configuration for System User resource | [resources/netscalersdx_mpsuser](./resources/netscalersdx_mpsuser) | [HERE](../docs/resources/mpsuser.md)| TODO |
+| Configuration for System Groups resource | [resources/netscalersdx_mpsgroup](./resources/netscalersdx_mpsgroup) | [HERE](../docs/resources/mpsgroup.md)| TODO |
+| Configuration for Feature Toggle Status resource | [resources/netscalersdx_mps_feature](./resources/netscalersdx_mps_feature) | [HERE](../docs/resources/mps_feature.md)| TODO |
+| Configuration for Current timezone resource | [resources/netscalersdx_current_timezone](./resources/netscalersdx_current_timezone) | [HERE](../docs/resources/current_timezone.md)| TODO |
+| Configuration for SNMP Alarm Configurations resource | [resources/netscalersdx_snmp_alarm_config](./resources/netscalersdx_snmp_alarm_config) | [HERE](../docs/resources/snmp_alarm_config.md)| TODO |

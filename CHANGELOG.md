@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.3.0]
+
+### Added
+
+- **New Resource** `snmp_trap`
+- **New Resource** `snmp_manager`
+- **New Resource** `snmp_view`
+- **New Resource** `mpsuser`
+- **New Resource** `mpsgroup`
+- **New Resource** `mps_feature`
+- **New Resource** `current_timezone`
+- **New Resource** `snmp_alarm_config`
 
 ## [0.2.0]
 
@@ -38,7 +52,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `vpx_state`
 
 
-[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.1.0...0.2.0
 [0.1.0]: https://github.com/netscaler/terraform-provider-netscalersdx/releases/tag/v0.1.0
 [#5]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/5
