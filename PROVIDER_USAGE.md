@@ -1,9 +1,5 @@
 # Provider Usage
 
-## Build the provider
-
-Refer [README.md](./README.md)'s Build the provider section
-
 ## Authentication
 
 ### Configure the provider
