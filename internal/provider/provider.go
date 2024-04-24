@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 
+	"terraform-provider-netscalersdx/internal/aclrule"
 	"terraform-provider-netscalersdx/internal/blx_device_profile"
 	"terraform-provider-netscalersdx/internal/cipher_group"
 	"terraform-provider-netscalersdx/internal/current_timezone"
@@ -137,6 +138,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		snmp_manager.SnmpManagerResource,
 		mpsuser.MpsuserResource,
 		mpsgroup.MpsgroupResource,
+		aclrule.AclruleResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
