@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0]
+
+### Added
+
+- **New Resource** `aclrule`
+- **New Resource** `aaa_server`
+
+### Fixed
+
+- **netscalersdx_provision_vpx**: handled double encoding for list of string values [#40]
+
 ## [0.3.0]
 
 ### Added
@@ -52,8 +63,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `vpx_state`
 
 
-[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.1.0...0.2.0
 [0.1.0]: https://github.com/netscaler/terraform-provider-netscalersdx/releases/tag/v0.1.0
+[#40]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/40
 [#5]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/5
