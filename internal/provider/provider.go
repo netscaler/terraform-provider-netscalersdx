@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 
+	"terraform-provider-netscalersdx/internal/aclrule"
 	"terraform-provider-netscalersdx/internal/aaa_server"
 	"terraform-provider-netscalersdx/internal/blx_device_profile"
 	"terraform-provider-netscalersdx/internal/cipher_group"
@@ -138,6 +139,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		snmp_manager.SnmpManagerResource,
 		mpsuser.MpsuserResource,
 		mpsgroup.MpsgroupResource,
+		aclrule.AclruleResource,
 		aaa_server.AaaServerResource,
 	}
 }
