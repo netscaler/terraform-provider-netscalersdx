@@ -6,8 +6,8 @@ import (
 	"os"
 	"strconv"
 
-	"terraform-provider-netscalersdx/internal/aclrule"
 	"terraform-provider-netscalersdx/internal/aaa_server"
+	"terraform-provider-netscalersdx/internal/aclrule"
 	"terraform-provider-netscalersdx/internal/blx_device_profile"
 	"terraform-provider-netscalersdx/internal/cipher_group"
 	"terraform-provider-netscalersdx/internal/current_timezone"
@@ -26,6 +26,7 @@ import (
 	"terraform-provider-netscalersdx/internal/smtp_server"
 	"terraform-provider-netscalersdx/internal/snmp_alarm_config"
 	"terraform-provider-netscalersdx/internal/snmp_manager"
+	"terraform-provider-netscalersdx/internal/snmp_mib"
 	"terraform-provider-netscalersdx/internal/snmp_trap"
 	"terraform-provider-netscalersdx/internal/snmp_user"
 	"terraform-provider-netscalersdx/internal/snmp_view"
@@ -141,6 +142,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		mpsgroup.MpsgroupResource,
 		aclrule.AclruleResource,
 		aaa_server.AaaServerResource,
+		snmp_mib.SnmpMibResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
