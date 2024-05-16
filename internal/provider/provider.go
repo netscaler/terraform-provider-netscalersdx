@@ -9,6 +9,7 @@ import (
 	"terraform-provider-netscalersdx/internal/aaa_server"
 	"terraform-provider-netscalersdx/internal/aclrule"
 	"terraform-provider-netscalersdx/internal/blx_device_profile"
+	"terraform-provider-netscalersdx/internal/cipher_config"
 	"terraform-provider-netscalersdx/internal/cipher_group"
 	"terraform-provider-netscalersdx/internal/current_timezone"
 	"terraform-provider-netscalersdx/internal/device_group"
@@ -143,6 +144,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		aclrule.AclruleResource,
 		aaa_server.AaaServerResource,
 		snmp_mib.SnmpMibResource,
+		cipher_config.CipherConfigResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
