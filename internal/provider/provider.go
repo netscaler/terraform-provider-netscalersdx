@@ -30,6 +30,7 @@ import (
 	"terraform-provider-netscalersdx/internal/snmp_trap"
 	"terraform-provider-netscalersdx/internal/snmp_user"
 	"terraform-provider-netscalersdx/internal/snmp_view"
+	"terraform-provider-netscalersdx/internal/ssl_settings"
 	"terraform-provider-netscalersdx/internal/static_route"
 	"terraform-provider-netscalersdx/internal/syslog_params"
 	"terraform-provider-netscalersdx/internal/syslog_server"
@@ -143,6 +144,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		aclrule.AclruleResource,
 		aaa_server.AaaServerResource,
 		snmp_mib.SnmpMibResource,
+		ssl_settings.SslSettingsResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
