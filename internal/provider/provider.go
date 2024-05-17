@@ -14,6 +14,7 @@ import (
 	"terraform-provider-netscalersdx/internal/device_group"
 	"terraform-provider-netscalersdx/internal/device_profile"
 	"terraform-provider-netscalersdx/internal/ldap_server"
+	"terraform-provider-netscalersdx/internal/mps"
 	"terraform-provider-netscalersdx/internal/mps_feature"
 	"terraform-provider-netscalersdx/internal/mpsgroup"
 	"terraform-provider-netscalersdx/internal/mpsuser"
@@ -143,6 +144,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		aclrule.AclruleResource,
 		aaa_server.AaaServerResource,
 		snmp_mib.SnmpMibResource,
+		mps.MpsResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
