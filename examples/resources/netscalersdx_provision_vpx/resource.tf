@@ -41,21 +41,25 @@ resource "netscalersdx_provision_vpx" "device1" {
   vlan_id_0_2 = "0"
 
   # Data Interfaces (Network Settings)
-  network_interfaces = [{
-    port_name            = "LA/1"
-    mac_mode             = "default"
-    receiveuntagged      = "true"
-    vlan_whitelist       = "2,3,5"
-    vlan_whitelist_array = [2, 3, 5]
+  network_interfaces = [
+    {
+      port_name            = "LA/1"
+      mac_mode             = "default"
+      receiveuntagged      = "true"
+      vlan_whitelist_array = ["2", "3", "5"]
     },
     {
       port_name            = "LA/2"
       mac_mode             = "default"
       receiveuntagged      = "true"
-      vlan_whitelist       = ""
-      vlan_whitelist_array = []
-      is_vlan_applied      = false
+      vlan_whitelist_array = ["4000", "4001", "4005"] // individual vlan id (Ascending order)
     },
+    {
+      port_name            = "LA/3"
+      mac_mode             = "default"
+      receiveuntagged      = "true"
+      vlan_whitelist_array = ["100-105", "4000-4004"] // maintain the order as well (Ascending order))
+    }
   ]
 
   # Management VLAN settings
