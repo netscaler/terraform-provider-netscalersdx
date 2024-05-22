@@ -49,11 +49,17 @@ resource "netscalersdx_provision_vpx" "device1" {
   # cmd_policy = "true"
 
   # Network Settings
-  l2_enabled  = "false"
+  l2_enabled = "false"
+
+  # When no Management Channel created for interfaces
   if_0_1      = true
-  vlan_id_0_1 = "0"
+  vlan_id_0_1 = "0" # VLAN Tag
   if_0_2      = true
-  vlan_id_0_2 = "0"
+  vlan_id_0_2 = "0" # VLAN Tag
+
+  # When Management Channel created for interfaces
+  # la_mgmt     = "true"
+  # vlan_id_0_1 = "10"  # VLAN tag
 
   # Data Interfaces (Network Settings)
   network_interfaces = [
