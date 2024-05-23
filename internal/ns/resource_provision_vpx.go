@@ -98,7 +98,7 @@ type provisionVpxResourceModel struct {
 	State                      types.String `tfsdk:"state"`
 	LastUpdatedTime            types.String `tfsdk:"last_updated_time"`
 	LicenseEdition             types.String `tfsdk:"license_edition"`
-	CustomerId                 types.String `tfsdk:"customer_id"`
+	Customid                   types.String `tfsdk:"customid"`
 	LicenseGraceTime           types.String `tfsdk:"license_grace_time"`
 	LaMgmt                     types.String `tfsdk:"la_mgmt"`
 	VlanID02                   types.String `tfsdk:"vlan_id_0_2"`
@@ -117,94 +117,14 @@ type provisionVpxResourceModel struct {
 	StdBwTotal                 types.String `tfsdk:"std_bw_total"`
 	Nexthop                    types.String `tfsdk:"nexthop"`
 	PltBwConfig                types.String `tfsdk:"plt_bw_config"`
-	Vlan12                     types.String `tfsdk:"vlan_1_2"`
-	VridListIpv412             types.List   `tfsdk:"vrid_list_ipv4_1_2"`
-	Vlan17                     types.String `tfsdk:"vlan_1_7"`
-	VridListIpv612             types.List   `tfsdk:"vrid_list_ipv6_1_2"`
-	VridListIpv414             types.List   `tfsdk:"vrid_list_ipv4_1_4"`
-	VridListIpv6106            types.List   `tfsdk:"vrid_list_ipv6_10_6"`
-	If104                      types.String `tfsdk:"if_10_4"`
-	Vlan105                    types.String `tfsdk:"vlan_10_5"`
-	VridListIpv6103            types.List   `tfsdk:"vrid_list_ipv6_10_3"`
-	VridListIpv611             types.List   `tfsdk:"vrid_list_ipv6_1_1"`
-	If15                       types.String `tfsdk:"if_1_5"`
-	Receiveuntagged14          types.String `tfsdk:"receiveuntagged_1_4"`
-	VridListIpv6104            types.List   `tfsdk:"vrid_list_ipv6_10_4"`
-	VridListIpv613             types.List   `tfsdk:"vrid_list_ipv6_1_3"`
-	If103                      types.String `tfsdk:"if_10_3"`
-	VridListIpv6105            types.List   `tfsdk:"vrid_list_ipv6_10_5"`
-	Receiveuntagged104         types.String `tfsdk:"receiveuntagged_10_4"`
-	VridListIpv618             types.List   `tfsdk:"vrid_list_ipv6_1_8"`
-	Vlan106                    types.String `tfsdk:"vlan_10_6"`
-	If105                      types.String `tfsdk:"if_10_5"`
 	SaveConfig                 types.String `tfsdk:"save_config"`
 	IsNewCrypto                types.String `tfsdk:"is_new_crypto"`
-	VridListIpv616             types.List   `tfsdk:"vrid_list_ipv6_1_6"`
 	ProfileUsername            types.String `tfsdk:"profile_username"`
-	If107                      types.String `tfsdk:"if_10_7"`
-	Receiveuntagged16          types.String `tfsdk:"receiveuntagged_1_6"`
-	Vlan14                     types.String `tfsdk:"vlan_1_4"`
-	If12                       types.String `tfsdk:"if_1_2"`
-	Receiveuntagged15          types.String `tfsdk:"receiveuntagged_1_5"`
-	Receiveuntagged106         types.String `tfsdk:"receiveuntagged_10_6"`
-	Receiveuntagged101         types.String `tfsdk:"receiveuntagged_10_1"`
-	VridListIpv416             types.List   `tfsdk:"vrid_list_ipv4_1_6"`
-	VridListIpv615             types.List   `tfsdk:"vrid_list_ipv6_1_5"`
-	VridListIpv6108            types.List   `tfsdk:"vrid_list_ipv6_10_8"`
-	VridListIpv417             types.List   `tfsdk:"vrid_list_ipv4_1_7"`
-	Receiveuntagged102         types.String `tfsdk:"receiveuntagged_10_2"`
 	ProfilePassword            types.String `tfsdk:"profile_password"`
-	VridListIpv415             types.List   `tfsdk:"vrid_list_ipv4_1_5"`
-	Receiveuntagged17          types.String `tfsdk:"receiveuntagged_1_7"`
-	Vlan104                    types.String `tfsdk:"vlan_10_4"`
-	If17                       types.String `tfsdk:"if_1_7"`
-	Receiveuntagged11          types.String `tfsdk:"receiveuntagged_1_1"`
-	VridListIpv617             types.List   `tfsdk:"vrid_list_ipv6_1_7"`
-	If101                      types.String `tfsdk:"if_10_1"`
-	If108                      types.String `tfsdk:"if_10_8"`
 	L2Enabled                  types.String `tfsdk:"l2_enabled"`
-	Vlan107                    types.String `tfsdk:"vlan_10_7"`
-	Vlan101                    types.String `tfsdk:"vlan_10_1"`
-	Receiveuntagged12          types.String `tfsdk:"receiveuntagged_1_2"`
 	RebootVmOnCpuChange        types.String `tfsdk:"reboot_vm_on_cpu_change"`
-	Vlan16                     types.String `tfsdk:"vlan_1_6"`
-	VridListIpv413             types.List   `tfsdk:"vrid_list_ipv4_1_3"`
-	Receiveuntagged107         types.String `tfsdk:"receiveuntagged_10_7"`
-	VridListIpv411             types.List   `tfsdk:"vrid_list_ipv4_1_1"`
-	Vlan11                     types.String `tfsdk:"vlan_1_1"`
-	VridListIpv6107            types.List   `tfsdk:"vrid_list_ipv6_10_7"`
-	Vlan18                     types.String `tfsdk:"vlan_1_8"`
-	VridListIpv4103            types.List   `tfsdk:"vrid_list_ipv4_10_3"`
-	Receiveuntagged105         types.String `tfsdk:"receiveuntagged_10_5"`
-	Vlan102                    types.String `tfsdk:"vlan_10_2"`
-	VridListIpv4106            types.List   `tfsdk:"vrid_list_ipv4_10_6"`
-	VridListIpv418             types.List   `tfsdk:"vrid_list_ipv4_1_8"`
-	Receiveuntagged18          types.String `tfsdk:"receiveuntagged_1_8"`
-	VridListIpv4104            types.List   `tfsdk:"vrid_list_ipv4_10_4"`
-	Vlan13                     types.String `tfsdk:"vlan_1_3"`
-	Receiveuntagged103         types.String `tfsdk:"receiveuntagged_10_3"`
-	If106                      types.String `tfsdk:"if_10_6"`
-	If16                       types.String `tfsdk:"if_1_6"`
-	Vlan103                    types.String `tfsdk:"vlan_10_3"`
-	Vlan15                     types.String `tfsdk:"vlan_1_5"`
-	If13                       types.String `tfsdk:"if_1_3"`
 	NsvlanInterfaces           types.List   `tfsdk:"nsvlan_interfaces"`
-	VridListIpv4105            types.List   `tfsdk:"vrid_list_ipv4_10_5"`
-	If14                       types.String `tfsdk:"if_1_4"`
-	VridListIpv4108            types.List   `tfsdk:"vrid_list_ipv4_10_8"`
-	If11                       types.String `tfsdk:"if_1_1"`
-	VridListIpv4107            types.List   `tfsdk:"vrid_list_ipv4_10_7"`
-	Vlan108                    types.String `tfsdk:"vlan_10_8"`
-	Receiveuntagged13          types.String `tfsdk:"receiveuntagged_1_3"`
 	CryptoChangeRequiresReboot types.String `tfsdk:"crypto_change_requires_reboot"`
-	VridListIpv4102            types.List   `tfsdk:"vrid_list_ipv4_10_2"`
-	If18                       types.String `tfsdk:"if_1_8"`
-	VridListIpv4101            types.List   `tfsdk:"vrid_list_ipv4_10_1"`
-	VridListIpv6102            types.List   `tfsdk:"vrid_list_ipv6_10_2"`
-	If102                      types.String `tfsdk:"if_10_2"`
-	VridListIpv6101            types.List   `tfsdk:"vrid_list_ipv6_10_1"`
-	VridListIpv614             types.List   `tfsdk:"vrid_list_ipv6_1_4"`
-	Receiveuntagged108         types.String `tfsdk:"receiveuntagged_10_8"`
 }
 
 type provisionVpxResourceReq struct {
@@ -269,7 +189,7 @@ type provisionVpxResourceReq struct {
 	State                      string                   `json:"state,omitempty"`
 	LastUpdatedTime            string                   `json:"last_updated_time,omitempty"`
 	LicenseEdition             string                   `json:"license_edition,omitempty"`
-	CustomerId                 string                   `json:"customer_id,omitempty"`
+	Customid                   string                   `json:"customid,omitempty"`
 	LicenseGraceTime           string                   `json:"license_grace_time,omitempty"`
 	LaMgmt                     string                   `json:"la_mgmt,omitempty"`
 	VlanID02                   string                   `json:"vlan_id_0_2,omitempty"`
@@ -288,94 +208,14 @@ type provisionVpxResourceReq struct {
 	StdBwTotal                 string                   `json:"std_bw_total,omitempty"`
 	Nexthop                    string                   `json:"nexthop,omitempty"`
 	PltBwConfig                string                   `json:"plt_bw_config,omitempty"`
-	Vlan12                     string                   `json:"vlan_1_2,omitempty"`
-	VridListIpv412             []string                 `json:"vrid_list_ipv4_1_2,omitempty"`
-	Vlan17                     string                   `json:"vlan_1_7,omitempty"`
-	VridListIpv612             []string                 `json:"vrid_list_ipv6_1_2,omitempty"`
-	VridListIpv414             []string                 `json:"vrid_list_ipv4_1_4,omitempty"`
-	VridListIpv6106            []string                 `json:"vrid_list_ipv6_10_6,omitempty"`
-	If104                      string                   `json:"if_10_4,omitempty"`
-	Vlan105                    string                   `json:"vlan_10_5,omitempty"`
-	VridListIpv6103            []string                 `json:"vrid_list_ipv6_10_3,omitempty"`
-	VridListIpv611             []string                 `json:"vrid_list_ipv6_1_1,omitempty"`
-	If15                       string                   `json:"if_1_5,omitempty"`
-	Receiveuntagged14          string                   `json:"receiveuntagged_1_4,omitempty"`
-	VridListIpv6104            []string                 `json:"vrid_list_ipv6_10_4,omitempty"`
-	VridListIpv613             []string                 `json:"vrid_list_ipv6_1_3,omitempty"`
-	If103                      string                   `json:"if_10_3,omitempty"`
-	VridListIpv6105            []string                 `json:"vrid_list_ipv6_10_5,omitempty"`
-	Receiveuntagged104         string                   `json:"receiveuntagged_10_4,omitempty"`
-	VridListIpv618             []string                 `json:"vrid_list_ipv6_1_8,omitempty"`
-	Vlan106                    string                   `json:"vlan_10_6,omitempty"`
-	If105                      string                   `json:"if_10_5,omitempty"`
 	SaveConfig                 string                   `json:"save_config,omitempty"`
 	IsNewCrypto                string                   `json:"is_new_crypto,omitempty"`
-	VridListIpv616             []string                 `json:"vrid_list_ipv6_1_6,omitempty"`
 	ProfileUsername            string                   `json:"profile_username,omitempty"`
-	If107                      string                   `json:"if_10_7,omitempty"`
-	Receiveuntagged108         string                   `json:"receiveuntagged_10_8,omitempty"`
-	VridListIpv614             []string                 `json:"vrid_list_ipv6_1_4,omitempty"`
-	Receiveuntagged16          string                   `json:"receiveuntagged_1_6,omitempty"`
-	Vlan14                     string                   `json:"vlan_1_4,omitempty"`
-	If12                       string                   `json:"if_1_2,omitempty"`
-	Receiveuntagged15          string                   `json:"receiveuntagged_1_5,omitempty"`
-	Receiveuntagged106         string                   `json:"receiveuntagged_10_6,omitempty"`
-	Receiveuntagged101         string                   `json:"receiveuntagged_10_1,omitempty"`
-	VridListIpv416             []string                 `json:"vrid_list_ipv4_1_6,omitempty"`
-	VridListIpv615             []string                 `json:"vrid_list_ipv6_1_5,omitempty"`
-	VridListIpv6108            []string                 `json:"vrid_list_ipv6_10_8,omitempty"`
-	VridListIpv417             []string                 `json:"vrid_list_ipv4_1_7,omitempty"`
-	Receiveuntagged102         string                   `json:"receiveuntagged_10_2,omitempty"`
 	ProfilePassword            string                   `json:"profile_password,omitempty"`
-	VridListIpv415             []string                 `json:"vrid_list_ipv4_1_5,omitempty"`
-	Receiveuntagged17          string                   `json:"receiveuntagged_1_7,omitempty"`
-	Vlan104                    string                   `json:"vlan_10_4,omitempty"`
-	If17                       string                   `json:"if_1_7,omitempty"`
-	Receiveuntagged11          string                   `json:"receiveuntagged_1_1,omitempty"`
-	VridListIpv617             []string                 `json:"vrid_list_ipv6_1_7,omitempty"`
-	If101                      string                   `json:"if_10_1,omitempty"`
-	If108                      string                   `json:"if_10_8,omitempty"`
 	L2Enabled                  string                   `json:"l2_enabled,omitempty"`
-	Vlan107                    string                   `json:"vlan_10_7,omitempty"`
-	Vlan101                    string                   `json:"vlan_10_1,omitempty"`
-	Receiveuntagged12          string                   `json:"receiveuntagged_1_2,omitempty"`
 	RebootVmOnCpuChange        string                   `json:"reboot_vm_on_cpu_change,omitempty"`
-	Vlan16                     string                   `json:"vlan_1_6,omitempty"`
-	VridListIpv413             []string                 `json:"vrid_list_ipv4_1_3,omitempty"`
-	Receiveuntagged107         string                   `json:"receiveuntagged_10_7,omitempty"`
-	VridListIpv411             []string                 `json:"vrid_list_ipv4_1_1,omitempty"`
-	Vlan11                     string                   `json:"vlan_1_1,omitempty"`
-	VridListIpv6107            []string                 `json:"vrid_list_ipv6_10_7,omitempty"`
-	Vlan18                     string                   `json:"vlan_1_8,omitempty"`
-	VridListIpv4103            []string                 `json:"vrid_list_ipv4_10_3,omitempty"`
-	Receiveuntagged105         string                   `json:"receiveuntagged_10_5,omitempty"`
-	Vlan102                    string                   `json:"vlan_10_2,omitempty"`
-	VridListIpv4106            []string                 `json:"vrid_list_ipv4_10_6,omitempty"`
-	VridListIpv418             []string                 `json:"vrid_list_ipv4_1_8,omitempty"`
-	Receiveuntagged18          string                   `json:"receiveuntagged_1_8,omitempty"`
-	VridListIpv4104            []string                 `json:"vrid_list_ipv4_10_4,omitempty"`
-	Vlan13                     string                   `json:"vlan_1_3,omitempty"`
-	Receiveuntagged103         string                   `json:"receiveuntagged_10_3,omitempty"`
-	If106                      string                   `json:"if_10_6,omitempty"`
-	If16                       string                   `json:"if_1_6,omitempty"`
-	Vlan103                    string                   `json:"vlan_10_3,omitempty"`
-	Vlan15                     string                   `json:"vlan_1_5,omitempty"`
-	If13                       string                   `json:"if_1_3,omitempty"`
 	NsvlanInterfaces           []string                 `json:"nsvlan_interfaces,omitempty"`
-	VridListIpv4105            []string                 `json:"vrid_list_ipv4_10_5,omitempty"`
-	If14                       string                   `json:"if_1_4,omitempty"`
-	VridListIpv4108            []string                 `json:"vrid_list_ipv4_10_8,omitempty"`
-	If11                       string                   `json:"if_1_1,omitempty"`
-	VridListIpv4107            []string                 `json:"vrid_list_ipv4_10_7,omitempty"`
-	Vlan108                    string                   `json:"vlan_10_8,omitempty"`
-	Receiveuntagged13          string                   `json:"receiveuntagged_1_3,omitempty"`
 	CryptoChangeRequiresReboot string                   `json:"crypto_change_requires_reboot,omitempty"`
-	VridListIpv4102            []string                 `json:"vrid_list_ipv4_10_2,omitempty"`
-	If18                       string                   `json:"if_1_8,omitempty"`
-	VridListIpv4101            []string                 `json:"vrid_list_ipv4_10_1,omitempty"`
-	VridListIpv6102            []string                 `json:"vrid_list_ipv6_10_2,omitempty"`
-	If102                      string                   `json:"if_10_2,omitempty"`
-	VridListIpv6101            []string                 `json:"vrid_list_ipv6_10_1,omitempty"`
 }
 
 // Metadata returns the resource type name.
@@ -830,15 +670,15 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Computed:    false,
 				Description: "License Edition.",
 			},
-			"customer_id": schema.StringAttribute{
+			"customid": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
-				Description: "Customer Id.",
+				Description: "Custom ID.",
 			},
 			"license_grace_time": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
-				Description: "Customer Name.",
+				Description: "Grace for this NetScaler Instance.",
 			},
 			"la_mgmt": schema.StringAttribute{
 				Optional:    true,
@@ -847,7 +687,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			},
 			"vlan_id_0_2": schema.StringAttribute{
 				Optional:    true,
-				Computed:    true,
+				Computed:    false,
 				Description: "VLAN id for the management interface 0/2. Maximum value =  ",
 			},
 			"number_of_ssl_cores": schema.StringAttribute{
@@ -925,116 +765,6 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:    true,
 				Computed:    false,
 			},
-			"vlan_1_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/2 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_2": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/2 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/7 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_2": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/2 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_4": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/4 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_6": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/6 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/4 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/5 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_3": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/3 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_1": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/1 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/5 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/4 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_4": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/4 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_3": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/3for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/3 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_5": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/5 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/4 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_8": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/8 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/6 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/5 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
 			"save_config": schema.StringAttribute{
 				Description: "Should config be saved first in case instance is rebooted while modify.",
 				Optional:    true,
@@ -1045,90 +775,8 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:    true,
 				Computed:    false,
 			},
-			"vrid_list_ipv6_1_6": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/6 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
 			"profile_username": schema.StringAttribute{
 				Description: "User Name specified by the user for this NetScaler ADC Instance.. Minimum length =  1 Maximum length =  128",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/7 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/8 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_4": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/4 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/6 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/4 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/2 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/5 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/6 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/1 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_6": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/6 for IPV4 VMAC Generation.",
-				// list of string
-				Optional: true,
-				Computed: false,
-			},
-			"vrid_list_ipv6_1_5": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/5 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_8": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/8 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_7": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/7 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/2 on VM Instance.",
 				Optional:    true,
 				Computed:    false,
 			},
@@ -1137,182 +785,13 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:    true,
 				Computed:    false,
 			},
-			"vrid_list_ipv4_1_5": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/5 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/7 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/4 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/7 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/1 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_7": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/7 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/1 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/8 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
 			"l2_enabled": schema.StringAttribute{
 				Description: "L2mode status of VM Instance.",
 				Optional:    true,
 				Computed:    false,
 			},
-			"vlan_10_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/7 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/1 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/2 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
 			"reboot_vm_on_cpu_change": schema.StringAttribute{
 				Description: "Reboot VMs on CPU change during resource allocation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/6 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_3": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/3for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/7 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_1": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/1 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/1 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_7": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/7 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/8 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_3": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/3 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/5 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/2 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_6": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/6 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_8": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/8 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/8 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_4": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/4 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/3 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/3 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/6 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/6 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/3 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/5 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/3 on VM Instance.",
 				Optional:    true,
 				Computed:    false,
 			},
@@ -1322,80 +801,8 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:    true,
 				Computed:    false,
 			},
-			"vrid_list_ipv4_10_5": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/5 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/4 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_8": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/8 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/1 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_7": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/7 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/8 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/3 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
 			"crypto_change_requires_reboot": schema.StringAttribute{
 				Description: "True if the current changes made by user requires a reboot of the VM else false.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_2": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/2 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/8 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_1": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/1 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_2": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/2 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/2 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_1": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/1 for IPV6 VMAC Generation.",
 				Optional:    true,
 				Computed:    false,
 			},
@@ -1544,7 +951,7 @@ func getThePayloadFromtheConfig(ctx context.Context, data *provisionVpxResourceM
 		State:                      data.State.ValueString(),
 		LastUpdatedTime:            data.LastUpdatedTime.ValueString(),
 		LicenseEdition:             data.LicenseEdition.ValueString(),
-		CustomerId:                 data.CustomerId.ValueString(),
+		Customid:                   data.Customid.ValueString(),
 		LicenseGraceTime:           data.LicenseGraceTime.ValueString(),
 		LaMgmt:                     data.LaMgmt.ValueString(),
 		VlanID02:                   data.VlanID02.ValueString(),
@@ -1571,86 +978,11 @@ func getThePayloadFromtheConfig(ctx context.Context, data *provisionVpxResourceM
 		ProfileUsername:            data.ProfileUsername.ValueString(),
 		IsNewCrypto:                data.IsNewCrypto.ValueString(),
 		SaveConfig:                 data.SaveConfig.ValueString(),
-		VridListIpv4101:            utils.TypeListToUnmarshalStringList(data.VridListIpv4101),
-		VridListIpv4102:            utils.TypeListToUnmarshalStringList(data.VridListIpv4102),
-		VridListIpv4103:            utils.TypeListToUnmarshalStringList(data.VridListIpv4103),
-		VridListIpv4104:            utils.TypeListToUnmarshalStringList(data.VridListIpv4104),
-		VridListIpv4105:            utils.TypeListToUnmarshalStringList(data.VridListIpv4105),
-		VridListIpv4106:            utils.TypeListToUnmarshalStringList(data.VridListIpv4106),
-		VridListIpv4107:            utils.TypeListToUnmarshalStringList(data.VridListIpv4107),
-		VridListIpv4108:            utils.TypeListToUnmarshalStringList(data.VridListIpv4108),
-		VridListIpv411:             utils.TypeListToUnmarshalStringList(data.VridListIpv411),
-		VridListIpv412:             utils.TypeListToUnmarshalStringList(data.VridListIpv412),
-		VridListIpv413:             utils.TypeListToUnmarshalStringList(data.VridListIpv413),
-		VridListIpv414:             utils.TypeListToUnmarshalStringList(data.VridListIpv414),
-		VridListIpv415:             utils.TypeListToUnmarshalStringList(data.VridListIpv415),
-		VridListIpv416:             utils.TypeListToUnmarshalStringList(data.VridListIpv416),
-		VridListIpv417:             utils.TypeListToUnmarshalStringList(data.VridListIpv417),
-		VridListIpv418:             utils.TypeListToUnmarshalStringList(data.VridListIpv418),
-		VridListIpv6101:            utils.TypeListToUnmarshalStringList(data.VridListIpv6101),
-		VridListIpv6102:            utils.TypeListToUnmarshalStringList(data.VridListIpv6102),
-		VridListIpv6103:            utils.TypeListToUnmarshalStringList(data.VridListIpv6103),
-		VridListIpv6104:            utils.TypeListToUnmarshalStringList(data.VridListIpv6104),
-		VridListIpv6105:            utils.TypeListToUnmarshalStringList(data.VridListIpv6105),
-		VridListIpv6106:            utils.TypeListToUnmarshalStringList(data.VridListIpv6106),
-		VridListIpv6107:            utils.TypeListToUnmarshalStringList(data.VridListIpv6107),
-		VridListIpv6108:            utils.TypeListToUnmarshalStringList(data.VridListIpv6108),
-		VridListIpv611:             utils.TypeListToUnmarshalStringList(data.VridListIpv611),
-		VridListIpv612:             utils.TypeListToUnmarshalStringList(data.VridListIpv612),
-		VridListIpv613:             utils.TypeListToUnmarshalStringList(data.VridListIpv613),
-		VridListIpv614:             utils.TypeListToUnmarshalStringList(data.VridListIpv614),
-		VridListIpv615:             utils.TypeListToUnmarshalStringList(data.VridListIpv615),
-		VridListIpv616:             utils.TypeListToUnmarshalStringList(data.VridListIpv616),
-		VridListIpv617:             utils.TypeListToUnmarshalStringList(data.VridListIpv617),
-		VridListIpv618:             utils.TypeListToUnmarshalStringList(data.VridListIpv618),
-		If101:                      data.If101.ValueString(),
-		If102:                      data.If102.ValueString(),
-		If103:                      data.If103.ValueString(),
-		If104:                      data.If104.ValueString(),
-		If105:                      data.If105.ValueString(),
-		If106:                      data.If106.ValueString(),
-		If107:                      data.If107.ValueString(),
-		If108:                      data.If108.ValueString(),
-		If11:                       data.If11.ValueString(),
-		If12:                       data.If12.ValueString(),
-		If13:                       data.If13.ValueString(),
-		If14:                       data.If14.ValueString(),
-		If15:                       data.If15.ValueString(),
-		If16:                       data.If16.ValueString(),
-		If17:                       data.If17.ValueString(),
-		If18:                       data.If18.ValueString(),
-		Vlan101:                    data.Vlan101.ValueString(),
-		Vlan102:                    data.Vlan102.ValueString(),
-		Vlan103:                    data.Vlan103.ValueString(),
-		Vlan104:                    data.Vlan104.ValueString(),
-		Vlan105:                    data.Vlan105.ValueString(),
-		Vlan106:                    data.Vlan106.ValueString(),
-		Vlan107:                    data.Vlan107.ValueString(),
-		Vlan108:                    data.Vlan108.ValueString(),
-		Vlan11:                     data.Vlan11.ValueString(),
-		Vlan12:                     data.Vlan12.ValueString(),
-		Vlan13:                     data.Vlan13.ValueString(),
-		Vlan14:                     data.Vlan14.ValueString(),
-		Vlan15:                     data.Vlan15.ValueString(),
-		Vlan16:                     data.Vlan16.ValueString(),
-		Vlan17:                     data.Vlan17.ValueString(),
-		Vlan18:                     data.Vlan18.ValueString(),
-		Receiveuntagged101:         data.Receiveuntagged101.ValueString(),
-		Receiveuntagged102:         data.Receiveuntagged102.ValueString(),
-		Receiveuntagged103:         data.Receiveuntagged103.ValueString(),
-		Receiveuntagged104:         data.Receiveuntagged104.ValueString(),
-		Receiveuntagged105:         data.Receiveuntagged105.ValueString(),
-		Receiveuntagged106:         data.Receiveuntagged106.ValueString(),
-		Receiveuntagged107:         data.Receiveuntagged107.ValueString(),
-		Receiveuntagged108:         data.Receiveuntagged108.ValueString(),
-		Receiveuntagged11:          data.Receiveuntagged11.ValueString(),
-		Receiveuntagged12:          data.Receiveuntagged12.ValueString(),
-		Receiveuntagged13:          data.Receiveuntagged13.ValueString(),
-		Receiveuntagged14:          data.Receiveuntagged14.ValueString(),
-		Receiveuntagged15:          data.Receiveuntagged15.ValueString(),
-		Receiveuntagged16:          data.Receiveuntagged16.ValueString(),
-		Receiveuntagged17:          data.Receiveuntagged17.ValueString(),
-		Receiveuntagged18:          data.Receiveuntagged18.ValueString(),
+		GatewayIPv6:                data.GatewayIPv6.ValueString(),
+		VlanID01:                   data.VlanID01.ValueString(),
+		Password:                   data.Password.ValueString(),
+		ThroughputLimit:            data.ThroughputLimit.ValueString(),
+		NsIPAddress:                data.NsIPAddress.ValueString(),
 	}
 
 	return provisionVpxReq
@@ -1901,8 +1233,8 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 	if !state.LicenseEdition.IsNull() {
 		state.LicenseEdition = types.StringValue(getResponseData["license_edition"].(string))
 	}
-	if !state.CustomerId.IsNull() {
-		state.CustomerId = types.StringValue(getResponseData["customer_id"].(string))
+	if !state.Customid.IsNull() {
+		state.Customid = types.StringValue(getResponseData["customid"].(string))
 	}
 	if !state.LicenseGraceTime.IsNull() {
 		state.LicenseGraceTime = types.StringValue(getResponseData["license_grace_time"].(string))
@@ -1981,102 +1313,6 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 	}
 	if !state.SaveConfig.IsNull() {
 		state.SaveConfig = types.StringValue(getResponseData["save_config"].(string))
-	}
-	if !state.VridListIpv4101.IsNull() {
-		state.VridListIpv4101 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_101"].([]interface{})))
-	}
-	if !state.VridListIpv4102.IsNull() {
-		state.VridListIpv4102 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_102"].([]interface{})))
-	}
-	if !state.VridListIpv4103.IsNull() {
-		state.VridListIpv4103 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_103"].([]interface{})))
-	}
-	if !state.VridListIpv4104.IsNull() {
-		state.VridListIpv4104 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_104"].([]interface{})))
-	}
-	if !state.VridListIpv4105.IsNull() {
-		state.VridListIpv4105 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_105"].([]interface{})))
-	}
-	if !state.VridListIpv4106.IsNull() {
-		state.VridListIpv4106 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_106"].([]interface{})))
-	}
-	if !state.VridListIpv4107.IsNull() {
-		state.VridListIpv4107 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_107"].([]interface{})))
-	}
-	if !state.VridListIpv4108.IsNull() {
-		state.VridListIpv4108 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_108"].([]interface{})))
-	}
-	if !state.VridListIpv411.IsNull() {
-		state.VridListIpv411 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_11"].([]interface{})))
-	}
-	if !state.VridListIpv412.IsNull() {
-		state.VridListIpv412 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_12"].([]interface{})))
-	}
-	if !state.VridListIpv413.IsNull() {
-		state.VridListIpv413 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_13"].([]interface{})))
-	}
-	if !state.VridListIpv414.IsNull() {
-		state.VridListIpv414 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_14"].([]interface{})))
-	}
-	if !state.VridListIpv415.IsNull() {
-		state.VridListIpv415 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_15"].([]interface{})))
-	}
-	if !state.VridListIpv416.IsNull() {
-		state.VridListIpv416 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_16"].([]interface{})))
-	}
-	if !state.VridListIpv417.IsNull() {
-		state.VridListIpv417 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_17"].([]interface{})))
-	}
-	if !state.VridListIpv418.IsNull() {
-		state.VridListIpv418 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_18"].([]interface{})))
-	}
-	if !state.VridListIpv6101.IsNull() {
-		state.VridListIpv6101 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_101"].([]interface{})))
-	}
-	if !state.VridListIpv6102.IsNull() {
-		state.VridListIpv6102 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_102"].([]interface{})))
-	}
-	if !state.VridListIpv6103.IsNull() {
-		state.VridListIpv6103 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_103"].([]interface{})))
-	}
-	if !state.VridListIpv6104.IsNull() {
-		state.VridListIpv6104 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_104"].([]interface{})))
-	}
-	if !state.VridListIpv6105.IsNull() {
-		state.VridListIpv6105 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_105"].([]interface{})))
-	}
-	if !state.VridListIpv6106.IsNull() {
-		state.VridListIpv6106 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_106"].([]interface{})))
-	}
-	if !state.VridListIpv6107.IsNull() {
-		state.VridListIpv6107 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_107"].([]interface{})))
-	}
-	if !state.VridListIpv6108.IsNull() {
-		state.VridListIpv6108 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_108"].([]interface{})))
-	}
-	if !state.VridListIpv611.IsNull() {
-		state.VridListIpv611 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_11"].([]interface{})))
-	}
-	if !state.VridListIpv612.IsNull() {
-		state.VridListIpv612 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_12"].([]interface{})))
-	}
-	if !state.VridListIpv613.IsNull() {
-		state.VridListIpv613 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_13"].([]interface{})))
-	}
-	if !state.VridListIpv614.IsNull() {
-		state.VridListIpv614 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_14"].([]interface{})))
-	}
-	if !state.VridListIpv615.IsNull() {
-		state.VridListIpv615 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_15"].([]interface{})))
-	}
-	if !state.VridListIpv616.IsNull() {
-		state.VridListIpv616 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_16"].([]interface{})))
-	}
-	if !state.VridListIpv617.IsNull() {
-		state.VridListIpv617 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_17"].([]interface{})))
-	}
-	if !state.VridListIpv618.IsNull() {
-		state.VridListIpv618 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_18"].([]interface{})))
 	}
 
 	diags = resp.State.Set(ctx, &state)
