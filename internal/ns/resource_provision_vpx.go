@@ -335,13 +335,6 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Optional:            true,
 				Description:         "Assign hostname to managed device, if this is not provided, name will be set as host name . Minimum length =  1 Maximum length =  256",
 				MarkdownDescription: "Assign hostname to managed device, if this is not provided, name will be set as host name . Minimum length =  1 Maximum length =  256",
-			"license": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "License.",
-				Validators: []validator.String{
-					stringvalidator.OneOf("Enterprise", "Platinum", "Standard"),
-				},
 			},
 			"if_0_1": schema.BoolAttribute{
 				Optional:            true,
@@ -428,9 +421,11 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				MarkdownDescription: "Last Updated Time.",
 			},
 			"license": schema.StringAttribute{
-				Optional:            true,
-				Description:         "Feature License for NetScaler ADC Instance, needs to be set while provisioning [Possible values: Standard, Enterprise, Platinum].",
-				MarkdownDescription: "Feature License for NetScaler ADC Instance, needs to be set while provisioning [Possible values: Standard, Enterprise, Platinum].",
+				Optional:    true,
+				Description: "Feature License for NetScaler ADC Instance, needs to be set while provisioning [Possible values: Standard, Enterprise, Platinum].",
+				Validators: []validator.String{
+					stringvalidator.OneOf("Enterprise", "Platinum", "Standard"),
+				},
 			},
 			"license_edition": schema.StringAttribute{
 				Optional:            true,
