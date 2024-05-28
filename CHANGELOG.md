@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0]
+
+### Added
+
+- **New Resource** `system_settings` [#55]
+- **New Resource** `ssl_settings` [#57]
+- **New Resource** `cipher_config` [#58]
+- **New Resource** `mps` [#59]
+- **New Resource** `ntp_sync` [#61]
+
+### Changed
+
+- **netscalersdx_provision_vpx**: Added Validate func to `licence` attribute to validate the input from user [#12]. Removed deprecated attributes and updated the attribute types
+
+[#12]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/12
+[#55]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/55
+[#57]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/57
+[#58]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/58
+[#59]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/59
+[#61]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/61
+
 ## [0.4.0]
 
 ### Added
@@ -62,8 +83,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `provision_vpx`
 * **New Resource** `vpx_state`
 
-
-[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.1.0...0.2.0
