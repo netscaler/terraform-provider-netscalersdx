@@ -9,11 +9,13 @@ import (
 	"terraform-provider-netscalersdx/internal/aaa_server"
 	"terraform-provider-netscalersdx/internal/aclrule"
 	"terraform-provider-netscalersdx/internal/blx_device_profile"
+	"terraform-provider-netscalersdx/internal/cipher_config"
 	"terraform-provider-netscalersdx/internal/cipher_group"
 	"terraform-provider-netscalersdx/internal/current_timezone"
 	"terraform-provider-netscalersdx/internal/device_group"
 	"terraform-provider-netscalersdx/internal/device_profile"
 	"terraform-provider-netscalersdx/internal/ldap_server"
+	"terraform-provider-netscalersdx/internal/mps"
 	"terraform-provider-netscalersdx/internal/mps_feature"
 	"terraform-provider-netscalersdx/internal/mpsgroup"
 	"terraform-provider-netscalersdx/internal/mpsuser"
@@ -22,6 +24,7 @@ import (
 	"terraform-provider-netscalersdx/internal/ns_save_config"
 	"terraform-provider-netscalersdx/internal/ntp_param"
 	"terraform-provider-netscalersdx/internal/ntp_server"
+	"terraform-provider-netscalersdx/internal/ntp_sync"
 	"terraform-provider-netscalersdx/internal/radius_server"
 	"terraform-provider-netscalersdx/internal/smtp_server"
 	"terraform-provider-netscalersdx/internal/snmp_alarm_config"
@@ -30,9 +33,11 @@ import (
 	"terraform-provider-netscalersdx/internal/snmp_trap"
 	"terraform-provider-netscalersdx/internal/snmp_user"
 	"terraform-provider-netscalersdx/internal/snmp_view"
+	"terraform-provider-netscalersdx/internal/ssl_settings"
 	"terraform-provider-netscalersdx/internal/static_route"
 	"terraform-provider-netscalersdx/internal/syslog_params"
 	"terraform-provider-netscalersdx/internal/syslog_server"
+	"terraform-provider-netscalersdx/internal/system_settings"
 	"terraform-provider-netscalersdx/internal/tacacs_server"
 
 	"terraform-provider-netscalersdx/internal/service"
@@ -143,6 +148,11 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		aclrule.AclruleResource,
 		aaa_server.AaaServerResource,
 		snmp_mib.SnmpMibResource,
+		ntp_sync.NtpSyncResource,
+		mps.MpsResource,
+		cipher_config.CipherConfigResource,
+		ssl_settings.SslSettingsResource,
+		system_settings.SystemSettingsResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
