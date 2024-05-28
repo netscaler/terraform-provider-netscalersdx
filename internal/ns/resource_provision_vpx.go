@@ -38,346 +38,184 @@ func ProvisionVpxResource() resource.Resource {
 }
 
 // provisionVpxResourceModel describes the resource data model.
+
 type provisionVpxResourceModel struct {
-	Id                         types.String `tfsdk:"id"`
-	IPAddress                  types.String `tfsdk:"ip_address"`
-	StdBwConfig                types.String `tfsdk:"std_bw_config"`
-	NsIPAddress                types.String `tfsdk:"ns_ip_address"`
-	Password                   types.String `tfsdk:"password"`
-	GatewayIPv6                types.String `tfsdk:"gateway_ipv6"`
-	ThroughputLimit            types.String `tfsdk:"throughput_limit"`
-	VlanID01                   types.String `tfsdk:"vlan_id_0_1"`
-	Name                       types.String `tfsdk:"name"`
-	MastoolsVersion            types.String `tfsdk:"mastools_version"`
-	PluginIPAddress            types.String `tfsdk:"plugin_ip_address"`
-	VlanType                   types.String `tfsdk:"vlan_type"`
-	EntBwTotal                 types.String `tfsdk:"ent_bw_total"`
-	VcpuConfig                 types.String `tfsdk:"vcpu_config"`
-	NsvlanTagged               types.String `tfsdk:"nsvlan_tagged"`
-	Netmask                    types.String `tfsdk:"netmask"`
-	EntBwConfig                types.String `tfsdk:"ent_bw_config"`
-	DatacenterID               types.String `tfsdk:"datacenter_id"`
-	InstanceMode               types.String `tfsdk:"instance_mode"`
-	NumberOfSslCoresUp         types.String `tfsdk:"number_of_ssl_cores_up"`
-	StdBwAvailable             types.String `tfsdk:"std_bw_available"`
-	InternalIPAddress          types.String `tfsdk:"internal_ip_address"`
-	If01                       types.String `tfsdk:"if_0_1"`
-	PltBwTotal                 types.String `tfsdk:"plt_bw_total"`
-	HostIPAddress              types.String `tfsdk:"host_ip_address"`
-	VpxID                      types.String `tfsdk:"vpx_id"`
-	IPv6Address                types.String `tfsdk:"ipv6_address"`
-	MgmtIPAddress              types.String `tfsdk:"mgmt_ip_address"`
-	NumberOfAcu                types.String `tfsdk:"number_of_acu"`
-	PltBwAvailable             types.String `tfsdk:"plt_bw_available"`
-	IsClip                     types.String `tfsdk:"is_clip"`
-	DeviceFamily               types.String `tfsdk:"device_family"`
-	Type                       types.String `tfsdk:"type"`
-	Throughput                 types.String `tfsdk:"throughput"`
-	TemplateName               types.String `tfsdk:"template_name"`
-	Gateway                    types.String `tfsdk:"gateway"`
-	Iscco                      types.String `tfsdk:"iscco"`
-	NumberOfScu                types.String `tfsdk:"number_of_scu"`
-	License                    types.String `tfsdk:"license"`
-	DomainName                 types.String `tfsdk:"domain_name"`
-	If02                       types.String `tfsdk:"if_0_2"`
-	ImageName                  types.String `tfsdk:"image_name"`
-	Hostname                   types.String `tfsdk:"hostname"`
-	VmMemoryTotal              types.String `tfsdk:"vm_memory_total"`
-	EntBwAvailable             types.String `tfsdk:"ent_bw_available"`
-	Description                types.String `tfsdk:"description"`
-	Username                   types.String `tfsdk:"username"`
-	FipsPartitionName          types.String `tfsdk:"fips_partition_name"`
-	NsvlanID                   types.String `tfsdk:"nsvlan_id"`
-	NumPes                     types.String `tfsdk:"num_pes"`
-	BurstPriority              types.String `tfsdk:"burst_priority"`
-	MetricsCollection          types.String `tfsdk:"metrics_collection"`
-	IsManaged                  types.String `tfsdk:"is_managed"`
-	NexthopV6                  types.String `tfsdk:"nexthop_v6"`
-	IPv4Address                types.String `tfsdk:"ipv4_address"`
-	ProfileName                types.String `tfsdk:"profile_name"`
 	Backplane                  types.String `tfsdk:"backplane"`
-	NetworkInterfaces          types.List   `tfsdk:"network_interfaces"`
-	State                      types.String `tfsdk:"state"`
-	LastUpdatedTime            types.String `tfsdk:"last_updated_time"`
-	LicenseEdition             types.String `tfsdk:"license_edition"`
-	CustomerId                 types.String `tfsdk:"customer_id"`
-	LicenseGraceTime           types.String `tfsdk:"license_grace_time"`
-	LaMgmt                     types.String `tfsdk:"la_mgmt"`
-	VlanID02                   types.String `tfsdk:"vlan_id_0_2"`
-	NumberOfSslCores           types.String `tfsdk:"number_of_ssl_cores"`
-	NumberOfsslCards           types.String `tfsdk:"number_of_ssl_cards"`
-	MaxBurstThroughput         types.String `tfsdk:"max_burst_throughput"`
-	ConfigType                 types.String `tfsdk:"config_type"`
-	IfInternalIpEnabled        types.String `tfsdk:"if_internal_ip_enabled"`
+	BurstPriority              types.Int64  `tfsdk:"burst_priority"`
 	CmdPolicy                  types.String `tfsdk:"cmd_policy"`
-	NodeId                     types.String `tfsdk:"node_id"`
-	ThroughputAllocationMode   types.String `tfsdk:"throughput_allocation_mode"`
-	NumberOfCores              types.String `tfsdk:"number_of_cores"`
-	Pps                        types.String `tfsdk:"pps"`
-	PluginNetmask              types.String `tfsdk:"plugin_netmask"`
+	ConfigType                 types.Int64  `tfsdk:"config_type"`
+	CryptoChangeRequiresReboot types.Bool   `tfsdk:"crypto_change_requires_reboot"`
+	Customid                   types.String `tfsdk:"customid"`
+	DatacenterId               types.String `tfsdk:"datacenter_id"`
+	Description                types.String `tfsdk:"description"`
+	DeviceFamily               types.String `tfsdk:"device_family"`
 	DisplayName                types.String `tfsdk:"display_name"`
-	StdBwTotal                 types.String `tfsdk:"std_bw_total"`
+	DomainName                 types.String `tfsdk:"domain_name"`
+	EntBwAvailable             types.Int64  `tfsdk:"ent_bw_available"`
+	EntBwConfig                types.Int64  `tfsdk:"ent_bw_config"`
+	EntBwTotal                 types.Int64  `tfsdk:"ent_bw_total"`
+	FipsPartitionName          types.String `tfsdk:"fips_partition_name"`
+	Gateway                    types.String `tfsdk:"gateway"`
+	GatewayIpv6                types.String `tfsdk:"gateway_ipv6"`
+	HostIpAddress              types.String `tfsdk:"host_ip_address"`
+	Hostname                   types.String `tfsdk:"hostname"`
+	If01                       types.Bool   `tfsdk:"if_0_1"`
+	If02                       types.Bool   `tfsdk:"if_0_2"`
+	IfInternalIpEnabled        types.Bool   `tfsdk:"if_internal_ip_enabled"`
+	ImageName                  types.String `tfsdk:"image_name"`
+	InstanceMode               types.String `tfsdk:"instance_mode"`
+	InternalIpAddress          types.String `tfsdk:"internal_ip_address"`
+	IpAddress                  types.String `tfsdk:"ip_address"`
+	Ipv4Address                types.String `tfsdk:"ipv4_address"`
+	Ipv6Address                types.String `tfsdk:"ipv6_address"`
+	IsClip                     types.Bool   `tfsdk:"is_clip"`
+	IsManaged                  types.Bool   `tfsdk:"is_managed"`
+	IsNewCrypto                types.Bool   `tfsdk:"is_new_crypto"`
+	Iscco                      types.Bool   `tfsdk:"iscco"`
+	L2Enabled                  types.Bool   `tfsdk:"l2_enabled"`
+	LaMgmt                     types.Bool   `tfsdk:"la_mgmt"`
+	LastUpdatedTime            types.Int64  `tfsdk:"last_updated_time"`
+	License                    types.String `tfsdk:"license"`
+	LicenseEdition             types.String `tfsdk:"license_edition"`
+	LicenseGraceTime           types.Int64  `tfsdk:"license_grace_time"`
+	MastoolsVersion            types.String `tfsdk:"mastools_version"`
+	MaxBurstThroughput         types.Int64  `tfsdk:"max_burst_throughput"`
+	MetricsCollection          types.Bool   `tfsdk:"metrics_collection"`
+	MgmtIpAddress              types.String `tfsdk:"mgmt_ip_address"`
+	Name                       types.String `tfsdk:"name"`
+	Netmask                    types.String `tfsdk:"netmask"`
+	NetworkInterfaces          types.List   `tfsdk:"network_interfaces"`
 	Nexthop                    types.String `tfsdk:"nexthop"`
-	PltBwConfig                types.String `tfsdk:"plt_bw_config"`
-	Vlan12                     types.String `tfsdk:"vlan_1_2"`
-	VridListIpv412             types.List   `tfsdk:"vrid_list_ipv4_1_2"`
-	Vlan17                     types.String `tfsdk:"vlan_1_7"`
-	VridListIpv612             types.List   `tfsdk:"vrid_list_ipv6_1_2"`
-	VridListIpv414             types.List   `tfsdk:"vrid_list_ipv4_1_4"`
-	VridListIpv6106            types.List   `tfsdk:"vrid_list_ipv6_10_6"`
-	If104                      types.String `tfsdk:"if_10_4"`
-	Vlan105                    types.String `tfsdk:"vlan_10_5"`
-	VridListIpv6103            types.List   `tfsdk:"vrid_list_ipv6_10_3"`
-	VridListIpv611             types.List   `tfsdk:"vrid_list_ipv6_1_1"`
-	If15                       types.String `tfsdk:"if_1_5"`
-	Receiveuntagged14          types.String `tfsdk:"receiveuntagged_1_4"`
-	VridListIpv6104            types.List   `tfsdk:"vrid_list_ipv6_10_4"`
-	VridListIpv613             types.List   `tfsdk:"vrid_list_ipv6_1_3"`
-	If103                      types.String `tfsdk:"if_10_3"`
-	VridListIpv6105            types.List   `tfsdk:"vrid_list_ipv6_10_5"`
-	Receiveuntagged104         types.String `tfsdk:"receiveuntagged_10_4"`
-	VridListIpv618             types.List   `tfsdk:"vrid_list_ipv6_1_8"`
-	Vlan106                    types.String `tfsdk:"vlan_10_6"`
-	If105                      types.String `tfsdk:"if_10_5"`
-	SaveConfig                 types.String `tfsdk:"save_config"`
-	IsNewCrypto                types.String `tfsdk:"is_new_crypto"`
-	VridListIpv616             types.List   `tfsdk:"vrid_list_ipv6_1_6"`
-	ProfileUsername            types.String `tfsdk:"profile_username"`
-	If107                      types.String `tfsdk:"if_10_7"`
-	Receiveuntagged16          types.String `tfsdk:"receiveuntagged_1_6"`
-	Vlan14                     types.String `tfsdk:"vlan_1_4"`
-	If12                       types.String `tfsdk:"if_1_2"`
-	Receiveuntagged15          types.String `tfsdk:"receiveuntagged_1_5"`
-	Receiveuntagged106         types.String `tfsdk:"receiveuntagged_10_6"`
-	Receiveuntagged101         types.String `tfsdk:"receiveuntagged_10_1"`
-	VridListIpv416             types.List   `tfsdk:"vrid_list_ipv4_1_6"`
-	VridListIpv615             types.List   `tfsdk:"vrid_list_ipv6_1_5"`
-	VridListIpv6108            types.List   `tfsdk:"vrid_list_ipv6_10_8"`
-	VridListIpv417             types.List   `tfsdk:"vrid_list_ipv4_1_7"`
-	Receiveuntagged102         types.String `tfsdk:"receiveuntagged_10_2"`
-	ProfilePassword            types.String `tfsdk:"profile_password"`
-	VridListIpv415             types.List   `tfsdk:"vrid_list_ipv4_1_5"`
-	Receiveuntagged17          types.String `tfsdk:"receiveuntagged_1_7"`
-	Vlan104                    types.String `tfsdk:"vlan_10_4"`
-	If17                       types.String `tfsdk:"if_1_7"`
-	Receiveuntagged11          types.String `tfsdk:"receiveuntagged_1_1"`
-	VridListIpv617             types.List   `tfsdk:"vrid_list_ipv6_1_7"`
-	If101                      types.String `tfsdk:"if_10_1"`
-	If108                      types.String `tfsdk:"if_10_8"`
-	L2Enabled                  types.String `tfsdk:"l2_enabled"`
-	Vlan107                    types.String `tfsdk:"vlan_10_7"`
-	Vlan101                    types.String `tfsdk:"vlan_10_1"`
-	Receiveuntagged12          types.String `tfsdk:"receiveuntagged_1_2"`
-	RebootVmOnCpuChange        types.String `tfsdk:"reboot_vm_on_cpu_change"`
-	Vlan16                     types.String `tfsdk:"vlan_1_6"`
-	VridListIpv413             types.List   `tfsdk:"vrid_list_ipv4_1_3"`
-	Receiveuntagged107         types.String `tfsdk:"receiveuntagged_10_7"`
-	VridListIpv411             types.List   `tfsdk:"vrid_list_ipv4_1_1"`
-	Vlan11                     types.String `tfsdk:"vlan_1_1"`
-	VridListIpv6107            types.List   `tfsdk:"vrid_list_ipv6_10_7"`
-	Vlan18                     types.String `tfsdk:"vlan_1_8"`
-	VridListIpv4103            types.List   `tfsdk:"vrid_list_ipv4_10_3"`
-	Receiveuntagged105         types.String `tfsdk:"receiveuntagged_10_5"`
-	Vlan102                    types.String `tfsdk:"vlan_10_2"`
-	VridListIpv4106            types.List   `tfsdk:"vrid_list_ipv4_10_6"`
-	VridListIpv418             types.List   `tfsdk:"vrid_list_ipv4_1_8"`
-	Receiveuntagged18          types.String `tfsdk:"receiveuntagged_1_8"`
-	VridListIpv4104            types.List   `tfsdk:"vrid_list_ipv4_10_4"`
-	Vlan13                     types.String `tfsdk:"vlan_1_3"`
-	Receiveuntagged103         types.String `tfsdk:"receiveuntagged_10_3"`
-	If106                      types.String `tfsdk:"if_10_6"`
-	If16                       types.String `tfsdk:"if_1_6"`
-	Vlan103                    types.String `tfsdk:"vlan_10_3"`
-	Vlan15                     types.String `tfsdk:"vlan_1_5"`
-	If13                       types.String `tfsdk:"if_1_3"`
+	NexthopV6                  types.String `tfsdk:"nexthop_v6"`
+	NodeId                     types.String `tfsdk:"node_id"`
+	NsIpAddress                types.String `tfsdk:"ns_ip_address"`
+	NsvlanId                   types.Int64  `tfsdk:"nsvlan_id"`
 	NsvlanInterfaces           types.List   `tfsdk:"nsvlan_interfaces"`
-	VridListIpv4105            types.List   `tfsdk:"vrid_list_ipv4_10_5"`
-	If14                       types.String `tfsdk:"if_1_4"`
-	VridListIpv4108            types.List   `tfsdk:"vrid_list_ipv4_10_8"`
-	If11                       types.String `tfsdk:"if_1_1"`
-	VridListIpv4107            types.List   `tfsdk:"vrid_list_ipv4_10_7"`
-	Vlan108                    types.String `tfsdk:"vlan_10_8"`
-	Receiveuntagged13          types.String `tfsdk:"receiveuntagged_1_3"`
-	CryptoChangeRequiresReboot types.String `tfsdk:"crypto_change_requires_reboot"`
-	VridListIpv4102            types.List   `tfsdk:"vrid_list_ipv4_10_2"`
-	If18                       types.String `tfsdk:"if_1_8"`
-	VridListIpv4101            types.List   `tfsdk:"vrid_list_ipv4_10_1"`
-	VridListIpv6102            types.List   `tfsdk:"vrid_list_ipv6_10_2"`
-	If102                      types.String `tfsdk:"if_10_2"`
-	VridListIpv6101            types.List   `tfsdk:"vrid_list_ipv6_10_1"`
-	VridListIpv614             types.List   `tfsdk:"vrid_list_ipv6_1_4"`
-	Receiveuntagged108         types.String `tfsdk:"receiveuntagged_10_8"`
+	NsvlanTagged               types.Bool   `tfsdk:"nsvlan_tagged"`
+	NumPes                     types.Int64  `tfsdk:"num_pes"`
+	NumberOfAcu                types.Int64  `tfsdk:"number_of_acu"`
+	NumberOfCores              types.Int64  `tfsdk:"number_of_cores"`
+	NumberOfScu                types.Int64  `tfsdk:"number_of_scu"`
+	NumberOfSslCards           types.Int64  `tfsdk:"number_of_ssl_cards"`
+	NumberOfSslCores           types.Int64  `tfsdk:"number_of_ssl_cores"`
+	NumberOfSslCoresUp         types.Int64  `tfsdk:"number_of_ssl_cores_up"`
+	Password                   types.String `tfsdk:"password"`
+	PltBwAvailable             types.Int64  `tfsdk:"plt_bw_available"`
+	PltBwConfig                types.Int64  `tfsdk:"plt_bw_config"`
+	PltBwTotal                 types.Int64  `tfsdk:"plt_bw_total"`
+	PluginIpAddress            types.String `tfsdk:"plugin_ip_address"`
+	PluginNetmask              types.String `tfsdk:"plugin_netmask"`
+	Pps                        types.Int64  `tfsdk:"pps"`
+	ProfileName                types.String `tfsdk:"profile_name"`
+	ProfilePassword            types.String `tfsdk:"profile_password"`
+	ProfileUsername            types.String `tfsdk:"profile_username"`
+	RebootVmOnCpuChange        types.Bool   `tfsdk:"reboot_vm_on_cpu_change"`
+	SaveConfig                 types.Bool   `tfsdk:"save_config"`
+	State                      types.String `tfsdk:"state"`
+	StdBwAvailable             types.Int64  `tfsdk:"std_bw_available"`
+	StdBwConfig                types.Int64  `tfsdk:"std_bw_config"`
+	StdBwTotal                 types.Int64  `tfsdk:"std_bw_total"`
+	TemplateName               types.String `tfsdk:"template_name"`
+	Throughput                 types.Int64  `tfsdk:"throughput"`
+	ThroughputAllocationMode   types.Int64  `tfsdk:"throughput_allocation_mode"`
+	ThroughputLimit            types.Int64  `tfsdk:"throughput_limit"`
+	Type                       types.String `tfsdk:"type"`
+	Username                   types.String `tfsdk:"username"`
+	VcpuConfig                 types.Int64  `tfsdk:"vcpu_config"`
+	VlanId01                   types.Int64  `tfsdk:"vlan_id_0_1"`
+	VlanId02                   types.Int64  `tfsdk:"vlan_id_0_2"`
+	VlanType                   types.Int64  `tfsdk:"vlan_type"`
+	VmMemoryTotal              types.Int64  `tfsdk:"vm_memory_total"`
+	Id                         types.String `tfsdk:"id"`
 }
 
 type provisionVpxResourceReq struct {
-	Id                         string                   `json:"id,omitempty"`
-	IPAddress                  string                   `json:"ip_address,omitempty"`
-	StdBwConfig                string                   `json:"std_bw_config,omitempty"`
-	NsIPAddress                string                   `json:"ns_ip_address,omitempty"`
-	Password                   string                   `json:"password,omitempty"`
-	GatewayIPv6                string                   `json:"gateway_ipv6,omitempty"`
-	ThroughputLimit            string                   `json:"throughput_limit,omitempty"`
-	VlanID01                   string                   `json:"vlan_id_0_1,omitempty"`
-	Name                       string                   `json:"name,omitempty"`
-	MastoolsVersion            string                   `json:"mastools_version,omitempty"`
-	PluginIPAddress            string                   `json:"plugin_ip_address,omitempty"`
-	VlanType                   string                   `json:"vlan_type,omitempty"`
-	EntBwTotal                 string                   `json:"ent_bw_total,omitempty"`
-	VcpuConfig                 string                   `json:"vcpu_config,omitempty"`
-	NsvlanTagged               string                   `json:"nsvlan_tagged,omitempty"`
-	Netmask                    string                   `json:"netmask,omitempty"`
-	EntBwConfig                string                   `json:"ent_bw_config,omitempty"`
-	DatacenterID               string                   `json:"datacenter_id,omitempty"`
-	InstanceMode               string                   `json:"instance_mode,omitempty"`
-	NumberOfSslCoresUp         string                   `json:"number_of_ssl_cores_up,omitempty"`
-	StdBwAvailable             string                   `json:"std_bw_available,omitempty"`
-	InternalIPAddress          string                   `json:"internal_ip_address,omitempty"`
-	If01                       string                   `json:"if_0_1,omitempty"`
-	PltBwTotal                 string                   `json:"plt_bw_total,omitempty"`
-	HostIPAddress              string                   `json:"host_ip_address,omitempty"`
-	VpxID                      string                   `json:"vpx_id,omitempty"`
-	IPv6Address                string                   `json:"ipv6_address,omitempty"`
-	MgmtIPAddress              string                   `json:"mgmt_ip_address,omitempty"`
-	NumberOfAcu                string                   `json:"number_of_acu,omitempty"`
-	PltBwAvailable             string                   `json:"plt_bw_available,omitempty"`
-	IsClip                     string                   `json:"is_clip,omitempty"`
-	DeviceFamily               string                   `json:"device_family,omitempty"`
-	Type                       string                   `json:"type,omitempty"`
-	Throughput                 string                   `json:"throughput,omitempty"`
-	TemplateName               string                   `json:"template_name,omitempty"`
-	Gateway                    string                   `json:"gateway,omitempty"`
-	Iscco                      string                   `json:"iscco,omitempty"`
-	NumberOfScu                string                   `json:"number_of_scu,omitempty"`
-	License                    string                   `json:"license,omitempty"`
-	DomainName                 string                   `json:"domain_name,omitempty"`
-	If02                       string                   `json:"if_0_2,omitempty"`
-	ImageName                  string                   `json:"image_name,omitempty"`
-	Hostname                   string                   `json:"hostname,omitempty"`
-	VmMemoryTotal              string                   `json:"vm_memory_total,omitempty"`
-	EntBwAvailable             string                   `json:"ent_bw_available,omitempty"`
-	Description                string                   `json:"description,omitempty"`
-	Username                   string                   `json:"username,omitempty"`
-	FipsPartitionName          string                   `json:"fips_partition_name,omitempty"`
-	NsvlanID                   string                   `json:"nsvlan_id,omitempty"`
-	NumPes                     string                   `json:"num_pes,omitempty"`
-	BurstPriority              string                   `json:"burst_priority,omitempty"`
-	MetricsCollection          string                   `json:"metrics_collection,omitempty"`
-	IsManaged                  string                   `json:"is_managed,omitempty"`
-	NexthopV6                  string                   `json:"nexthop_v6,omitempty"`
-	IPv4Address                string                   `json:"ipv4_address,omitempty"`
-	ProfileName                string                   `json:"profile_name,omitempty"`
 	Backplane                  string                   `json:"backplane,omitempty"`
-	NetworkInterfaces          []map[string]interface{} `json:"network_interfaces,omitempty"`
-	State                      string                   `json:"state,omitempty"`
-	LastUpdatedTime            string                   `json:"last_updated_time,omitempty"`
-	LicenseEdition             string                   `json:"license_edition,omitempty"`
-	CustomerId                 string                   `json:"customer_id,omitempty"`
-	LicenseGraceTime           string                   `json:"license_grace_time,omitempty"`
-	LaMgmt                     string                   `json:"la_mgmt,omitempty"`
-	VlanID02                   string                   `json:"vlan_id_0_2,omitempty"`
-	NumberOfSslCores           string                   `json:"number_of_ssl_cores,omitempty"`
-	NumberOfsslCards           string                   `json:"number_of_ssl_cards,omitempty"`
-	MaxBurstThroughput         string                   `json:"max_burst_throughput,omitempty"`
-	ConfigType                 string                   `json:"config_type,omitempty"`
-	IfInternalIpEnabled        string                   `json:"if_internal_ip_enabled,omitempty"`
+	BurstPriority              *int64                   `json:"burst_priority,omitempty"`
 	CmdPolicy                  string                   `json:"cmd_policy,omitempty"`
-	NodeId                     string                   `json:"node_id,omitempty"`
-	ThroughputAllocationMode   string                   `json:"throughput_allocation_mode,omitempty"`
-	NumberOfCores              string                   `json:"number_of_cores,omitempty"`
-	Pps                        string                   `json:"pps,omitempty"`
-	PluginNetmask              string                   `json:"plugin_netmask,omitempty"`
+	ConfigType                 *int64                   `json:"config_type,omitempty"`
+	CryptoChangeRequiresReboot *bool                    `json:"crypto_change_requires_reboot,omitempty"`
+	Customid                   string                   `json:"customid,omitempty"`
+	DatacenterId               string                   `json:"datacenter_id,omitempty"`
+	Description                string                   `json:"description,omitempty"`
+	DeviceFamily               string                   `json:"device_family,omitempty"`
 	DisplayName                string                   `json:"display_name,omitempty"`
-	StdBwTotal                 string                   `json:"std_bw_total,omitempty"`
+	DomainName                 string                   `json:"domain_name,omitempty"`
+	EntBwAvailable             *int64                   `json:"ent_bw_available,omitempty"`
+	EntBwConfig                *int64                   `json:"ent_bw_config,omitempty"`
+	EntBwTotal                 *int64                   `json:"ent_bw_total,omitempty"`
+	FipsPartitionName          string                   `json:"fips_partition_name,omitempty"`
+	Gateway                    string                   `json:"gateway,omitempty"`
+	GatewayIpv6                string                   `json:"gateway_ipv6,omitempty"`
+	HostIpAddress              string                   `json:"host_ip_address,omitempty"`
+	Hostname                   string                   `json:"hostname,omitempty"`
+	If01                       *bool                    `json:"if_0_1,omitempty"`
+	If02                       *bool                    `json:"if_0_2,omitempty"`
+	IfInternalIpEnabled        *bool                    `json:"if_internal_ip_enabled,omitempty"`
+	ImageName                  string                   `json:"image_name,omitempty"`
+	InstanceMode               string                   `json:"instance_mode,omitempty"`
+	InternalIpAddress          string                   `json:"internal_ip_address,omitempty"`
+	IpAddress                  string                   `json:"ip_address,omitempty"`
+	Ipv4Address                string                   `json:"ipv4_address,omitempty"`
+	Ipv6Address                string                   `json:"ipv6_address,omitempty"`
+	IsClip                     *bool                    `json:"is_clip,omitempty"`
+	IsManaged                  *bool                    `json:"is_managed,omitempty"`
+	IsNewCrypto                *bool                    `json:"is_new_crypto,omitempty"`
+	Iscco                      *bool                    `json:"iscco,omitempty"`
+	L2Enabled                  *bool                    `json:"l2_enabled,omitempty"`
+	LaMgmt                     *bool                    `json:"la_mgmt,omitempty"`
+	LastUpdatedTime            *int64                   `json:"last_updated_time,omitempty"`
+	License                    string                   `json:"license,omitempty"`
+	LicenseEdition             string                   `json:"license_edition,omitempty"`
+	LicenseGraceTime           *int64                   `json:"license_grace_time,omitempty"`
+	MastoolsVersion            string                   `json:"mastools_version,omitempty"`
+	MaxBurstThroughput         *int64                   `json:"max_burst_throughput,omitempty"`
+	MetricsCollection          *bool                    `json:"metrics_collection,omitempty"`
+	MgmtIpAddress              string                   `json:"mgmt_ip_address,omitempty"`
+	Name                       string                   `json:"name,omitempty"`
+	Netmask                    string                   `json:"netmask,omitempty"`
+	NetworkInterfaces          []map[string]interface{} `json:"network_interfaces,omitempty"`
 	Nexthop                    string                   `json:"nexthop,omitempty"`
-	PltBwConfig                string                   `json:"plt_bw_config,omitempty"`
-	Vlan12                     string                   `json:"vlan_1_2,omitempty"`
-	VridListIpv412             []string                 `json:"vrid_list_ipv4_1_2,omitempty"`
-	Vlan17                     string                   `json:"vlan_1_7,omitempty"`
-	VridListIpv612             []string                 `json:"vrid_list_ipv6_1_2,omitempty"`
-	VridListIpv414             []string                 `json:"vrid_list_ipv4_1_4,omitempty"`
-	VridListIpv6106            []string                 `json:"vrid_list_ipv6_10_6,omitempty"`
-	If104                      string                   `json:"if_10_4,omitempty"`
-	Vlan105                    string                   `json:"vlan_10_5,omitempty"`
-	VridListIpv6103            []string                 `json:"vrid_list_ipv6_10_3,omitempty"`
-	VridListIpv611             []string                 `json:"vrid_list_ipv6_1_1,omitempty"`
-	If15                       string                   `json:"if_1_5,omitempty"`
-	Receiveuntagged14          string                   `json:"receiveuntagged_1_4,omitempty"`
-	VridListIpv6104            []string                 `json:"vrid_list_ipv6_10_4,omitempty"`
-	VridListIpv613             []string                 `json:"vrid_list_ipv6_1_3,omitempty"`
-	If103                      string                   `json:"if_10_3,omitempty"`
-	VridListIpv6105            []string                 `json:"vrid_list_ipv6_10_5,omitempty"`
-	Receiveuntagged104         string                   `json:"receiveuntagged_10_4,omitempty"`
-	VridListIpv618             []string                 `json:"vrid_list_ipv6_1_8,omitempty"`
-	Vlan106                    string                   `json:"vlan_10_6,omitempty"`
-	If105                      string                   `json:"if_10_5,omitempty"`
-	SaveConfig                 string                   `json:"save_config,omitempty"`
-	IsNewCrypto                string                   `json:"is_new_crypto,omitempty"`
-	VridListIpv616             []string                 `json:"vrid_list_ipv6_1_6,omitempty"`
-	ProfileUsername            string                   `json:"profile_username,omitempty"`
-	If107                      string                   `json:"if_10_7,omitempty"`
-	Receiveuntagged108         string                   `json:"receiveuntagged_10_8,omitempty"`
-	VridListIpv614             []string                 `json:"vrid_list_ipv6_1_4,omitempty"`
-	Receiveuntagged16          string                   `json:"receiveuntagged_1_6,omitempty"`
-	Vlan14                     string                   `json:"vlan_1_4,omitempty"`
-	If12                       string                   `json:"if_1_2,omitempty"`
-	Receiveuntagged15          string                   `json:"receiveuntagged_1_5,omitempty"`
-	Receiveuntagged106         string                   `json:"receiveuntagged_10_6,omitempty"`
-	Receiveuntagged101         string                   `json:"receiveuntagged_10_1,omitempty"`
-	VridListIpv416             []string                 `json:"vrid_list_ipv4_1_6,omitempty"`
-	VridListIpv615             []string                 `json:"vrid_list_ipv6_1_5,omitempty"`
-	VridListIpv6108            []string                 `json:"vrid_list_ipv6_10_8,omitempty"`
-	VridListIpv417             []string                 `json:"vrid_list_ipv4_1_7,omitempty"`
-	Receiveuntagged102         string                   `json:"receiveuntagged_10_2,omitempty"`
-	ProfilePassword            string                   `json:"profile_password,omitempty"`
-	VridListIpv415             []string                 `json:"vrid_list_ipv4_1_5,omitempty"`
-	Receiveuntagged17          string                   `json:"receiveuntagged_1_7,omitempty"`
-	Vlan104                    string                   `json:"vlan_10_4,omitempty"`
-	If17                       string                   `json:"if_1_7,omitempty"`
-	Receiveuntagged11          string                   `json:"receiveuntagged_1_1,omitempty"`
-	VridListIpv617             []string                 `json:"vrid_list_ipv6_1_7,omitempty"`
-	If101                      string                   `json:"if_10_1,omitempty"`
-	If108                      string                   `json:"if_10_8,omitempty"`
-	L2Enabled                  string                   `json:"l2_enabled,omitempty"`
-	Vlan107                    string                   `json:"vlan_10_7,omitempty"`
-	Vlan101                    string                   `json:"vlan_10_1,omitempty"`
-	Receiveuntagged12          string                   `json:"receiveuntagged_1_2,omitempty"`
-	RebootVmOnCpuChange        string                   `json:"reboot_vm_on_cpu_change,omitempty"`
-	Vlan16                     string                   `json:"vlan_1_6,omitempty"`
-	VridListIpv413             []string                 `json:"vrid_list_ipv4_1_3,omitempty"`
-	Receiveuntagged107         string                   `json:"receiveuntagged_10_7,omitempty"`
-	VridListIpv411             []string                 `json:"vrid_list_ipv4_1_1,omitempty"`
-	Vlan11                     string                   `json:"vlan_1_1,omitempty"`
-	VridListIpv6107            []string                 `json:"vrid_list_ipv6_10_7,omitempty"`
-	Vlan18                     string                   `json:"vlan_1_8,omitempty"`
-	VridListIpv4103            []string                 `json:"vrid_list_ipv4_10_3,omitempty"`
-	Receiveuntagged105         string                   `json:"receiveuntagged_10_5,omitempty"`
-	Vlan102                    string                   `json:"vlan_10_2,omitempty"`
-	VridListIpv4106            []string                 `json:"vrid_list_ipv4_10_6,omitempty"`
-	VridListIpv418             []string                 `json:"vrid_list_ipv4_1_8,omitempty"`
-	Receiveuntagged18          string                   `json:"receiveuntagged_1_8,omitempty"`
-	VridListIpv4104            []string                 `json:"vrid_list_ipv4_10_4,omitempty"`
-	Vlan13                     string                   `json:"vlan_1_3,omitempty"`
-	Receiveuntagged103         string                   `json:"receiveuntagged_10_3,omitempty"`
-	If106                      string                   `json:"if_10_6,omitempty"`
-	If16                       string                   `json:"if_1_6,omitempty"`
-	Vlan103                    string                   `json:"vlan_10_3,omitempty"`
-	Vlan15                     string                   `json:"vlan_1_5,omitempty"`
-	If13                       string                   `json:"if_1_3,omitempty"`
+	NexthopV6                  string                   `json:"nexthop_v6,omitempty"`
+	NodeId                     string                   `json:"node_id,omitempty"`
+	NsIpAddress                string                   `json:"ns_ip_address,omitempty"`
+	NsvlanId                   *int64                   `json:"nsvlan_id,omitempty"`
 	NsvlanInterfaces           []string                 `json:"nsvlan_interfaces,omitempty"`
-	VridListIpv4105            []string                 `json:"vrid_list_ipv4_10_5,omitempty"`
-	If14                       string                   `json:"if_1_4,omitempty"`
-	VridListIpv4108            []string                 `json:"vrid_list_ipv4_10_8,omitempty"`
-	If11                       string                   `json:"if_1_1,omitempty"`
-	VridListIpv4107            []string                 `json:"vrid_list_ipv4_10_7,omitempty"`
-	Vlan108                    string                   `json:"vlan_10_8,omitempty"`
-	Receiveuntagged13          string                   `json:"receiveuntagged_1_3,omitempty"`
-	CryptoChangeRequiresReboot string                   `json:"crypto_change_requires_reboot,omitempty"`
-	VridListIpv4102            []string                 `json:"vrid_list_ipv4_10_2,omitempty"`
-	If18                       string                   `json:"if_1_8,omitempty"`
-	VridListIpv4101            []string                 `json:"vrid_list_ipv4_10_1,omitempty"`
-	VridListIpv6102            []string                 `json:"vrid_list_ipv6_10_2,omitempty"`
-	If102                      string                   `json:"if_10_2,omitempty"`
-	VridListIpv6101            []string                 `json:"vrid_list_ipv6_10_1,omitempty"`
+	NsvlanTagged               *bool                    `json:"nsvlan_tagged,omitempty"`
+	NumPes                     *int64                   `json:"num_pes,omitempty"`
+	NumberOfAcu                *int64                   `json:"number_of_acu,omitempty"`
+	NumberOfCores              *int64                   `json:"number_of_cores,omitempty"`
+	NumberOfScu                *int64                   `json:"number_of_scu,omitempty"`
+	NumberOfSslCards           *int64                   `json:"number_of_ssl_cards,omitempty"`
+	NumberOfSslCores           *int64                   `json:"number_of_ssl_cores,omitempty"`
+	NumberOfSslCoresUp         *int64                   `json:"number_of_ssl_cores_up,omitempty"`
+	Password                   string                   `json:"password,omitempty"`
+	PltBwAvailable             *int64                   `json:"plt_bw_available,omitempty"`
+	PltBwConfig                *int64                   `json:"plt_bw_config,omitempty"`
+	PltBwTotal                 *int64                   `json:"plt_bw_total,omitempty"`
+	PluginIpAddress            string                   `json:"plugin_ip_address,omitempty"`
+	PluginNetmask              string                   `json:"plugin_netmask,omitempty"`
+	Pps                        *int64                   `json:"pps,omitempty"`
+	ProfileName                string                   `json:"profile_name,omitempty"`
+	ProfilePassword            string                   `json:"profile_password,omitempty"`
+	ProfileUsername            string                   `json:"profile_username,omitempty"`
+	RebootVmOnCpuChange        *bool                    `json:"reboot_vm_on_cpu_change,omitempty"`
+	SaveConfig                 *bool                    `json:"save_config,omitempty"`
+	State                      string                   `json:"state,omitempty"`
+	StdBwAvailable             *int64                   `json:"std_bw_available,omitempty"`
+	StdBwConfig                *int64                   `json:"std_bw_config,omitempty"`
+	StdBwTotal                 *int64                   `json:"std_bw_total,omitempty"`
+	TemplateName               string                   `json:"template_name,omitempty"`
+	Throughput                 *int64                   `json:"throughput,omitempty"`
+	ThroughputAllocationMode   *int64                   `json:"throughput_allocation_mode,omitempty"`
+	ThroughputLimit            *int64                   `json:"throughput_limit,omitempty"`
+	Type                       string                   `json:"type,omitempty"`
+	Username                   string                   `json:"username,omitempty"`
+	VcpuConfig                 *int64                   `json:"vcpu_config,omitempty"`
+	VlanId01                   *int64                   `json:"vlan_id_0_1,omitempty"`
+	VlanId02                   *int64                   `json:"vlan_id_0_2,omitempty"`
+	VlanType                   *int64                   `json:"vlan_type,omitempty"`
+	VmMemoryTotal              *int64                   `json:"vm_memory_total,omitempty"`
 }
 
 // Metadata returns the resource type name.
@@ -397,194 +235,106 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 	resp.Schema = schema.Schema{
 		Description: "Configuration for Provision VPX resource",
 		Attributes: map[string]schema.Attribute{
-			"ip_address": schema.StringAttribute{
-				Required: true,
-				// We have below code insted of ForceNew
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
-				Description: "IP Address.",
+			"backplane": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Backplane Interface. Minimum length =  1",
+				MarkdownDescription: "Backplane Interface. Minimum length =  1",
 			},
-			"std_bw_config": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Standard Bandwidth running.",
+			"burst_priority": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Burst Priority of the VM Instance between 1 and 4.",
+				MarkdownDescription: "Burst Priority of the VM Instance between 1 and 4.",
 			},
-			"ns_ip_address": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "NetScaler ADC IP Address for this provision VPX. Minimum length =  1 Maximum length =  128",
+			"cmd_policy": schema.StringAttribute{
+				Optional:            true,
+				Description:         "true if you want to allow shell/sftp/scp access to NetScaler Instance administrator. Minimum length =  1 Maximum length =  1024",
+				MarkdownDescription: "true if you want to allow shell/sftp/scp access to NetScaler Instance administrator. Minimum length =  1 Maximum length =  1024",
 			},
-			"password": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Password for specified user on NetScaler ADC Instance. Minimum length =  1 Maximum length =  127",
+			"config_type": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Configuration Type. Values: 0: IPv4, 1: IPv6, 2: Both.",
+				MarkdownDescription: "Configuration Type. Values: 0: IPv4, 1: IPv6, 2: Both.",
 			},
-			"gateway_ipv6": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Gateway IPv6 Address.",
+			"crypto_change_requires_reboot": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "`true` if the current changes made by user requires a reboot of the VM else `false`.",
+				MarkdownDescription: "`true` if the current changes made by user requires a reboot of the VM else `false`.",
 			},
-			"throughput_limit": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Throughput Limit in Mbps set for VM Instance.",
+			"customid": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Custom ID.",
+				MarkdownDescription: "Custom ID.",
 			},
-			"vlan_id_0_1": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "VLAN id for the management interface 0/1. Maximum value =  ",
-			},
-			"name": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Name of provision VPX. Minimum length =  1 Maximum length =  128",
-			},
-			"mastools_version": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Mastools version if the device is embedded agent.",
-			},
-			"plugin_ip_address": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Signaling IP Address. Minimum length =  1 Maximum length =  64",
-			},
-			"vlan_type": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "VLAN Type, NetScaler ADC or L2 VLAN. Maximum value =  ",
-			},
-			"ent_bw_total": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Enterprise Bandwidth Total.",
-			},
-			"vcpu_config": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Number of vCPU allocated for the device.",
-			},
-			"nsvlan_tagged": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "NSVLAN Tagged.",
-			},
-			"netmask": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Netmask of provision VPX. Minimum length =  1 Maximum length =  64",
-			},
-			"ent_bw_config": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Enterprise Bandwidth configured.",
+			"id": schema.StringAttribute{
+				Optional:            true,
+				Computed:            true,
+				Description:         "ID of the NetScaler ADC Instance.",
+				MarkdownDescription: "ID of the NetScaler ADC Instance.",
 			},
 			"datacenter_id": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Datacenter Id is system generated key for data center.",
+				Optional:            true,
+				Description:         "Datacenter Id is system generated key for data center.",
+				MarkdownDescription: "Datacenter Id is system generated key for data center.",
 			},
-			"instance_mode": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Denotes state- primary,secondary,clip,clusternode.",
-			},
-			"number_of_ssl_cores_up": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Number of SSL Cores Up.",
-			},
-			"std_bw_available": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Standard Bandwidth Available.",
-			},
-			"internal_ip_address": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Internal IP Address for this provision VPX. Minimum length =  1 Maximum length =  64",
-			},
-			"if_0_1": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Network 0/1 on VM Instance.",
-			},
-			"plt_bw_total": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Total Platinum Bandwidth.",
-			},
-			"host_ip_address": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Host IPAddress where VM is provisioned. Minimum length =  1 Maximum length =  64",
-			},
-			"vpx_id": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Id is system generated key for all the provision VPXs.",
-			},
-			"ipv6_address": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "IPv6 Address.",
-			},
-			"mgmt_ip_address": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Management IP Address for thisProvision VPX. Minimum length =  1 Maximum length =  64",
-			},
-			"number_of_acu": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Number of ACU.",
-			},
-			"plt_bw_available": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Platinum Bandwidth Available.",
-			},
-			"is_clip": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Is Clip.",
+			"description": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Description of managed device. Minimum length =  1 Maximum length =  512",
+				MarkdownDescription: "Description of managed device. Minimum length =  1 Maximum length =  512",
 			},
 			"device_family": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Device Family. Minimum length =  1 Maximum length =  64",
+				Optional:            true,
+				Description:         "Device Family. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Device Family. Minimum length =  1 Maximum length =  64",
 			},
-			"type": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Type of VPX. Minimum length =  1 Maximum length =  64",
+			"display_name": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Display Name for this managed device. For HA pair it will be A-B, and for Cluster it will be CLIP. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "Display Name for this managed device. For HA pair it will be A-B, and for Cluster it will be CLIP. Minimum length =  1 Maximum length =  128",
 			},
-			"throughput": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Throughput.",
+			"domain_name": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Domain name of VM Device. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "Domain name of VM Device. Minimum length =  1 Maximum length =  128",
 			},
-			"template_name": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Template Name.",
+			"ent_bw_available": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Enterprise Bandwidth configured.",
+				MarkdownDescription: "Enterprise Bandwidth configured.",
+			},
+			"ent_bw_config": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Enterprise Bandwidth configured.",
+				MarkdownDescription: "Enterprise Bandwidth configured.",
+			},
+			"ent_bw_total": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Enterprise Bandwidth Total.",
+				MarkdownDescription: "Enterprise Bandwidth Total.",
+			},
+			"fips_partition_name": schema.StringAttribute{
+				Optional:            true,
+				Description:         "FIPS Partition Name. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "FIPS Partition Name. Minimum length =  1 Maximum length =  128",
 			},
 			"gateway": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Default Gateway of provision VPX. Minimum length =  1 Maximum length =  64",
+				Optional:            true,
+				Description:         "Default Gateway of managed device. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Default Gateway of managed device. Minimum length =  1 Maximum length =  64",
 			},
-			"iscco": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Is CCO.",
+			"gateway_ipv6": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Gateway IPv6 Address.",
+				MarkdownDescription: "Gateway IPv6 Address.",
 			},
-			"number_of_scu": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Number of SCU.",
+			"host_ip_address": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Host IPAddress where VM is provisioned. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Host IPAddress where VM is provisioned. Minimum length =  1 Maximum length =  64",
 			},
+			"hostname": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Assign hostname to managed device, if this is not provided, name will be set as host name . Minimum length =  1 Maximum length =  256",
+				MarkdownDescription: "Assign hostname to managed device, if this is not provided, name will be set as host name . Minimum length =  1 Maximum length =  256",
 			"license": schema.StringAttribute{
 				Optional:    true,
 				Computed:    false,
@@ -593,95 +343,134 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 					stringvalidator.OneOf("Enterprise", "Platinum", "Standard"),
 				},
 			},
-			"domain_name": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Domain name of VM Device. Minimum length =  1 Maximum length =  128",
+			"if_0_1": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Network 0/1 on VM Instance, Select this option to assign 0/1 Interface",
+				MarkdownDescription: "Network 0/1 on VM Instance, Select this option to assign 0/1 Interface",
 			},
-			"if_0_2": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Network 0/2 on VM Instance.",
+			"if_0_2": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Network 0/2 on VM Instance, Select this option to assign 0/2 Interface",
+				MarkdownDescription: "Network 0/2 on VM Instance, Select this option to assign 0/2 Interface",
+			},
+			"if_internal_ip_enabled": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Set as true if VPX is managed by internal network (not required to be set for SDWAN).",
+				MarkdownDescription: "Set as true if VPX is managed by internal network (not required to be set for SDWAN).",
 			},
 			"image_name": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Image Name.",
+				Optional:            true,
+				Description:         "Image Name, This parameter is used while provisioning VM Instance with XVA image, template_name is given priority if provided along with image_name. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "Image Name, This parameter is used while provisioning VM Instance with XVA image, template_name is given priority if provided along with image_name. Minimum length =  1 Maximum length =  128",
 			},
-			"hostname": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Hostname.",
+			"instance_mode": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Denotes state- primary,secondary,clip,clusternode.",
+				MarkdownDescription: "Denotes state- primary,secondary,clip,clusternode.",
 			},
-			"vm_memory_total": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Total Memory of VM Instance.",
+			"internal_ip_address": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Internal IP Address for this managed device. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Internal IP Address for this managed device. Minimum length =  1 Maximum length =  64",
 			},
-			"ent_bw_available": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Enterprise Bandwidth Available.",
-			},
-			"description": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Description of provision VPX. Minimum length =  1 Maximum length =  256",
-			},
-			"username": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Username for specified user on NetScaler ADC Instance. Minimum length =  1 Maximum length =  127",
-			},
-			"fips_partition_name": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "FIPS Partition Name.",
-			},
-			"nsvlan_id": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "VLAN Id. Maximum value =  ",
-			},
-			"num_pes": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Total number of PEs.",
-			},
-			"burst_priority": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Burst Priority.",
-			},
-			"metrics_collection": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Metrics Collection.",
-			},
-			"is_managed": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Is Managed.",
-			},
-			"nexthop_v6": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Nexthop V6.",
+			"ip_address": schema.StringAttribute{
+				Required: true,
+				// We have below code insted of ForceNew
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+				Description:         "IP Address for this managed device. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "IP Address for this managed device. Minimum length =  1 Maximum length =  64",
 			},
 			"ipv4_address": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "IPv4 Address.",
+				Optional:            true,
+				Description:         "IPv4 Address. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "IPv4 Address. Minimum length =  1 Maximum length =  64",
 			},
-			"profile_name": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Profile Name.",
+			"ipv6_address": schema.StringAttribute{
+				Optional:            true,
+				Description:         "IPv6 Address.",
+				MarkdownDescription: "IPv6 Address.",
 			},
-			"backplane": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Backplane.",
+			"is_clip": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Is Clip.",
+				MarkdownDescription: "Is Clip.",
+			},
+			"is_managed": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Is Managed.",
+				MarkdownDescription: "Is Managed.",
+			},
+			"is_new_crypto": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "`true` if number_of_acu/number_of_scu are used, `false` if number_of_ssl_cores is used.",
+				MarkdownDescription: "`true` if number_of_acu/number_of_scu are used, `false` if number_of_ssl_cores is used.",
+			},
+			"iscco": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Is CCO.",
+				MarkdownDescription: "Is CCO.",
+			},
+			"l2_enabled": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "L2mode status of VM Instance. Select this option to allow L2 mode on all the Data Interfaces on this NetScaler ADC Instance",
+				MarkdownDescription: "L2mode status of VM Instance. Select this option to allow L2 mode on all the Data Interfaces on this NetScaler ADC Instance",
+			},
+			"la_mgmt": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Bond consisting of management ports on VM Instance. When Management Channel created for interfaces, this will be set to `true`",
+				MarkdownDescription: "Bond consisting of management ports on VM Instance. When Management Channel created for interfaces, this will be set to `true`",
+			},
+			"last_updated_time": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Last Updated Time.",
+				MarkdownDescription: "Last Updated Time.",
+			},
+			"license": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Feature License for NetScaler ADC Instance, needs to be set while provisioning [Possible values: Standard, Enterprise, Platinum].",
+				MarkdownDescription: "Feature License for NetScaler ADC Instance, needs to be set while provisioning [Possible values: Standard, Enterprise, Platinum].",
+			},
+			"license_edition": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Edition of instance.",
+				MarkdownDescription: "Edition of instance.",
+			},
+			"license_grace_time": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Grace for this NetScaler Instance..",
+				MarkdownDescription: "Grace for this NetScaler Instance..",
+			},
+			"mastools_version": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Mastools version if the device is embedded agent.",
+				MarkdownDescription: "Mastools version if the device is embedded agent.",
+			},
+			"max_burst_throughput": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Maximum burst throughput in Mbps of VM Instance.",
+				MarkdownDescription: "Maximum burst throughput in Mbps of VM Instance.",
+			},
+			"metrics_collection": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Flag to check if metrics collection is enabled or disabled..",
+				MarkdownDescription: "Flag to check if metrics collection is enabled or disabled..",
+			},
+			"mgmt_ip_address": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Management IP Address for this Managed Device. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Management IP Address for this Managed Device. Minimum length =  1 Maximum length =  64",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Name of managed device. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "Name of managed device. Minimum length =  1 Maximum length =  128",
+			},
+			"netmask": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Netmask of managed device. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Netmask of managed device. Minimum length =  1 Maximum length =  64",
 			},
 			"network_interfaces": schema.ListNestedAttribute{
 				Optional:    true,
@@ -689,725 +478,343 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Description: "Network Interfaces.",
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"port_name": schema.StringAttribute{
-							Required:    true,
-							Computed:    false,
-							Description: "Port Name.",
-						},
-						"name_server": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Name Server.",
-						},
-						"is_mgmt_ifc": schema.BoolAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Is Management Interface.",
-						},
 						"gateway": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Gateway.",
-						},
-						"vrid_list_ipv6": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Vrid List IPv6.",
-						},
-						"parent_id": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Parent Id.",
-						},
-						"vrid_list_ipv4": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Vrid List IPv4.",
-						},
-						"is_member_ifc": schema.BoolAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Is Member Interface.",
-						},
-						"mac_address": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "MAC Address.",
-						},
-						"netmask": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Netmask.",
-						},
-						"ip_address": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "IP Address.",
-						},
-						"l2_enabled": schema.BoolAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "L2 Enabled.",
+							Optional:            true,
+							Description:         "Gateway",
+							MarkdownDescription: "Gateway",
 						},
 						"id": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Id.",
+							Optional:            true,
+							Computed:            false,
+							Description:         "Id",
+							MarkdownDescription: "Id",
 						},
 						"interface_name": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Interface Name.",
+							Optional:            true,
+							Description:         "Name of this interface.",
+							MarkdownDescription: "Interface Name",
 						},
-						"parent_name": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Parent Name.",
+						"ip_address": schema.StringAttribute{
+							Optional:            true,
+							Description:         "IP Address",
+							MarkdownDescription: "IP Address",
 						},
-						"vlan_whitelist_array": schema.ListAttribute{
-							ElementType: types.StringType,
-							Optional:    true,
-							Computed:    false,
-							Description: "VLAN Whitelist Array.",
+						"is_member_ifc": schema.BoolAttribute{
+							Optional:            true,
+							Description:         "`true` if this interface is member of a channel.",
+							MarkdownDescription: "`true` if this interface is member of a channel.",
 						},
-						"mac_mode": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "MAC Mode.",
-						},
-						"managed_device_id": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Managed Device Id.",
-						},
-						"vlan": schema.Int64Attribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "VLAN.",
-						},
-						"vrid_list_ipv4_array": schema.ListAttribute{
-							ElementType: types.StringType,
-							Optional:    true,
-							Computed:    false,
-							Description: "Vrid List IPv4 Array.",
-						},
-						"receiveuntagged": schema.BoolAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Receiveuntagged.",
-						},
-						"sdx_formation_network_id": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Sdx Formation Network Id.",
-						},
-						"vrid_list_ipv6_array": schema.ListAttribute{
-							ElementType: types.StringType,
-							Optional:    true,
-							Computed:    false,
-							Description: "Vrid List IPv6 Array.",
+						"is_mgmt_ifc": schema.BoolAttribute{
+							Optional:            true,
+							Description:         "`true` if this is the management interface.",
+							MarkdownDescription: "`true` if this is the management interface.",
 						},
 						"is_vlan_applied": schema.BoolAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "Is VLAN Applied.",
+							Optional:            true,
+							Description:         "Is VLAN added on NetworkInterface of VM Instance.",
+							MarkdownDescription: "Is VLAN added on NetworkInterface of VM Instance.",
+						},
+						"l2_enabled": schema.BoolAttribute{
+							Optional:            true,
+							Description:         "L2 mode status of Interface.",
+							MarkdownDescription: "L2 mode status of Interface.",
+						},
+						"mac_address": schema.StringAttribute{
+							Optional:            true,
+							Description:         "MAC Address",
+							MarkdownDescription: "MAC Address",
+						},
+						"mac_mode": schema.StringAttribute{
+							Optional:            true,
+							Description:         "MAC Mode, The method according to which MAC Address is assigned to Interface. Possible values: [default, generated, custom] default: XenServer assigns a MAC Address. custom: SDX Administrator assigns a MAC address. generated: Generate a MAC address by using the base MAC address set at System Level.",
+							MarkdownDescription: "MAC Mode, The method according to which MAC Address is assigned to Interface. Possible values: [default, generated, custom] default: XenServer assigns a MAC Address. custom: SDX Administrator assigns a MAC address. generated: Generate a MAC address by using the base MAC address set at System Level.",
+						},
+						"managed_device_id": schema.StringAttribute{
+							Optional:            true,
+							Description:         "Managed Device Id",
+							MarkdownDescription: "Managed Device Id",
+						},
+						"name_server": schema.StringAttribute{
+							Optional:            true,
+							Description:         "Name Server",
+							MarkdownDescription: "Name Server",
+						},
+						"netmask": schema.StringAttribute{
+							Optional:            true,
+							Description:         "Netmask",
+							MarkdownDescription: "Netmask",
+						},
+						"parent_id": schema.StringAttribute{
+							Optional:            true,
+							Description:         "Parent Id",
+							MarkdownDescription: "Parent Id",
+						},
+						"parent_name": schema.StringAttribute{
+							Optional:            true,
+							Description:         "Parent Name",
+							MarkdownDescription: "Parent Name",
+						},
+						"port_name": schema.StringAttribute{
+							Required:            true,
+							Description:         "Port name of the interface on the host machine.",
+							MarkdownDescription: "Port name of the interface on the host machine.",
+						},
+						"receiveuntagged": schema.BoolAttribute{
+							Optional:            true,
+							Description:         "Receive Untagged Packets on Interface/Channel. Allow Untagged Traffic.",
+							MarkdownDescription: "Receive Untagged Packets on Interface/Channel. Allow Untagged Traffic.",
+						},
+						"sdx_formation_network_id": schema.StringAttribute{
+							Optional:            true,
+							Description:         "Sdx Formation Network Id",
+							MarkdownDescription: "Sdx Formation Network Id",
+						},
+						"vlan": schema.Int64Attribute{
+							Optional:            true,
+							Description:         "VLAN.",
+							MarkdownDescription: "VLAN.",
 						},
 						"vlan_whitelist": schema.StringAttribute{
-							Optional:    true,
-							Computed:    false,
-							Description: "VLAN Whitelist.",
+							Optional:            true,
+							Description:         "VLAN Whitelist.",
+							MarkdownDescription: "VLAN Whitelist.",
+						},
+						"vlan_whitelist_array": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Description:         "Allowed VLANs. Range of VLANs can be provided using hyphen '-' separater and separated VLANs can also be provided. (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VLANs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VLANs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
+							MarkdownDescription: "Allowed VLANs. Range of VLANs can be provided using hyphen '-' separater and separated VLANs can also be provided. (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VLANs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VLANs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
+						},
+						"vrid_list_ipv4": schema.StringAttribute{
+							Optional:            true,
+							Description:         "VRID List for Interface/Channel for IPV4 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and multiple comma ',' separated VRIDs can also be provided, (e.g., \"100-110,142,143,151-155\").",
+							MarkdownDescription: "VRID List for Interface/Channel for IPV4 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and multiple comma ',' separated VRIDs can also be provided, (e.g., \"100-110,142,143,151-155\").",
+						},
+						"vrid_list_ipv4_array": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Description:         "VRID List for Interface for IPV4 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and separated VRIDs can also be provided, (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VRIDs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VRIDs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
+							MarkdownDescription: "VRID List for Interface for IPV4 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and separated VRIDs can also be provided, (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VRIDs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VRIDs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
+						},
+						"vrid_list_ipv6": schema.StringAttribute{
+							Optional:            true,
+							Description:         "VRID List for Interface/Channel for IPV6 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and multiple comma ',' separated VRIDs can also be provided, (e.g., \"100-110,142,143,151-155\").",
+							MarkdownDescription: "VRID List for Interface/Channel for IPV6 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and multiple comma ',' separated VRIDs can also be provided, (e.g., \"100-110,142,143,151-155\").",
+						},
+						"vrid_list_ipv6_array": schema.ListAttribute{
+							ElementType:         types.StringType,
+							Optional:            true,
+							Description:         "VRID List for Interface for IPV6 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and separated VRIDs can also be provided, (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VRIDs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VRIDs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
+							MarkdownDescription: "VRID List for Interface for IPV6 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and separated VRIDs can also be provided, (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VRIDs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VRIDs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
 						},
 					},
 				},
 			},
-			"state": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "State.",
+			"nexthop": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Next Hop IP address. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Next Hop IP address. Minimum length =  1 Maximum length =  64",
 			},
-			"last_updated_time": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Last Updated Time.",
-			},
-			"license_edition": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "License Edition.",
-			},
-			"customer_id": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Customer Id.",
-			},
-			"license_grace_time": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Customer Name.",
-			},
-			"la_mgmt": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "LA Mgmt.",
-			},
-			"vlan_id_0_2": schema.StringAttribute{
-				Optional:    true,
-				Computed:    true,
-				Description: "VLAN id for the management interface 0/2. Maximum value =  ",
-			},
-			"number_of_ssl_cores": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Assign number of ssl virtual functions to VM Instance.",
-			},
-			"number_of_ssl_cards": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Number of SSL Cards.",
-			},
-			"max_burst_throughput": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Maximum burst throughput in Mbps of VM Instance.",
-			},
-			"config_type": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Configuration Type. Values: 0: IPv4, 1: IPv6, 2: Both. Maximum value =  ",
-			},
-			"if_internal_ip_enabled": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Set as true if VPX is managed by internal network (not required to be set for SDWAN).",
-			},
-			"cmd_policy": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "true if you want to allow shell/sftp/scp access to NetScaler ADC Instance administrator. Minimum length =  1 Maximum length =  1024.",
+			"nexthop_v6": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Next Hop IPv6 Address.",
+				MarkdownDescription: "Next Hop IPv6 Address.",
 			},
 			"node_id": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Node identification of a device.",
-			},
-			"throughput_allocation_mode": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Throughput Allocation Mode: 0-Fixed, 1-Burst-able.",
-			},
-			"number_of_cores": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Number of Cores.",
-			},
-			"pps": schema.StringAttribute{
-				Optional:    true,
-				Computed:    false,
-				Description: "Assign packets per seconds to NetScaler ADC Instance. Maximum value =  ",
-			},
-			"plugin_netmask": schema.StringAttribute{
-				Description: "Signaling Netmask. Minimum length =  1 Maximum length =  64",
-				Optional:    true,
-				Computed:    false,
-			},
-			"display_name": schema.StringAttribute{
-				Description: "Display Name for this provision VPX. For HA pair it will be A-B, and for Cluster it will be CLIP. Minimum length =  1 Maximum length =  128",
-				Optional:    true,
-				Computed:    false,
-			},
-			"std_bw_total": schema.StringAttribute{
-				Description: "Standard Bandwidth.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"nexthop": schema.StringAttribute{
-				Description: "Next Hop IP address. Minimum length =  1 Maximum length =  64",
-				Optional:    true,
-				Computed:    false,
-			},
-			"plt_bw_config": schema.StringAttribute{
-				Description: "Platinum Bandwidth configured.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/2 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_2": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/2 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/7 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_2": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/2 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_4": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/4 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_6": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/6 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/4 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/5 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_3": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/3 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_1": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/1 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/5 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/4 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_4": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/4 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_3": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/3for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/3 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_5": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/5 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/4 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_8": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/8 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/6 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/5 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"save_config": schema.StringAttribute{
-				Description: "Should config be saved first in case instance is rebooted while modify.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"is_new_crypto": schema.StringAttribute{
-				Description: "True if number_of_acu/number_of_scu are used, false if number_of_ssl_cores is used.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_6": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/6 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"profile_username": schema.StringAttribute{
-				Description: "User Name specified by the user for this NetScaler ADC Instance.. Minimum length =  1 Maximum length =  128",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/7 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/8 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_4": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/4 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/6 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/4 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/2 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/5 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/6 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/1 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_6": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/6 for IPV4 VMAC Generation.",
-				// list of string
-				Optional: true,
-				Computed: false,
-			},
-			"vrid_list_ipv6_1_5": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/5 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_8": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/8 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_7": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/7 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/2 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"profile_password": schema.StringAttribute{
-				Description: "Password specified by the user for this NetScaler ADC Instance.. Minimum length =  1 Maximum length =  128",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_5": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/5 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/7 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/4 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/7 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/1 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_1_7": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/7 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/1 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/8 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"l2_enabled": schema.StringAttribute{
-				Description: "L2mode status of VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/7 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/1 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/2 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"reboot_vm_on_cpu_change": schema.StringAttribute{
-				Description: "Reboot VMs on CPU change during resource allocation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/6 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_3": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/3for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_7": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/7 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_1": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/1 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/1 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv6_10_7": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/7 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/8 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_3": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/3 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/5 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/2 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_6": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/6 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_1_8": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 1/8 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_1_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/8 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vrid_list_ipv4_10_4": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/4 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/3 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"receiveuntagged_10_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 10/3 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_10_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/6 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_6": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/6 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_10_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/3 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"vlan_1_5": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 1/5 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
-			},
-			"if_1_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/3 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
+				Optional:            true,
+				Description:         "Node identification of a device.",
+				MarkdownDescription: "Node identification of a device.",
+			},
+			"ns_ip_address": schema.StringAttribute{
+				Optional:            true,
+				Description:         "NetScaler IP Address for this managed device. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "NetScaler IP Address for this managed device. Minimum length =  1 Maximum length =  128",
+			},
+			"nsvlan_id": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "VLAN for Management Traffic.",
+				MarkdownDescription: "VLAN for Management Traffic.",
 			},
 			"nsvlan_interfaces": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "VLAN Interfaces. Minimum length =  1 Maximum length =  50",
-				Optional:    true,
-				Computed:    false,
+				ElementType:         types.StringType,
+				Optional:            true,
+				Description:         "VLAN Interfaces. Minimum length =  1 Maximum length =  50",
+				MarkdownDescription: "VLAN Interfaces. Minimum length =  1 Maximum length =  50",
 			},
-			"vrid_list_ipv4_10_5": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/5 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
+			"nsvlan_tagged": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "When this option is selected, selected interfaces are added as tagged members of Management VLAN",
+				MarkdownDescription: "When this option is selected, selected interfaces are added as tagged members of Management VLAN",
 			},
-			"if_1_4": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/4 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
+			"num_pes": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Total number of PEs.",
+				MarkdownDescription: "Total number of PEs.",
 			},
-			"vrid_list_ipv4_10_8": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/8 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
+			"number_of_acu": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Assign number of asymmetric crypto units to VM Instance.",
+				MarkdownDescription: "Assign number of asymmetric crypto units to VM Instance.",
 			},
-			"if_1_1": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/1 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
+			"number_of_cores": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Number of cores that are assigned to VM Instance.",
+				MarkdownDescription: "Number of cores that are assigned to VM Instance.",
 			},
-			"vrid_list_ipv4_10_7": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/7 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
+			"number_of_scu": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Assign number of asymmetric crypto units to VM Instance.",
+				MarkdownDescription: "Assign number of asymmetric crypto units to VM Instance.",
 			},
-			"vlan_10_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces VLAN for Network 10/8 on VM Instance. Maximum value =  ",
-				Optional:    true,
-				Computed:    false,
+			"number_of_ssl_cards": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Number of SSL Cards.",
+				MarkdownDescription: "Number of SSL Cards.",
 			},
-			"receiveuntagged_1_3": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Receive Untagged Packets on 1/3 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
+			"number_of_ssl_cores": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Assign number of ssl virtual functions to VM Instance.",
+				MarkdownDescription: "Assign number of ssl virtual functions to VM Instance.",
 			},
-			"crypto_change_requires_reboot": schema.StringAttribute{
-				Description: "True if the current changes made by user requires a reboot of the VM else false.",
-				Optional:    true,
-				Computed:    false,
+			"number_of_ssl_cores_up": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Number of SSL Cores Up.",
+				MarkdownDescription: "Number of SSL Cores Up.",
 			},
-			"vrid_list_ipv4_10_2": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/2 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
+			"password": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Password for specified user on NetScaler Instance. Minimum length =  1 Maximum length =  127",
+				MarkdownDescription: "Password for specified user on NetScaler Instance. Minimum length =  1 Maximum length =  127",
 			},
-			"if_1_8": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 1/8 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
+			"plt_bw_available": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Platinum Bandwidth Available.",
+				MarkdownDescription: "Platinum Bandwidth Available.",
 			},
-			"vrid_list_ipv4_10_1": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/1 for IPV4 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
+			"plt_bw_config": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Platinum Bandwidth configured.",
+				MarkdownDescription: "Platinum Bandwidth configured.",
 			},
-			"vrid_list_ipv6_10_2": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/2 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
+			"plt_bw_total": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Total Platinum Bandwidth.",
+				MarkdownDescription: "Total Platinum Bandwidth.",
 			},
-			"if_10_2": schema.StringAttribute{
-				Description: "This property is deprecated by network_interfaces Network 10/2 on VM Instance.",
-				Optional:    true,
-				Computed:    false,
+			"plugin_ip_address": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Signaling IP Address. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Signaling IP Address. Minimum length =  1 Maximum length =  64",
 			},
-			"vrid_list_ipv6_10_1": schema.ListAttribute{
-				ElementType: types.StringType,
-				Description: "This property is deprecated by network_interfaces VRID List for Interface 10/1 for IPV6 VMAC Generation.",
-				Optional:    true,
-				Computed:    false,
+			"plugin_netmask": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Signaling Netmask. Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Signaling Netmask. Minimum length =  1 Maximum length =  64",
 			},
-			"id": schema.StringAttribute{
-				Description: "ID of the NetScaler ADC Instance.",
-				Optional:    true,
-				Computed:    true,
+			"pps": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Assign packets per seconds to NetScaler Instance.",
+				MarkdownDescription: "Assign packets per seconds to NetScaler Instance.",
+			},
+			"profile_name": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Device Profile Name that is attached with this managed device. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "Device Profile Name that is attached with this managed device. Minimum length =  1 Maximum length =  128",
+			},
+			"profile_password": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Password specified by the user for this NetScaler Instance.. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "Password specified by the user for this NetScaler Instance.. Minimum length =  1 Maximum length =  128",
+			},
+			"profile_username": schema.StringAttribute{
+				Optional:            true,
+				Description:         "User Name specified by the user for this NetScaler Instance.. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "User Name specified by the user for this NetScaler Instance.. Minimum length =  1 Maximum length =  128",
+			},
+			"reboot_vm_on_cpu_change": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Reboot VMs on CPU change during resource allocation.",
+				MarkdownDescription: "Reboot VMs on CPU change during resource allocation.",
+			},
+			"save_config": schema.BoolAttribute{
+				Optional:            true,
+				Description:         "Should config be saved first in case instance is rebooted while modify.",
+				MarkdownDescription: "Should config be saved first in case instance is rebooted while modify.",
+			},
+			"state": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Node State. Minimum length =  1 Maximum length =  32",
+				MarkdownDescription: "Node State. Minimum length =  1 Maximum length =  32",
+			},
+			"std_bw_available": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Standard Bandwidth Available.",
+				MarkdownDescription: "Standard Bandwidth Available.",
+			},
+			"std_bw_config": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Standard Bandwidth running.",
+				MarkdownDescription: "Standard Bandwidth running.",
+			},
+			"std_bw_total": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Standard Bandwidth.",
+				MarkdownDescription: "Standard Bandwidth.",
+			},
+			"template_name": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Template Name, This parameter is used while provisioning VM Instance with template, template_name is given priority if provided along with image_name. Minimum length =  1 Maximum length =  128",
+				MarkdownDescription: "Template Name, This parameter is used while provisioning VM Instance with template, template_name is given priority if provided along with image_name. Minimum length =  1 Maximum length =  128",
+			},
+			"throughput": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Assign throughput in Mbps to VM Instance.",
+				MarkdownDescription: "Assign throughput in Mbps to VM Instance.",
+			},
+			"throughput_allocation_mode": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Throughput Allocation Mode: 0-Fixed, 1-Burst-able.",
+				MarkdownDescription: "Throughput Allocation Mode: 0-Fixed, 1-Burst-able.",
+			},
+			"throughput_limit": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Throughput Limit in Mbps set for VM Instance.",
+				MarkdownDescription: "Throughput Limit in Mbps set for VM Instance.",
+			},
+			"type": schema.StringAttribute{
+				Optional:            true,
+				Description:         "Type of device, (Xen | NS). Minimum length =  1 Maximum length =  64",
+				MarkdownDescription: "Type of device, (Xen | NS). Minimum length =  1 Maximum length =  64",
+			},
+			"username": schema.StringAttribute{
+				Optional:            true,
+				Description:         "User Name (except nsroot) to be configured on NetScaler Instance. Minimum length =  1 Maximum length =  127",
+				MarkdownDescription: "User Name (except nsroot) to be configured on NetScaler Instance. Minimum length =  1 Maximum length =  127",
+			},
+			"vcpu_config": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Number of vCPU allocated for the device.",
+				MarkdownDescription: "Number of vCPU allocated for the device.",
+			},
+			"vlan_id_0_1": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "VLAN id for the management interface 0/1. This VLAN ID is used to filter management traffic on 0/1 at hypervisor layer.",
+				MarkdownDescription: "VLAN id for the management interface 0/1. This VLAN ID is used to filter management traffic on 0/1 at hypervisor layer.",
+			},
+			"vlan_id_0_2": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "VLAN id for the management interface 0/2. This VLAN ID is used to filter management traffic on 0/2 at hypervisor layer.",
+				MarkdownDescription: "VLAN id for the management interface 0/2. This VLAN ID is used to filter management traffic on 0/2 at hypervisor layer.",
+			},
+			"vlan_type": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "VLAN Type, NetScaler or L2 VLAN. Select 0 for NetScaler VLAN or 1 for L2 VLAN.",
+				MarkdownDescription: "VLAN Type, NetScaler or L2 VLAN. Select 0 for NetScaler VLAN or 1 for L2 VLAN.",
+			},
+			"vm_memory_total": schema.Int64Attribute{
+				Optional:            true,
+				Description:         "Total Memory of VM Instance in MB. 2048MB, 5120MB.",
+				MarkdownDescription: "Total Memory of VM Instance in MB. 2048MB, 5120MB.",
 			},
 		},
 	}
@@ -1426,7 +833,7 @@ func (r *provisionVpxResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	provisionVpxReq := getThePayloadFromtheConfig(ctx, data)
+	provisionVpxReq := nsGetThePayloadFromtheConfig(ctx, data)
 
 	endpoint := "ns"
 
@@ -1489,176 +896,97 @@ func (r *provisionVpxResource) Create(ctx context.Context, req resource.CreateRe
 
 }
 
-func getThePayloadFromtheConfig(ctx context.Context, data *provisionVpxResourceModel) provisionVpxResourceReq {
-	tflog.Debug(ctx, "In getThePayloadFromtheConfig Function of provisionVpxResource")
-
-	// Create a struct for the request body
-	provisionVpxReq := provisionVpxResourceReq{
-		IPAddress:                  data.IPAddress.ValueString(),
-		StdBwConfig:                data.StdBwConfig.ValueString(),
-		Name:                       data.Name.ValueString(),
-		MastoolsVersion:            data.MastoolsVersion.ValueString(),
-		PluginIPAddress:            data.PluginIPAddress.ValueString(),
-		VlanType:                   data.VlanType.ValueString(),
-		EntBwTotal:                 data.EntBwTotal.ValueString(),
-		VcpuConfig:                 data.VcpuConfig.ValueString(),
-		NsvlanTagged:               data.NsvlanTagged.ValueString(),
-		Netmask:                    data.Netmask.ValueString(),
-		EntBwConfig:                data.EntBwConfig.ValueString(),
-		DatacenterID:               data.DatacenterID.ValueString(),
-		InstanceMode:               data.InstanceMode.ValueString(),
-		NumberOfSslCoresUp:         data.NumberOfSslCoresUp.ValueString(),
-		StdBwAvailable:             data.StdBwAvailable.ValueString(),
-		InternalIPAddress:          data.InternalIPAddress.ValueString(),
-		If01:                       data.If01.ValueString(),
-		PltBwTotal:                 data.PltBwTotal.ValueString(),
-		HostIPAddress:              data.HostIPAddress.ValueString(),
-		VpxID:                      data.VpxID.ValueString(),
-		IPv6Address:                data.IPv6Address.ValueString(),
-		MgmtIPAddress:              data.MgmtIPAddress.ValueString(),
-		NumberOfAcu:                data.NumberOfAcu.ValueString(),
-		PltBwAvailable:             data.PltBwAvailable.ValueString(),
-		IsClip:                     data.IsClip.ValueString(),
-		DeviceFamily:               data.DeviceFamily.ValueString(),
-		Type:                       data.Type.ValueString(),
-		Throughput:                 data.Throughput.ValueString(),
-		TemplateName:               data.TemplateName.ValueString(),
-		Gateway:                    data.Gateway.ValueString(),
-		Iscco:                      data.Iscco.ValueString(),
-		NumberOfScu:                data.NumberOfScu.ValueString(),
-		License:                    data.License.ValueString(),
-		DomainName:                 data.DomainName.ValueString(),
-		If02:                       data.If02.ValueString(),
-		ImageName:                  data.ImageName.ValueString(),
-		Hostname:                   data.Hostname.ValueString(),
-		VmMemoryTotal:              data.VmMemoryTotal.ValueString(),
-		EntBwAvailable:             data.EntBwAvailable.ValueString(),
-		Description:                data.Description.ValueString(),
-		Username:                   data.Username.ValueString(),
-		FipsPartitionName:          data.FipsPartitionName.ValueString(),
-		NsvlanID:                   data.NsvlanID.ValueString(),
-		NumPes:                     data.NumPes.ValueString(),
-		BurstPriority:              data.BurstPriority.ValueString(),
-		MetricsCollection:          data.MetricsCollection.ValueString(),
-		IsManaged:                  data.IsManaged.ValueString(),
-		NexthopV6:                  data.NexthopV6.ValueString(),
-		IPv4Address:                data.IPv4Address.ValueString(),
-		ProfileName:                data.ProfileName.ValueString(),
+func nsGetThePayloadFromtheConfig(ctx context.Context, data *provisionVpxResourceModel) provisionVpxResourceReq {
+	tflog.Debug(ctx, "In nsGetThePayloadFromtheConfig Function")
+	nsReqPayload := provisionVpxResourceReq{
 		Backplane:                  data.Backplane.ValueString(),
-		NetworkInterfaces:          networkInterfaceFromConfigToSchema(ctx, data.NetworkInterfaces),
-		State:                      data.State.ValueString(),
-		LastUpdatedTime:            data.LastUpdatedTime.ValueString(),
-		LicenseEdition:             data.LicenseEdition.ValueString(),
-		CustomerId:                 data.CustomerId.ValueString(),
-		LicenseGraceTime:           data.LicenseGraceTime.ValueString(),
-		LaMgmt:                     data.LaMgmt.ValueString(),
-		VlanID02:                   data.VlanID02.ValueString(),
-		NumberOfSslCores:           data.NumberOfSslCores.ValueString(),
-		NumberOfsslCards:           data.NumberOfsslCards.ValueString(),
-		MaxBurstThroughput:         data.MaxBurstThroughput.ValueString(),
-		ConfigType:                 data.ConfigType.ValueString(),
-		IfInternalIpEnabled:        data.IfInternalIpEnabled.ValueString(),
+		BurstPriority:              data.BurstPriority.ValueInt64Pointer(),
 		CmdPolicy:                  data.CmdPolicy.ValueString(),
-		NodeId:                     data.NodeId.ValueString(),
-		ThroughputAllocationMode:   data.ThroughputAllocationMode.ValueString(),
-		NumberOfCores:              data.NumberOfCores.ValueString(),
-		Pps:                        data.Pps.ValueString(),
-		PluginNetmask:              data.PluginNetmask.ValueString(),
+		ConfigType:                 data.ConfigType.ValueInt64Pointer(),
+		CryptoChangeRequiresReboot: data.CryptoChangeRequiresReboot.ValueBoolPointer(),
+		Customid:                   data.Customid.ValueString(),
+		DatacenterId:               data.DatacenterId.ValueString(),
+		Description:                data.Description.ValueString(),
+		DeviceFamily:               data.DeviceFamily.ValueString(),
 		DisplayName:                data.DisplayName.ValueString(),
-		StdBwTotal:                 data.StdBwTotal.ValueString(),
+		DomainName:                 data.DomainName.ValueString(),
+		EntBwAvailable:             data.EntBwAvailable.ValueInt64Pointer(),
+		EntBwConfig:                data.EntBwConfig.ValueInt64Pointer(),
+		EntBwTotal:                 data.EntBwTotal.ValueInt64Pointer(),
+		FipsPartitionName:          data.FipsPartitionName.ValueString(),
+		Gateway:                    data.Gateway.ValueString(),
+		GatewayIpv6:                data.GatewayIpv6.ValueString(),
+		HostIpAddress:              data.HostIpAddress.ValueString(),
+		Hostname:                   data.Hostname.ValueString(),
+		If01:                       data.If01.ValueBoolPointer(),
+		If02:                       data.If02.ValueBoolPointer(),
+		IfInternalIpEnabled:        data.IfInternalIpEnabled.ValueBoolPointer(),
+		ImageName:                  data.ImageName.ValueString(),
+		InstanceMode:               data.InstanceMode.ValueString(),
+		InternalIpAddress:          data.InternalIpAddress.ValueString(),
+		IpAddress:                  data.IpAddress.ValueString(),
+		Ipv4Address:                data.Ipv4Address.ValueString(),
+		Ipv6Address:                data.Ipv6Address.ValueString(),
+		IsClip:                     data.IsClip.ValueBoolPointer(),
+		IsManaged:                  data.IsManaged.ValueBoolPointer(),
+		IsNewCrypto:                data.IsNewCrypto.ValueBoolPointer(),
+		Iscco:                      data.Iscco.ValueBoolPointer(),
+		L2Enabled:                  data.L2Enabled.ValueBoolPointer(),
+		LaMgmt:                     data.LaMgmt.ValueBoolPointer(),
+		LastUpdatedTime:            data.LastUpdatedTime.ValueInt64Pointer(),
+		License:                    data.License.ValueString(),
+		LicenseEdition:             data.LicenseEdition.ValueString(),
+		LicenseGraceTime:           data.LicenseGraceTime.ValueInt64Pointer(),
+		MastoolsVersion:            data.MastoolsVersion.ValueString(),
+		MaxBurstThroughput:         data.MaxBurstThroughput.ValueInt64Pointer(),
+		MetricsCollection:          data.MetricsCollection.ValueBoolPointer(),
+		MgmtIpAddress:              data.MgmtIpAddress.ValueString(),
+		Name:                       data.Name.ValueString(),
+		Netmask:                    data.Netmask.ValueString(),
+		NetworkInterfaces:          networkInterfaceFromConfigToSchema(ctx, data.NetworkInterfaces),
 		Nexthop:                    data.Nexthop.ValueString(),
-		PltBwConfig:                data.PltBwConfig.ValueString(),
-		CryptoChangeRequiresReboot: data.CryptoChangeRequiresReboot.ValueString(),
+		NexthopV6:                  data.NexthopV6.ValueString(),
+		NodeId:                     data.NodeId.ValueString(),
+		NsIpAddress:                data.NsIpAddress.ValueString(),
+		NsvlanId:                   data.NsvlanId.ValueInt64Pointer(),
 		NsvlanInterfaces:           utils.TypeListToUnmarshalStringList(data.NsvlanInterfaces),
-		RebootVmOnCpuChange:        data.RebootVmOnCpuChange.ValueString(),
-		L2Enabled:                  data.L2Enabled.ValueString(),
+		NsvlanTagged:               data.NsvlanTagged.ValueBoolPointer(),
+		NumPes:                     data.NumPes.ValueInt64Pointer(),
+		NumberOfAcu:                data.NumberOfAcu.ValueInt64Pointer(),
+		NumberOfCores:              data.NumberOfCores.ValueInt64Pointer(),
+		NumberOfScu:                data.NumberOfScu.ValueInt64Pointer(),
+		NumberOfSslCards:           data.NumberOfSslCards.ValueInt64Pointer(),
+		NumberOfSslCores:           data.NumberOfSslCores.ValueInt64Pointer(),
+		NumberOfSslCoresUp:         data.NumberOfSslCoresUp.ValueInt64Pointer(),
+		Password:                   data.Password.ValueString(),
+		PltBwAvailable:             data.PltBwAvailable.ValueInt64Pointer(),
+		PltBwConfig:                data.PltBwConfig.ValueInt64Pointer(),
+		PltBwTotal:                 data.PltBwTotal.ValueInt64Pointer(),
+		PluginIpAddress:            data.PluginIpAddress.ValueString(),
+		PluginNetmask:              data.PluginNetmask.ValueString(),
+		Pps:                        data.Pps.ValueInt64Pointer(),
+		ProfileName:                data.ProfileName.ValueString(),
 		ProfilePassword:            data.ProfilePassword.ValueString(),
 		ProfileUsername:            data.ProfileUsername.ValueString(),
-		IsNewCrypto:                data.IsNewCrypto.ValueString(),
-		SaveConfig:                 data.SaveConfig.ValueString(),
-		VridListIpv4101:            utils.TypeListToUnmarshalStringList(data.VridListIpv4101),
-		VridListIpv4102:            utils.TypeListToUnmarshalStringList(data.VridListIpv4102),
-		VridListIpv4103:            utils.TypeListToUnmarshalStringList(data.VridListIpv4103),
-		VridListIpv4104:            utils.TypeListToUnmarshalStringList(data.VridListIpv4104),
-		VridListIpv4105:            utils.TypeListToUnmarshalStringList(data.VridListIpv4105),
-		VridListIpv4106:            utils.TypeListToUnmarshalStringList(data.VridListIpv4106),
-		VridListIpv4107:            utils.TypeListToUnmarshalStringList(data.VridListIpv4107),
-		VridListIpv4108:            utils.TypeListToUnmarshalStringList(data.VridListIpv4108),
-		VridListIpv411:             utils.TypeListToUnmarshalStringList(data.VridListIpv411),
-		VridListIpv412:             utils.TypeListToUnmarshalStringList(data.VridListIpv412),
-		VridListIpv413:             utils.TypeListToUnmarshalStringList(data.VridListIpv413),
-		VridListIpv414:             utils.TypeListToUnmarshalStringList(data.VridListIpv414),
-		VridListIpv415:             utils.TypeListToUnmarshalStringList(data.VridListIpv415),
-		VridListIpv416:             utils.TypeListToUnmarshalStringList(data.VridListIpv416),
-		VridListIpv417:             utils.TypeListToUnmarshalStringList(data.VridListIpv417),
-		VridListIpv418:             utils.TypeListToUnmarshalStringList(data.VridListIpv418),
-		VridListIpv6101:            utils.TypeListToUnmarshalStringList(data.VridListIpv6101),
-		VridListIpv6102:            utils.TypeListToUnmarshalStringList(data.VridListIpv6102),
-		VridListIpv6103:            utils.TypeListToUnmarshalStringList(data.VridListIpv6103),
-		VridListIpv6104:            utils.TypeListToUnmarshalStringList(data.VridListIpv6104),
-		VridListIpv6105:            utils.TypeListToUnmarshalStringList(data.VridListIpv6105),
-		VridListIpv6106:            utils.TypeListToUnmarshalStringList(data.VridListIpv6106),
-		VridListIpv6107:            utils.TypeListToUnmarshalStringList(data.VridListIpv6107),
-		VridListIpv6108:            utils.TypeListToUnmarshalStringList(data.VridListIpv6108),
-		VridListIpv611:             utils.TypeListToUnmarshalStringList(data.VridListIpv611),
-		VridListIpv612:             utils.TypeListToUnmarshalStringList(data.VridListIpv612),
-		VridListIpv613:             utils.TypeListToUnmarshalStringList(data.VridListIpv613),
-		VridListIpv614:             utils.TypeListToUnmarshalStringList(data.VridListIpv614),
-		VridListIpv615:             utils.TypeListToUnmarshalStringList(data.VridListIpv615),
-		VridListIpv616:             utils.TypeListToUnmarshalStringList(data.VridListIpv616),
-		VridListIpv617:             utils.TypeListToUnmarshalStringList(data.VridListIpv617),
-		VridListIpv618:             utils.TypeListToUnmarshalStringList(data.VridListIpv618),
-		If101:                      data.If101.ValueString(),
-		If102:                      data.If102.ValueString(),
-		If103:                      data.If103.ValueString(),
-		If104:                      data.If104.ValueString(),
-		If105:                      data.If105.ValueString(),
-		If106:                      data.If106.ValueString(),
-		If107:                      data.If107.ValueString(),
-		If108:                      data.If108.ValueString(),
-		If11:                       data.If11.ValueString(),
-		If12:                       data.If12.ValueString(),
-		If13:                       data.If13.ValueString(),
-		If14:                       data.If14.ValueString(),
-		If15:                       data.If15.ValueString(),
-		If16:                       data.If16.ValueString(),
-		If17:                       data.If17.ValueString(),
-		If18:                       data.If18.ValueString(),
-		Vlan101:                    data.Vlan101.ValueString(),
-		Vlan102:                    data.Vlan102.ValueString(),
-		Vlan103:                    data.Vlan103.ValueString(),
-		Vlan104:                    data.Vlan104.ValueString(),
-		Vlan105:                    data.Vlan105.ValueString(),
-		Vlan106:                    data.Vlan106.ValueString(),
-		Vlan107:                    data.Vlan107.ValueString(),
-		Vlan108:                    data.Vlan108.ValueString(),
-		Vlan11:                     data.Vlan11.ValueString(),
-		Vlan12:                     data.Vlan12.ValueString(),
-		Vlan13:                     data.Vlan13.ValueString(),
-		Vlan14:                     data.Vlan14.ValueString(),
-		Vlan15:                     data.Vlan15.ValueString(),
-		Vlan16:                     data.Vlan16.ValueString(),
-		Vlan17:                     data.Vlan17.ValueString(),
-		Vlan18:                     data.Vlan18.ValueString(),
-		Receiveuntagged101:         data.Receiveuntagged101.ValueString(),
-		Receiveuntagged102:         data.Receiveuntagged102.ValueString(),
-		Receiveuntagged103:         data.Receiveuntagged103.ValueString(),
-		Receiveuntagged104:         data.Receiveuntagged104.ValueString(),
-		Receiveuntagged105:         data.Receiveuntagged105.ValueString(),
-		Receiveuntagged106:         data.Receiveuntagged106.ValueString(),
-		Receiveuntagged107:         data.Receiveuntagged107.ValueString(),
-		Receiveuntagged108:         data.Receiveuntagged108.ValueString(),
-		Receiveuntagged11:          data.Receiveuntagged11.ValueString(),
-		Receiveuntagged12:          data.Receiveuntagged12.ValueString(),
-		Receiveuntagged13:          data.Receiveuntagged13.ValueString(),
-		Receiveuntagged14:          data.Receiveuntagged14.ValueString(),
-		Receiveuntagged15:          data.Receiveuntagged15.ValueString(),
-		Receiveuntagged16:          data.Receiveuntagged16.ValueString(),
-		Receiveuntagged17:          data.Receiveuntagged17.ValueString(),
-		Receiveuntagged18:          data.Receiveuntagged18.ValueString(),
+		RebootVmOnCpuChange:        data.RebootVmOnCpuChange.ValueBoolPointer(),
+		SaveConfig:                 data.SaveConfig.ValueBoolPointer(),
+		State:                      data.State.ValueString(),
+		StdBwAvailable:             data.StdBwAvailable.ValueInt64Pointer(),
+		StdBwConfig:                data.StdBwConfig.ValueInt64Pointer(),
+		StdBwTotal:                 data.StdBwTotal.ValueInt64Pointer(),
+		TemplateName:               data.TemplateName.ValueString(),
+		Throughput:                 data.Throughput.ValueInt64Pointer(),
+		ThroughputAllocationMode:   data.ThroughputAllocationMode.ValueInt64Pointer(),
+		ThroughputLimit:            data.ThroughputLimit.ValueInt64Pointer(),
+		Type:                       data.Type.ValueString(),
+		Username:                   data.Username.ValueString(),
+		VcpuConfig:                 data.VcpuConfig.ValueInt64Pointer(),
+		VlanId01:                   data.VlanId01.ValueInt64Pointer(),
+		VlanId02:                   data.VlanId02.ValueInt64Pointer(),
+		VlanType:                   data.VlanType.ValueInt64Pointer(),
+		VmMemoryTotal:              data.VmMemoryTotal.ValueInt64Pointer(),
 	}
-
-	return provisionVpxReq
+	return nsReqPayload
 }
 
 func networkInterfaceFromConfigToSchema(ctx context.Context, nidata basetypes.ListValue) []map[string]interface{} {
@@ -1667,8 +995,7 @@ func networkInterfaceFromConfigToSchema(ctx context.Context, nidata basetypes.Li
 	var networkInterfacesMapList []map[string]interface{}
 	// Get the network interfaces from the model
 	for _, internalObjectAttr := range nidata.Elements() {
-		var internalObjectMap basetypes.ObjectValue
-		internalObjectMap = internalObjectAttr.(basetypes.ObjectValue)
+		internalObjectMap := internalObjectAttr.(basetypes.ObjectValue)
 
 		mapNi := make(map[string]interface{}, 0)
 
@@ -1715,7 +1042,7 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 	}
 	endpoint := "ns"
 
-	data, err := r.client.GetResource(endpoint, state.Id.ValueString())
+	dataArr, err := r.client.GetResource(endpoint, state.Id.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error Reading Resource",
@@ -1724,256 +1051,240 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 		return
 	}
 
-	getResponseData := data[endpoint].([]interface{})[0].(map[string]interface{})
+	getResponseData := dataArr[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !state.IPAddress.IsNull() {
-		state.IPAddress = types.StringValue(getResponseData["ip_address"].(string))
-	}
-	if !state.StdBwConfig.IsNull() {
-		state.StdBwConfig = types.StringValue(getResponseData["std_bw_config"].(string))
-	}
-	if !state.NsIPAddress.IsNull() {
-		state.NsIPAddress = types.StringValue(getResponseData["ns_ip_address"].(string))
-	}
-	// if !state.Password.IsNull() {
-	// 	state.Password = types.StringValue(getResponseData["password"].(string))
-	// }
-	if !state.GatewayIPv6.IsNull() {
-		state.GatewayIPv6 = types.StringValue(getResponseData["gateway_ipv6"].(string))
-	}
-	if !state.ThroughputLimit.IsNull() {
-		state.ThroughputLimit = types.StringValue(getResponseData["throughput_limit"].(string))
-	}
-	if !state.VlanID01.IsNull() {
-		state.VlanID01 = types.StringValue(getResponseData["vlan_id_0_1"].(string))
-	}
-	if !state.Name.IsNull() {
-		state.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !state.MastoolsVersion.IsNull() {
-		state.MastoolsVersion = types.StringValue(getResponseData["mastools_version"].(string))
-	}
-	if !state.PluginIPAddress.IsNull() {
-		state.PluginIPAddress = types.StringValue(getResponseData["plugin_ip_address"].(string))
-	}
-	if !state.VlanType.IsNull() {
-		state.VlanType = types.StringValue(getResponseData["vlan_type"].(string))
-	}
-	if !state.EntBwTotal.IsNull() {
-		state.EntBwTotal = types.StringValue(getResponseData["ent_bw_total"].(string))
-	}
-	if !state.VcpuConfig.IsNull() {
-		state.VcpuConfig = types.StringValue(getResponseData["vcpu_config"].(string))
-	}
-	if !state.NsvlanTagged.IsNull() {
-		state.NsvlanTagged = types.StringValue(getResponseData["nsvlan_tagged"].(string))
-	}
-	if !state.Netmask.IsNull() {
-		state.Netmask = types.StringValue(getResponseData["netmask"].(string))
-	}
-	if !state.EntBwConfig.IsNull() {
-		state.EntBwConfig = types.StringValue(getResponseData["ent_bw_config"].(string))
-	}
-	if !state.DatacenterID.IsNull() {
-		state.DatacenterID = types.StringValue(getResponseData["datacenter_id"].(string))
-	}
-	if !state.InstanceMode.IsNull() {
-		state.InstanceMode = types.StringValue(getResponseData["instance_mode"].(string))
-	}
-	if !state.NumberOfSslCoresUp.IsNull() {
-		state.NumberOfSslCoresUp = types.StringValue(getResponseData["number_of_ssl_cores_up"].(string))
-	}
-	if !state.StdBwAvailable.IsNull() {
-		state.StdBwAvailable = types.StringValue(getResponseData["std_bw_available"].(string))
-	}
-	if !state.InternalIPAddress.IsNull() {
-		state.InternalIPAddress = types.StringValue(getResponseData["internal_ip_address"].(string))
-	}
-	if !state.If01.IsNull() {
-		state.If01 = types.StringValue(getResponseData["if_0_1"].(string))
-	}
-	if !state.PltBwTotal.IsNull() {
-		state.PltBwTotal = types.StringValue(getResponseData["plt_bw_total"].(string))
-	}
-	if !state.HostIPAddress.IsNull() {
-		state.HostIPAddress = types.StringValue(getResponseData["host_ip_address"].(string))
-	}
-	// if !state.VpxID.IsNull() {
-	// 	state.VpxID = types.StringValue(getResponseData["vpx_id"].(string))
-	// }
-	if !state.IPv6Address.IsNull() {
-		state.IPv6Address = types.StringValue(getResponseData["ipv6_address"].(string))
-	}
-	if !state.MgmtIPAddress.IsNull() {
-		state.MgmtIPAddress = types.StringValue(getResponseData["mgmt_ip_address"].(string))
-	}
-	if !state.NumberOfAcu.IsNull() {
-		state.NumberOfAcu = types.StringValue(getResponseData["number_of_acu"].(string))
-	}
-	if !state.PltBwAvailable.IsNull() {
-		state.PltBwAvailable = types.StringValue(getResponseData["plt_bw_available"].(string))
-	}
-	if !state.IsClip.IsNull() {
-		state.IsClip = types.StringValue(getResponseData["is_clip"].(string))
-	}
-	if !state.DeviceFamily.IsNull() {
-		state.DeviceFamily = types.StringValue(getResponseData["device_family"].(string))
-	}
-	if !state.Type.IsNull() {
-		state.Type = types.StringValue(getResponseData["type"].(string))
-	}
-	if !state.Throughput.IsNull() {
-		state.Throughput = types.StringValue(getResponseData["throughput"].(string))
-	}
-	if !state.TemplateName.IsNull() {
-		state.TemplateName = types.StringValue(getResponseData["template_name"].(string))
-	}
-	if !state.Gateway.IsNull() {
-		state.Gateway = types.StringValue(getResponseData["gateway"].(string))
-	}
-	if !state.Iscco.IsNull() {
-		state.Iscco = types.StringValue(getResponseData["iscco"].(string))
-	}
-	if !state.NumberOfScu.IsNull() {
-		state.NumberOfScu = types.StringValue(getResponseData["number_of_scu"].(string))
-	}
-	if !state.License.IsNull() {
-		state.License = types.StringValue(getResponseData["license"].(string))
-	}
-	if !state.DomainName.IsNull() {
-		state.DomainName = types.StringValue(getResponseData["domain_name"].(string))
-	}
-	if !state.If02.IsNull() {
-		state.If02 = types.StringValue(getResponseData["if_0_2"].(string))
-	}
-	// if !state.ImageName.IsNull() {
-	// 	state.ImageName = types.StringValue(getResponseData["image_name"].(string))	 // FIXME: API Problem. image_name is empty after Update operataion
-	// }
-	if !state.Hostname.IsNull() {
-		state.Hostname = types.StringValue(getResponseData["hostname"].(string))
-	}
-	if !state.VmMemoryTotal.IsNull() {
-		state.VmMemoryTotal = types.StringValue(getResponseData["vm_memory_total"].(string))
-	}
-	if !state.EntBwAvailable.IsNull() {
-		state.EntBwAvailable = types.StringValue(getResponseData["ent_bw_available"].(string))
-	}
-	if !state.Description.IsNull() {
-		state.Description = types.StringValue(getResponseData["description"].(string))
-	}
-	if !state.Username.IsNull() {
-		state.Username = types.StringValue(getResponseData["username"].(string))
-	}
-	if !state.FipsPartitionName.IsNull() {
-		state.FipsPartitionName = types.StringValue(getResponseData["fips_partition_name"].(string))
-	}
-	if !state.NsvlanID.IsNull() {
-		state.NsvlanID = types.StringValue(getResponseData["nsvlan_id"].(string))
-	}
-	if !state.NumPes.IsNull() {
-		state.NumPes = types.StringValue(getResponseData["num_pes"].(string))
-	}
-	if !state.BurstPriority.IsNull() {
-		state.BurstPriority = types.StringValue(getResponseData["burst_priority"].(string))
-	}
-	if !state.MetricsCollection.IsNull() {
-		state.MetricsCollection = types.StringValue(getResponseData["metrics_collection"].(string))
-	}
-	if !state.IsManaged.IsNull() {
-		state.IsManaged = types.StringValue(getResponseData["is_managed"].(string))
-	}
-	if !state.NexthopV6.IsNull() {
-		state.NexthopV6 = types.StringValue(getResponseData["nexthop_v6"].(string))
-	}
-	if !state.IPv4Address.IsNull() {
-		state.IPv4Address = types.StringValue(getResponseData["ipv4_address"].(string))
-	}
-	if !state.ProfileName.IsNull() {
-		state.ProfileName = types.StringValue(getResponseData["profile_name"].(string))
-	}
 	if !state.Backplane.IsNull() {
 		state.Backplane = types.StringValue(getResponseData["backplane"].(string))
 	}
-	if !state.NetworkInterfaces.IsNull() {
-		state.NetworkInterfaces = networkinterfaceTonetworkinterfaceTF(getResponseData["network_interfaces"].([]interface{}), state.NetworkInterfaces, ctx)
-	}
-	if !state.State.IsNull() {
-		state.State = types.StringValue(getResponseData["state"].(string))
-	}
-	if !state.LastUpdatedTime.IsNull() {
-		state.LastUpdatedTime = types.StringValue(getResponseData["last_updated_time"].(string))
-	}
-	if !state.LicenseEdition.IsNull() {
-		state.LicenseEdition = types.StringValue(getResponseData["license_edition"].(string))
-	}
-	if !state.CustomerId.IsNull() {
-		state.CustomerId = types.StringValue(getResponseData["customer_id"].(string))
-	}
-	if !state.LicenseGraceTime.IsNull() {
-		state.LicenseGraceTime = types.StringValue(getResponseData["license_grace_time"].(string))
-	}
-	if !state.LaMgmt.IsNull() {
-		state.LaMgmt = types.StringValue(getResponseData["la_mgmt"].(string))
-	}
-	if !state.VlanID02.IsNull() {
-		state.VlanID02 = types.StringValue(getResponseData["vlan_id_0_2"].(string))
-	}
-	if !state.NumberOfSslCores.IsNull() {
-		state.NumberOfSslCores = types.StringValue(getResponseData["number_of_ssl_cores"].(string))
-	}
-	if !state.NumberOfsslCards.IsNull() {
-		state.NumberOfsslCards = types.StringValue(getResponseData["number_of_ssl_cards"].(string))
-	}
-	if !state.MaxBurstThroughput.IsNull() {
-		state.MaxBurstThroughput = types.StringValue(getResponseData["max_burst_throughput"].(string))
-	}
-	if !state.ConfigType.IsNull() {
-		state.ConfigType = types.StringValue(getResponseData["config_type"].(string))
-	}
-	if !state.IfInternalIpEnabled.IsNull() {
-		state.IfInternalIpEnabled = types.StringValue(getResponseData["if_internal_ip_enabled"].(string))
+	if !state.BurstPriority.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["burst_priority"].(string))
+		state.BurstPriority = types.Int64Value(int64(val))
 	}
 	if !state.CmdPolicy.IsNull() {
 		state.CmdPolicy = types.StringValue(getResponseData["cmd_policy"].(string))
 	}
-	if !state.NodeId.IsNull() {
-		state.NodeId = types.StringValue(getResponseData["node_id"].(string))
+	if !state.ConfigType.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["config_type"].(string))
+		state.ConfigType = types.Int64Value(int64(val))
 	}
-	if !state.ThroughputAllocationMode.IsNull() {
-		state.ThroughputAllocationMode = types.StringValue(getResponseData["throughput_allocation_mode"].(string))
+	if !state.CryptoChangeRequiresReboot.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["crypto_change_requires_reboot"].(string))
+		state.CryptoChangeRequiresReboot = types.BoolValue(val)
 	}
-	if !state.NumberOfCores.IsNull() {
-		state.NumberOfCores = types.StringValue(getResponseData["number_of_cores"].(string))
+	if !state.Customid.IsNull() {
+		state.Customid = types.StringValue(getResponseData["customid"].(string))
 	}
-	if !state.Pps.IsNull() {
-		state.Pps = types.StringValue(getResponseData["pps"].(string))
+	if !state.DatacenterId.IsNull() {
+		state.DatacenterId = types.StringValue(getResponseData["datacenter_id"].(string))
 	}
-	if !state.PluginNetmask.IsNull() {
-		state.PluginNetmask = types.StringValue(getResponseData["plugin_netmask"].(string))
+	if !state.Description.IsNull() {
+		state.Description = types.StringValue(getResponseData["description"].(string))
+	}
+	if !state.DeviceFamily.IsNull() {
+		state.DeviceFamily = types.StringValue(getResponseData["device_family"].(string))
 	}
 	if !state.DisplayName.IsNull() {
 		state.DisplayName = types.StringValue(getResponseData["display_name"].(string))
 	}
-	if !state.StdBwTotal.IsNull() {
-		state.StdBwTotal = types.StringValue(getResponseData["std_bw_total"].(string))
+	if !state.DomainName.IsNull() {
+		state.DomainName = types.StringValue(getResponseData["domain_name"].(string))
+	}
+	if !state.EntBwAvailable.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["ent_bw_available"].(string))
+		state.EntBwAvailable = types.Int64Value(int64(val))
+	}
+	if !state.EntBwConfig.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["ent_bw_config"].(string))
+		state.EntBwConfig = types.Int64Value(int64(val))
+	}
+	if !state.EntBwTotal.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["ent_bw_total"].(string))
+		state.EntBwTotal = types.Int64Value(int64(val))
+	}
+	if !state.FipsPartitionName.IsNull() {
+		state.FipsPartitionName = types.StringValue(getResponseData["fips_partition_name"].(string))
+	}
+	if !state.Gateway.IsNull() {
+		state.Gateway = types.StringValue(getResponseData["gateway"].(string))
+	}
+	if !state.GatewayIpv6.IsNull() {
+		state.GatewayIpv6 = types.StringValue(getResponseData["gateway_ipv6"].(string))
+	}
+	if !state.HostIpAddress.IsNull() {
+		state.HostIpAddress = types.StringValue(getResponseData["host_ip_address"].(string))
+	}
+	if !state.Hostname.IsNull() {
+		state.Hostname = types.StringValue(getResponseData["hostname"].(string))
+	}
+	if !state.If01.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["if_0_1"].(string))
+		state.If01 = types.BoolValue(val)
+	}
+	if !state.If02.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["if_0_2"].(string))
+		state.If02 = types.BoolValue(val)
+	}
+	if !state.IfInternalIpEnabled.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["if_internal_ip_enabled"].(string))
+		state.IfInternalIpEnabled = types.BoolValue(val)
+	}
+	// if !state.ImageName.IsNull() {
+	// 	state.ImageName = types.StringValue(getResponseData["image_name"].(string))  // FIXME: API Problem. image_name is empty after Update operataion
+	// }
+	if !state.InstanceMode.IsNull() {
+		state.InstanceMode = types.StringValue(getResponseData["instance_mode"].(string))
+	}
+	if !state.InternalIpAddress.IsNull() {
+		state.InternalIpAddress = types.StringValue(getResponseData["internal_ip_address"].(string))
+	}
+	if !state.IpAddress.IsNull() {
+		state.IpAddress = types.StringValue(getResponseData["ip_address"].(string))
+	}
+	if !state.Ipv4Address.IsNull() {
+		state.Ipv4Address = types.StringValue(getResponseData["ipv4_address"].(string))
+	}
+	if !state.Ipv6Address.IsNull() {
+		state.Ipv6Address = types.StringValue(getResponseData["ipv6_address"].(string))
+	}
+	if !state.IsClip.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["is_clip"].(string))
+		state.IsClip = types.BoolValue(val)
+	}
+	if !state.IsManaged.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["is_managed"].(string))
+		state.IsManaged = types.BoolValue(val)
+	}
+	if !state.IsNewCrypto.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["is_new_crypto"].(string))
+		state.IsNewCrypto = types.BoolValue(val)
+	}
+	if !state.Iscco.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["iscco"].(string))
+		state.Iscco = types.BoolValue(val)
+	}
+	if !state.L2Enabled.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["l2_enabled"].(string))
+		state.L2Enabled = types.BoolValue(val)
+	}
+	if !state.LaMgmt.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["la_mgmt"].(string))
+		state.LaMgmt = types.BoolValue(val)
+	}
+	if !state.LastUpdatedTime.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["last_updated_time"].(string))
+		state.LastUpdatedTime = types.Int64Value(int64(val))
+	}
+	if !state.License.IsNull() {
+		state.License = types.StringValue(getResponseData["license"].(string))
+	}
+	if !state.LicenseEdition.IsNull() {
+		state.LicenseEdition = types.StringValue(getResponseData["license_edition"].(string))
+	}
+	if !state.LicenseGraceTime.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["license_grace_time"].(string))
+		state.LicenseGraceTime = types.Int64Value(int64(val))
+	}
+	if !state.MastoolsVersion.IsNull() {
+		state.MastoolsVersion = types.StringValue(getResponseData["mastools_version"].(string))
+	}
+	if !state.MaxBurstThroughput.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["max_burst_throughput"].(string))
+		state.MaxBurstThroughput = types.Int64Value(int64(val))
+	}
+	if !state.MetricsCollection.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["metrics_collection"].(string))
+		state.MetricsCollection = types.BoolValue(val)
+	}
+	if !state.MgmtIpAddress.IsNull() {
+		state.MgmtIpAddress = types.StringValue(getResponseData["mgmt_ip_address"].(string))
+	}
+	if !state.Name.IsNull() {
+		state.Name = types.StringValue(getResponseData["name"].(string))
+	}
+	if !state.Netmask.IsNull() {
+		state.Netmask = types.StringValue(getResponseData["netmask"].(string))
+	}
+	if !state.NetworkInterfaces.IsNull() {
+		state.NetworkInterfaces = networkinterfaceTonetworkinterfaceTF(getResponseData["network_interfaces"].([]interface{}), state.NetworkInterfaces, ctx)
 	}
 	if !state.Nexthop.IsNull() {
 		state.Nexthop = types.StringValue(getResponseData["nexthop"].(string))
 	}
-	if !state.PltBwConfig.IsNull() {
-		state.PltBwConfig = types.StringValue(getResponseData["plt_bw_config"].(string))
+	if !state.NexthopV6.IsNull() {
+		state.NexthopV6 = types.StringValue(getResponseData["nexthop_v6"].(string))
 	}
-	if !state.CryptoChangeRequiresReboot.IsNull() {
-		state.CryptoChangeRequiresReboot = types.StringValue(getResponseData["crypto_change_requires_reboot"].(string))
+	if !state.NodeId.IsNull() {
+		state.NodeId = types.StringValue(getResponseData["node_id"].(string))
+	}
+	if !state.NsIpAddress.IsNull() {
+		state.NsIpAddress = types.StringValue(getResponseData["ns_ip_address"].(string))
+	}
+	if !state.NsvlanId.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["nsvlan_id"].(string))
+		state.NsvlanId = types.Int64Value(int64(val))
 	}
 	if !state.NsvlanInterfaces.IsNull() {
 		state.NsvlanInterfaces = utils.StringListToTypeList(utils.ToStringList(getResponseData["nsvlan_interfaces"].([]interface{})))
 	}
-	if !state.RebootVmOnCpuChange.IsNull() {
-		state.RebootVmOnCpuChange = types.StringValue(getResponseData["reboot_vm_on_cpu_change"].(string))
+	if !state.NsvlanTagged.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["nsvlan_tagged"].(string))
+		state.NsvlanTagged = types.BoolValue(val)
 	}
-	if !state.L2Enabled.IsNull() {
-		state.L2Enabled = types.StringValue(getResponseData["l2_enabled"].(string))
+	if !state.NumPes.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["num_pes"].(string))
+		state.NumPes = types.Int64Value(int64(val))
+	}
+	if !state.NumberOfAcu.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["number_of_acu"].(string))
+		state.NumberOfAcu = types.Int64Value(int64(val))
+	}
+	if !state.NumberOfCores.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["number_of_cores"].(string))
+		state.NumberOfCores = types.Int64Value(int64(val))
+	}
+	if !state.NumberOfScu.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["number_of_scu"].(string))
+		state.NumberOfScu = types.Int64Value(int64(val))
+	}
+	if !state.NumberOfSslCards.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["number_of_ssl_cards"].(string))
+		state.NumberOfSslCards = types.Int64Value(int64(val))
+	}
+	if !state.NumberOfSslCores.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["number_of_ssl_cores"].(string))
+		state.NumberOfSslCores = types.Int64Value(int64(val))
+	}
+	if !state.NumberOfSslCoresUp.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["number_of_ssl_cores_up"].(string))
+		state.NumberOfSslCoresUp = types.Int64Value(int64(val))
+	}
+	// if !state.Password.IsNull() {
+	// 	state.Password = types.StringValue(getResponseData["password"].(string))
+	// }
+	if !state.PltBwAvailable.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["plt_bw_available"].(string))
+		state.PltBwAvailable = types.Int64Value(int64(val))
+	}
+	if !state.PltBwConfig.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["plt_bw_config"].(string))
+		state.PltBwConfig = types.Int64Value(int64(val))
+	}
+	if !state.PltBwTotal.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["plt_bw_total"].(string))
+		state.PltBwTotal = types.Int64Value(int64(val))
+	}
+	if !state.PluginIpAddress.IsNull() {
+		state.PluginIpAddress = types.StringValue(getResponseData["plugin_ip_address"].(string))
+	}
+	if !state.PluginNetmask.IsNull() {
+		state.PluginNetmask = types.StringValue(getResponseData["plugin_netmask"].(string))
+	}
+	if !state.Pps.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["pps"].(string))
+		state.Pps = types.Int64Value(int64(val))
+	}
+	if !state.ProfileName.IsNull() {
+		state.ProfileName = types.StringValue(getResponseData["profile_name"].(string))
 	}
 	if !state.ProfilePassword.IsNull() {
 		state.ProfilePassword = types.StringValue(getResponseData["profile_password"].(string))
@@ -1981,107 +1292,69 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 	if !state.ProfileUsername.IsNull() {
 		state.ProfileUsername = types.StringValue(getResponseData["profile_username"].(string))
 	}
-	if !state.IsNewCrypto.IsNull() {
-		state.IsNewCrypto = types.StringValue(getResponseData["is_new_crypto"].(string))
+	if !state.RebootVmOnCpuChange.IsNull() {
+		val, _ := strconv.ParseBool(getResponseData["reboot_vm_on_cpu_change"].(string))
+		state.RebootVmOnCpuChange = types.BoolValue(val)
 	}
 	if !state.SaveConfig.IsNull() {
-		state.SaveConfig = types.StringValue(getResponseData["save_config"].(string))
+		val, _ := strconv.ParseBool(getResponseData["save_config"].(string))
+		state.SaveConfig = types.BoolValue(val)
 	}
-	if !state.VridListIpv4101.IsNull() {
-		state.VridListIpv4101 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_101"].([]interface{})))
+	if !state.State.IsNull() {
+		state.State = types.StringValue(getResponseData["state"].(string))
 	}
-	if !state.VridListIpv4102.IsNull() {
-		state.VridListIpv4102 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_102"].([]interface{})))
+	if !state.StdBwAvailable.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["std_bw_available"].(string))
+		state.StdBwAvailable = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv4103.IsNull() {
-		state.VridListIpv4103 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_103"].([]interface{})))
+	if !state.StdBwConfig.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["std_bw_config"].(string))
+		state.StdBwConfig = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv4104.IsNull() {
-		state.VridListIpv4104 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_104"].([]interface{})))
+	if !state.StdBwTotal.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["std_bw_total"].(string))
+		state.StdBwTotal = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv4105.IsNull() {
-		state.VridListIpv4105 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_105"].([]interface{})))
+	if !state.TemplateName.IsNull() {
+		state.TemplateName = types.StringValue(getResponseData["template_name"].(string))
 	}
-	if !state.VridListIpv4106.IsNull() {
-		state.VridListIpv4106 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_106"].([]interface{})))
+	if !state.Throughput.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["throughput"].(string))
+		state.Throughput = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv4107.IsNull() {
-		state.VridListIpv4107 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_107"].([]interface{})))
+	if !state.ThroughputAllocationMode.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["throughput_allocation_mode"].(string))
+		state.ThroughputAllocationMode = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv4108.IsNull() {
-		state.VridListIpv4108 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_108"].([]interface{})))
+	if !state.ThroughputLimit.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["throughput_limit"].(string))
+		state.ThroughputLimit = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv411.IsNull() {
-		state.VridListIpv411 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_11"].([]interface{})))
+	if !state.Type.IsNull() {
+		state.Type = types.StringValue(getResponseData["type"].(string))
 	}
-	if !state.VridListIpv412.IsNull() {
-		state.VridListIpv412 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_12"].([]interface{})))
+	if !state.Username.IsNull() {
+		state.Username = types.StringValue(getResponseData["username"].(string))
 	}
-	if !state.VridListIpv413.IsNull() {
-		state.VridListIpv413 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_13"].([]interface{})))
+	if !state.VcpuConfig.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["vcpu_config"].(string))
+		state.VcpuConfig = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv414.IsNull() {
-		state.VridListIpv414 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_14"].([]interface{})))
+	if !state.VlanId01.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["vlan_id_0_1"].(string))
+		state.VlanId01 = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv415.IsNull() {
-		state.VridListIpv415 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_15"].([]interface{})))
+	if !state.VlanId02.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["vlan_id_0_2"].(string))
+		state.VlanId02 = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv416.IsNull() {
-		state.VridListIpv416 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_16"].([]interface{})))
+	if !state.VlanType.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["vlan_type"].(string))
+		state.VlanType = types.Int64Value(int64(val))
 	}
-	if !state.VridListIpv417.IsNull() {
-		state.VridListIpv417 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_17"].([]interface{})))
-	}
-	if !state.VridListIpv418.IsNull() {
-		state.VridListIpv418 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv4_18"].([]interface{})))
-	}
-	if !state.VridListIpv6101.IsNull() {
-		state.VridListIpv6101 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_101"].([]interface{})))
-	}
-	if !state.VridListIpv6102.IsNull() {
-		state.VridListIpv6102 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_102"].([]interface{})))
-	}
-	if !state.VridListIpv6103.IsNull() {
-		state.VridListIpv6103 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_103"].([]interface{})))
-	}
-	if !state.VridListIpv6104.IsNull() {
-		state.VridListIpv6104 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_104"].([]interface{})))
-	}
-	if !state.VridListIpv6105.IsNull() {
-		state.VridListIpv6105 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_105"].([]interface{})))
-	}
-	if !state.VridListIpv6106.IsNull() {
-		state.VridListIpv6106 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_106"].([]interface{})))
-	}
-	if !state.VridListIpv6107.IsNull() {
-		state.VridListIpv6107 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_107"].([]interface{})))
-	}
-	if !state.VridListIpv6108.IsNull() {
-		state.VridListIpv6108 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_108"].([]interface{})))
-	}
-	if !state.VridListIpv611.IsNull() {
-		state.VridListIpv611 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_11"].([]interface{})))
-	}
-	if !state.VridListIpv612.IsNull() {
-		state.VridListIpv612 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_12"].([]interface{})))
-	}
-	if !state.VridListIpv613.IsNull() {
-		state.VridListIpv613 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_13"].([]interface{})))
-	}
-	if !state.VridListIpv614.IsNull() {
-		state.VridListIpv614 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_14"].([]interface{})))
-	}
-	if !state.VridListIpv615.IsNull() {
-		state.VridListIpv615 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_15"].([]interface{})))
-	}
-	if !state.VridListIpv616.IsNull() {
-		state.VridListIpv616 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_16"].([]interface{})))
-	}
-	if !state.VridListIpv617.IsNull() {
-		state.VridListIpv617 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_17"].([]interface{})))
-	}
-	if !state.VridListIpv618.IsNull() {
-		state.VridListIpv618 = utils.StringListToTypeList(utils.ToStringList(getResponseData["vrid_list_ipv6_18"].([]interface{})))
+	if !state.VmMemoryTotal.IsNull() {
+		val, _ := strconv.Atoi(getResponseData["vm_memory_total"].(string))
+		state.VmMemoryTotal = types.Int64Value(int64(val))
 	}
 
 	diags = resp.State.Set(ctx, &state)
@@ -2248,7 +1521,7 @@ func (r *provisionVpxResource) Update(ctx context.Context, req resource.UpdateRe
 
 	resourceId := state.Id.ValueString()
 	endpoint := "ns"
-	requestPayload := getThePayloadFromtheConfig(ctx, &plan)
+	requestPayload := nsGetThePayloadFromtheConfig(ctx, &plan)
 	plan.Id = state.Id
 
 	_, err := r.client.UpdateResource(endpoint, requestPayload, resourceId)
