@@ -60,7 +60,6 @@ func (r *ntpSyncResource) Create(ctx context.Context, req resource.CreateRequest
 	// Create the request
 	_, _ = r.client.UpdateResource(endpoint, ntpSyncReq, "")
 
-
 	// Wait for the resource to reboot
 	for {
 		time.Sleep(5 * time.Second)
