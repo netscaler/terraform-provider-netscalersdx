@@ -151,7 +151,7 @@ resource "netscalersdx_provision_vpx" "device1" {
 - `l2_enabled` (String) L2mode status of VM Instance.
 - `la_mgmt` (String) Bond consisting of management ports on VM Instance.
 - `last_updated_time` (String) Last Updated Time.
-- `license` (String) Feature License for NetScaler ADC Instance, needs to be set while provisioning (standard, enterprise, platinum). Minimum length =  1 Maximum length =  64
+- `license` (String) Feature License for NetScaler ADC Instance, needs to be set while provisioning [Possible values: Standard, Enterprise, Platinum].
 - `license_edition` (String) Edition of instance.
 - `license_grace_time` (String) Grace for this NetScaler Instance..
 - `mastools_version` (String) Mastools version if the device is embedded agent.
