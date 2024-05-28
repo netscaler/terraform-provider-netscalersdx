@@ -34,6 +34,7 @@ import (
 	"terraform-provider-netscalersdx/internal/static_route"
 	"terraform-provider-netscalersdx/internal/syslog_params"
 	"terraform-provider-netscalersdx/internal/syslog_server"
+	"terraform-provider-netscalersdx/internal/system_settings"
 	"terraform-provider-netscalersdx/internal/tacacs_server"
 
 	"terraform-provider-netscalersdx/internal/service"
@@ -145,6 +146,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		aaa_server.AaaServerResource,
 		snmp_mib.SnmpMibResource,
 		ssl_settings.SslSettingsResource,
+		system_settings.SystemSettingsResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
