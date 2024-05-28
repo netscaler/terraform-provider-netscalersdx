@@ -24,6 +24,7 @@ import (
 	"terraform-provider-netscalersdx/internal/ns_save_config"
 	"terraform-provider-netscalersdx/internal/ntp_param"
 	"terraform-provider-netscalersdx/internal/ntp_server"
+	"terraform-provider-netscalersdx/internal/ntp_sync"
 	"terraform-provider-netscalersdx/internal/radius_server"
 	"terraform-provider-netscalersdx/internal/smtp_server"
 	"terraform-provider-netscalersdx/internal/snmp_alarm_config"
@@ -147,6 +148,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		aclrule.AclruleResource,
 		aaa_server.AaaServerResource,
 		snmp_mib.SnmpMibResource,
+		ntp_sync.NtpSyncResource,
 		mps.MpsResource,
 		cipher_config.CipherConfigResource,
 		ssl_settings.SslSettingsResource,
