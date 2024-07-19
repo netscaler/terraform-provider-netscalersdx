@@ -11,6 +11,7 @@ import (
 	"terraform-provider-netscalersdx/internal/blx_device_profile"
 	"terraform-provider-netscalersdx/internal/cipher_config"
 	"terraform-provider-netscalersdx/internal/cipher_group"
+	"terraform-provider-netscalersdx/internal/current_hostname"
 	"terraform-provider-netscalersdx/internal/current_timezone"
 	"terraform-provider-netscalersdx/internal/device_group"
 	"terraform-provider-netscalersdx/internal/device_profile"
@@ -153,6 +154,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		cipher_config.CipherConfigResource,
 		ssl_settings.SslSettingsResource,
 		system_settings.SystemSettingsResource,
+		current_hostname.CurrentHostnameResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
