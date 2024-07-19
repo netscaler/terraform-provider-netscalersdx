@@ -59,3 +59,48 @@ func PrefixedUniqueId(prefix string) string {
 	rand.Read(b)
 	return prefix + hex.EncodeToString(b)
 }
+
+func StringValueToFramework(v interface{}) types.String {
+
+	output := types.StringValue(v.(string))
+	return output
+}
+
+func Int64ValueToFramework(v interface{}) types.Int64 {
+	switch val := v.(type) {
+	case int:
+		return types.Int64Value(int64(v.(int)))
+	case int64:
+		return types.Int64Value(val)
+	case string:
+		intVal, _ := strconv.Atoi(val)
+		return types.Int64Value(int64(intVal))
+	default:
+		return types.Int64Null()
+	}
+}
+
+func BoolValueToFramework(v interface{}) types.Bool {
+	switch val := v.(type) {
+	case bool:
+		return types.BoolValue(v.(bool))
+	case string:
+		boolVal, _ := strconv.ParseBool(val)
+		return types.BoolValue(boolVal)
+	default:
+		return types.BoolNull()
+	}
+}
+
+func ToIntValue(v basetypes.Int64Value) *int64 {
+	if !v.IsUnknown() {
+		return v.ValueInt64Pointer()
+	}
+	return nil
+}
+func ToBoolValue(v basetypes.BoolValue) *bool {
+	if !v.IsUnknown() {
+		return v.ValueBoolPointer()
+	}
+	return nil
+}

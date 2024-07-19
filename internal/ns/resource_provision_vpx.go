@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"strconv"
 	"time"
 
 	"terraform-provider-netscalersdx/internal/service"
@@ -24,9 +23,15 @@ import (
 )
 
 var (
-	_ resource.Resource              = &provisionVpxResource{}
-	_ resource.ResourceWithConfigure = &provisionVpxResource{}
+	_ resource.Resource                = &provisionVpxResource{}
+	_ resource.ResourceWithConfigure   = &provisionVpxResource{}
+	_ resource.ResourceWithImportState = &provisionVpxResource{}
 )
+
+// ImportState implements resource.ResourceWithImportState.
+func (r *provisionVpxResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
 
 // provisionVpxResource defines the resource implementation.
 type provisionVpxResource struct {
@@ -237,31 +242,37 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 		Attributes: map[string]schema.Attribute{
 			"backplane": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Backplane Interface. Minimum length =  1",
 				MarkdownDescription: "Backplane Interface. Minimum length =  1",
 			},
 			"burst_priority": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Burst Priority of the VM Instance between 1 and 4.",
 				MarkdownDescription: "Burst Priority of the VM Instance between 1 and 4.",
 			},
 			"cmd_policy": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "true if you want to allow shell/sftp/scp access to NetScaler Instance administrator. Minimum length =  1 Maximum length =  1024",
 				MarkdownDescription: "true if you want to allow shell/sftp/scp access to NetScaler Instance administrator. Minimum length =  1 Maximum length =  1024",
 			},
 			"config_type": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Configuration Type. Values: 0: IPv4, 1: IPv6, 2: Both.",
 				MarkdownDescription: "Configuration Type. Values: 0: IPv4, 1: IPv6, 2: Both.",
 			},
 			"crypto_change_requires_reboot": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "`true` if the current changes made by user requires a reboot of the VM else `false`.",
 				MarkdownDescription: "`true` if the current changes made by user requires a reboot of the VM else `false`.",
 			},
 			"customid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Custom ID.",
 				MarkdownDescription: "Custom ID.",
 			},
@@ -273,96 +284,115 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			},
 			"datacenter_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Datacenter Id is system generated key for data center.",
 				MarkdownDescription: "Datacenter Id is system generated key for data center.",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Description of managed device. Minimum length =  1 Maximum length =  512",
 				MarkdownDescription: "Description of managed device. Minimum length =  1 Maximum length =  512",
 			},
 			"device_family": schema.StringAttribute{
+				Computed:            true,
 				Optional:            true,
 				Description:         "Device Family. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Device Family. Minimum length =  1 Maximum length =  64",
 			},
 			"display_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Display Name for this managed device. For HA pair it will be A-B, and for Cluster it will be CLIP. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Display Name for this managed device. For HA pair it will be A-B, and for Cluster it will be CLIP. Minimum length =  1 Maximum length =  128",
 			},
 			"domain_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Domain name of VM Device. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Domain name of VM Device. Minimum length =  1 Maximum length =  128",
 			},
 			"ent_bw_available": schema.Int64Attribute{
+				Computed:            true,
 				Optional:            true,
 				Description:         "Enterprise Bandwidth configured.",
 				MarkdownDescription: "Enterprise Bandwidth configured.",
 			},
 			"ent_bw_config": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enterprise Bandwidth configured.",
 				MarkdownDescription: "Enterprise Bandwidth configured.",
 			},
 			"ent_bw_total": schema.Int64Attribute{
+				Computed:            true,
 				Optional:            true,
 				Description:         "Enterprise Bandwidth Total.",
 				MarkdownDescription: "Enterprise Bandwidth Total.",
 			},
 			"fips_partition_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "FIPS Partition Name. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "FIPS Partition Name. Minimum length =  1 Maximum length =  128",
 			},
 			"gateway": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Default Gateway of managed device. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Default Gateway of managed device. Minimum length =  1 Maximum length =  64",
 			},
 			"gateway_ipv6": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Gateway IPv6 Address.",
 				MarkdownDescription: "Gateway IPv6 Address.",
 			},
 			"host_ip_address": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Host IPAddress where VM is provisioned. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Host IPAddress where VM is provisioned. Minimum length =  1 Maximum length =  64",
 			},
 			"hostname": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				// Computed:            true,
 				Description:         "Assign hostname to managed device, if this is not provided, name will be set as host name . Minimum length =  1 Maximum length =  256",
 				MarkdownDescription: "Assign hostname to managed device, if this is not provided, name will be set as host name . Minimum length =  1 Maximum length =  256",
 			},
 			"if_0_1": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Network 0/1 on VM Instance, Select this option to assign 0/1 Interface",
 				MarkdownDescription: "Network 0/1 on VM Instance, Select this option to assign 0/1 Interface",
 			},
 			"if_0_2": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Network 0/2 on VM Instance, Select this option to assign 0/2 Interface",
 				MarkdownDescription: "Network 0/2 on VM Instance, Select this option to assign 0/2 Interface",
 			},
 			"if_internal_ip_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Set as true if VPX is managed by internal network (not required to be set for SDWAN).",
 				MarkdownDescription: "Set as true if VPX is managed by internal network (not required to be set for SDWAN).",
 			},
 			"image_name": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				// Computed:            true,
 				Description:         "Image Name, This parameter is used while provisioning VM Instance with XVA image, template_name is given priority if provided along with image_name. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Image Name, This parameter is used while provisioning VM Instance with XVA image, template_name is given priority if provided along with image_name. Minimum length =  1 Maximum length =  128",
 			},
 			"instance_mode": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Denotes state- primary,secondary,clip,clusternode.",
 				MarkdownDescription: "Denotes state- primary,secondary,clip,clusternode.",
 			},
 			"internal_ip_address": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Internal IP Address for this managed device. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Internal IP Address for this managed device. Minimum length =  1 Maximum length =  64",
 			},
@@ -377,51 +407,61 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			},
 			"ipv4_address": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "IPv4 Address. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "IPv4 Address. Minimum length =  1 Maximum length =  64",
 			},
 			"ipv6_address": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "IPv6 Address.",
 				MarkdownDescription: "IPv6 Address.",
 			},
 			"is_clip": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Is Clip.",
 				MarkdownDescription: "Is Clip.",
 			},
 			"is_managed": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Is Managed.",
 				MarkdownDescription: "Is Managed.",
 			},
 			"is_new_crypto": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "`true` if number_of_acu/number_of_scu are used, `false` if number_of_ssl_cores is used.",
 				MarkdownDescription: "`true` if number_of_acu/number_of_scu are used, `false` if number_of_ssl_cores is used.",
 			},
 			"iscco": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Is CCO.",
 				MarkdownDescription: "Is CCO.",
 			},
 			"l2_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "L2mode status of VM Instance. Select this option to allow L2 mode on all the Data Interfaces on this NetScaler ADC Instance",
 				MarkdownDescription: "L2mode status of VM Instance. Select this option to allow L2 mode on all the Data Interfaces on this NetScaler ADC Instance",
 			},
 			"la_mgmt": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Bond consisting of management ports on VM Instance. When Management Channel created for interfaces, this will be set to `true`",
 				MarkdownDescription: "Bond consisting of management ports on VM Instance. When Management Channel created for interfaces, this will be set to `true`",
 			},
 			"last_updated_time": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Last Updated Time.",
 				MarkdownDescription: "Last Updated Time.",
 			},
 			"license": schema.StringAttribute{
 				Optional:    true,
+				Computed:    true,
 				Description: "Feature License for NetScaler ADC Instance, needs to be set while provisioning [Possible values: Standard, Enterprise, Platinum].",
 				Validators: []validator.String{
 					stringvalidator.OneOf("Enterprise", "Platinum", "Standard"),
@@ -429,41 +469,49 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			},
 			"license_edition": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Edition of instance.",
 				MarkdownDescription: "Edition of instance.",
 			},
 			"license_grace_time": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Grace for this NetScaler Instance..",
 				MarkdownDescription: "Grace for this NetScaler Instance..",
 			},
 			"mastools_version": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Mastools version if the device is embedded agent.",
 				MarkdownDescription: "Mastools version if the device is embedded agent.",
 			},
 			"max_burst_throughput": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Maximum burst throughput in Mbps of VM Instance.",
 				MarkdownDescription: "Maximum burst throughput in Mbps of VM Instance.",
 			},
 			"metrics_collection": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Flag to check if metrics collection is enabled or disabled..",
 				MarkdownDescription: "Flag to check if metrics collection is enabled or disabled..",
 			},
 			"mgmt_ip_address": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				// Computed:            true,
 				Description:         "Management IP Address for this Managed Device. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Management IP Address for this Managed Device. Minimum length =  1 Maximum length =  64",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Name of managed device. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Name of managed device. Minimum length =  1 Maximum length =  128",
 			},
 			"netmask": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Netmask of managed device. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Netmask of managed device. Minimum length =  1 Maximum length =  64",
 			},
@@ -475,77 +523,91 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 					Attributes: map[string]schema.Attribute{
 						"gateway": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Gateway",
 							MarkdownDescription: "Gateway",
 						},
-						"id": schema.StringAttribute{
+						"network_interface_id": schema.StringAttribute{
 							Optional:            true,
-							Computed:            false,
+							Computed:            true,
 							Description:         "Id",
 							MarkdownDescription: "Id",
 						},
 						"interface_name": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Name of this interface.",
 							MarkdownDescription: "Interface Name",
 						},
 						"ip_address": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "IP Address",
 							MarkdownDescription: "IP Address",
 						},
 						"is_member_ifc": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "`true` if this interface is member of a channel.",
 							MarkdownDescription: "`true` if this interface is member of a channel.",
 						},
 						"is_mgmt_ifc": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "`true` if this is the management interface.",
 							MarkdownDescription: "`true` if this is the management interface.",
 						},
 						"is_vlan_applied": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Is VLAN added on NetworkInterface of VM Instance.",
 							MarkdownDescription: "Is VLAN added on NetworkInterface of VM Instance.",
 						},
 						"l2_enabled": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "L2 mode status of Interface.",
 							MarkdownDescription: "L2 mode status of Interface.",
 						},
 						"mac_address": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "MAC Address",
 							MarkdownDescription: "MAC Address",
 						},
 						"mac_mode": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "MAC Mode, The method according to which MAC Address is assigned to Interface. Possible values: [default, generated, custom] default: XenServer assigns a MAC Address. custom: SDX Administrator assigns a MAC address. generated: Generate a MAC address by using the base MAC address set at System Level.",
 							MarkdownDescription: "MAC Mode, The method according to which MAC Address is assigned to Interface. Possible values: [default, generated, custom] default: XenServer assigns a MAC Address. custom: SDX Administrator assigns a MAC address. generated: Generate a MAC address by using the base MAC address set at System Level.",
 						},
 						"managed_device_id": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Managed Device Id",
 							MarkdownDescription: "Managed Device Id",
 						},
 						"name_server": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Name Server",
 							MarkdownDescription: "Name Server",
 						},
 						"netmask": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Netmask",
 							MarkdownDescription: "Netmask",
 						},
 						"parent_id": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Parent Id",
 							MarkdownDescription: "Parent Id",
 						},
 						"parent_name": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Parent Name",
 							MarkdownDescription: "Parent Name",
 						},
@@ -556,49 +618,58 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 						},
 						"receiveuntagged": schema.BoolAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Receive Untagged Packets on Interface/Channel. Allow Untagged Traffic.",
 							MarkdownDescription: "Receive Untagged Packets on Interface/Channel. Allow Untagged Traffic.",
 						},
 						"sdx_formation_network_id": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Sdx Formation Network Id",
 							MarkdownDescription: "Sdx Formation Network Id",
 						},
 						"vlan": schema.Int64Attribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "VLAN.",
 							MarkdownDescription: "VLAN.",
 						},
 						"vlan_whitelist": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "VLAN Whitelist.",
 							MarkdownDescription: "VLAN Whitelist.",
 						},
 						"vlan_whitelist_array": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "Allowed VLANs. Range of VLANs can be provided using hyphen '-' separater and separated VLANs can also be provided. (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VLANs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VLANs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
 							MarkdownDescription: "Allowed VLANs. Range of VLANs can be provided using hyphen '-' separater and separated VLANs can also be provided. (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VLANs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VLANs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
 						},
 						"vrid_list_ipv4": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "VRID List for Interface/Channel for IPV4 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and multiple comma ',' separated VRIDs can also be provided, (e.g., \"100-110,142,143,151-155\").",
 							MarkdownDescription: "VRID List for Interface/Channel for IPV4 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and multiple comma ',' separated VRIDs can also be provided, (e.g., \"100-110,142,143,151-155\").",
 						},
 						"vrid_list_ipv4_array": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "VRID List for Interface for IPV4 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and separated VRIDs can also be provided, (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VRIDs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VRIDs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
 							MarkdownDescription: "VRID List for Interface for IPV4 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and separated VRIDs can also be provided, (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VRIDs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VRIDs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
 						},
 						"vrid_list_ipv6": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "VRID List for Interface/Channel for IPV6 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and multiple comma ',' separated VRIDs can also be provided, (e.g., \"100-110,142,143,151-155\").",
 							MarkdownDescription: "VRID List for Interface/Channel for IPV6 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and multiple comma ',' separated VRIDs can also be provided, (e.g., \"100-110,142,143,151-155\").",
 						},
 						"vrid_list_ipv6_array": schema.ListAttribute{
 							ElementType:         types.StringType,
 							Optional:            true,
+							Computed:            true,
 							Description:         "VRID List for Interface for IPV6 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and separated VRIDs can also be provided, (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VRIDs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VRIDs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
 							MarkdownDescription: "VRID List for Interface for IPV6 VMAC Generation. Range of VRIDs can be provided using hyphen '-' separater and separated VRIDs can also be provided, (e.g., [\"100-110\",\"142\",\"143\",\"151-155\"]). Providing in the suggested format is necessary as SDX internally try to convert in this form, so due to that, if the format provided is wrong it may cause error from terraform. To list individual VRIDs if they are not in sequence or if the sequence is 2 or fewer (e.g., [\"100\",\"101\",\"4000\",\"4001\"]). If the VRIDs are in sequence of 3 or more, use the range format with hypen '-' seperated like (e.g., [\"100-103\",\"4000-4002\"]). Also, maintain the order as well (Ascending order) (e.g., [\"100-103\",\"200\",\"4000-4002\"])",
 						},
@@ -607,72 +678,86 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			},
 			"nexthop": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Next Hop IP address. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Next Hop IP address. Minimum length =  1 Maximum length =  64",
 			},
 			"nexthop_v6": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Next Hop IPv6 Address.",
 				MarkdownDescription: "Next Hop IPv6 Address.",
 			},
 			"node_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Node identification of a device.",
 				MarkdownDescription: "Node identification of a device.",
 			},
 			"ns_ip_address": schema.StringAttribute{
+				// Computed:            true,
 				Optional:            true,
 				Description:         "NetScaler IP Address for this managed device. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "NetScaler IP Address for this managed device. Minimum length =  1 Maximum length =  128",
 			},
 			"nsvlan_id": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "VLAN for Management Traffic.",
 				MarkdownDescription: "VLAN for Management Traffic.",
 			},
 			"nsvlan_interfaces": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "VLAN Interfaces. Minimum length =  1 Maximum length =  50",
 				MarkdownDescription: "VLAN Interfaces. Minimum length =  1 Maximum length =  50",
 			},
 			"nsvlan_tagged": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "When this option is selected, selected interfaces are added as tagged members of Management VLAN",
 				MarkdownDescription: "When this option is selected, selected interfaces are added as tagged members of Management VLAN",
 			},
 			"num_pes": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Total number of PEs.",
 				MarkdownDescription: "Total number of PEs.",
 			},
 			"number_of_acu": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Assign number of asymmetric crypto units to VM Instance.",
 				MarkdownDescription: "Assign number of asymmetric crypto units to VM Instance.",
 			},
 			"number_of_cores": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Number of cores that are assigned to VM Instance.",
 				MarkdownDescription: "Number of cores that are assigned to VM Instance.",
 			},
 			"number_of_scu": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Assign number of asymmetric crypto units to VM Instance.",
 				MarkdownDescription: "Assign number of asymmetric crypto units to VM Instance.",
 			},
 			"number_of_ssl_cards": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Number of SSL Cards.",
 				MarkdownDescription: "Number of SSL Cards.",
 			},
 			"number_of_ssl_cores": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Assign number of ssl virtual functions to VM Instance.",
 				MarkdownDescription: "Assign number of ssl virtual functions to VM Instance.",
 			},
 			"number_of_ssl_cores_up": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Number of SSL Cores Up.",
 				MarkdownDescription: "Number of SSL Cores Up.",
 			},
@@ -683,36 +768,43 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			},
 			"plt_bw_available": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Platinum Bandwidth Available.",
 				MarkdownDescription: "Platinum Bandwidth Available.",
 			},
 			"plt_bw_config": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Platinum Bandwidth configured.",
 				MarkdownDescription: "Platinum Bandwidth configured.",
 			},
 			"plt_bw_total": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Total Platinum Bandwidth.",
 				MarkdownDescription: "Total Platinum Bandwidth.",
 			},
 			"plugin_ip_address": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Signaling IP Address. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Signaling IP Address. Minimum length =  1 Maximum length =  64",
 			},
 			"plugin_netmask": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Signaling Netmask. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Signaling Netmask. Minimum length =  1 Maximum length =  64",
 			},
 			"pps": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Assign packets per seconds to NetScaler Instance.",
 				MarkdownDescription: "Assign packets per seconds to NetScaler Instance.",
 			},
 			"profile_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Device Profile Name that is attached with this managed device. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Device Profile Name that is attached with this managed device. Minimum length =  1 Maximum length =  128",
 			},
@@ -723,91 +815,109 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 			},
 			"profile_username": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "User Name specified by the user for this NetScaler Instance.. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "User Name specified by the user for this NetScaler Instance.. Minimum length =  1 Maximum length =  128",
 			},
 			"reboot_vm_on_cpu_change": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Reboot VMs on CPU change during resource allocation.",
 				MarkdownDescription: "Reboot VMs on CPU change during resource allocation.",
 			},
 			"save_config": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Should config be saved first in case instance is rebooted while modify.",
 				MarkdownDescription: "Should config be saved first in case instance is rebooted while modify.",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Node State. Minimum length =  1 Maximum length =  32",
 				MarkdownDescription: "Node State. Minimum length =  1 Maximum length =  32",
 			},
 			"std_bw_available": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Standard Bandwidth Available.",
 				MarkdownDescription: "Standard Bandwidth Available.",
 			},
 			"std_bw_config": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Standard Bandwidth running.",
 				MarkdownDescription: "Standard Bandwidth running.",
 			},
 			"std_bw_total": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Standard Bandwidth.",
 				MarkdownDescription: "Standard Bandwidth.",
 			},
 			"template_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Template Name, This parameter is used while provisioning VM Instance with template, template_name is given priority if provided along with image_name. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Template Name, This parameter is used while provisioning VM Instance with template, template_name is given priority if provided along with image_name. Minimum length =  1 Maximum length =  128",
 			},
 			"throughput": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Assign throughput in Mbps to VM Instance.",
 				MarkdownDescription: "Assign throughput in Mbps to VM Instance.",
 			},
 			"throughput_allocation_mode": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Throughput Allocation Mode: 0-Fixed, 1-Burst-able.",
 				MarkdownDescription: "Throughput Allocation Mode: 0-Fixed, 1-Burst-able.",
 			},
 			"throughput_limit": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Throughput Limit in Mbps set for VM Instance.",
 				MarkdownDescription: "Throughput Limit in Mbps set for VM Instance.",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Type of device, (Xen | NS). Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Type of device, (Xen | NS). Minimum length =  1 Maximum length =  64",
 			},
 			"username": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "User Name (except nsroot) to be configured on NetScaler Instance. Minimum length =  1 Maximum length =  127",
 				MarkdownDescription: "User Name (except nsroot) to be configured on NetScaler Instance. Minimum length =  1 Maximum length =  127",
 			},
 			"vcpu_config": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Number of vCPU allocated for the device.",
 				MarkdownDescription: "Number of vCPU allocated for the device.",
 			},
 			"vlan_id_0_1": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "VLAN id for the management interface 0/1. This VLAN ID is used to filter management traffic on 0/1 at hypervisor layer.",
 				MarkdownDescription: "VLAN id for the management interface 0/1. This VLAN ID is used to filter management traffic on 0/1 at hypervisor layer.",
 			},
 			"vlan_id_0_2": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "VLAN id for the management interface 0/2. This VLAN ID is used to filter management traffic on 0/2 at hypervisor layer.",
 				MarkdownDescription: "VLAN id for the management interface 0/2. This VLAN ID is used to filter management traffic on 0/2 at hypervisor layer.",
 			},
 			"vlan_type": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "VLAN Type, NetScaler or L2 VLAN. Select 0 for NetScaler VLAN or 1 for L2 VLAN.",
 				MarkdownDescription: "VLAN Type, NetScaler or L2 VLAN. Select 0 for NetScaler VLAN or 1 for L2 VLAN.",
 			},
 			"vm_memory_total": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Total Memory of VM Instance in MB. 2048MB, 5120MB.",
 				MarkdownDescription: "Total Memory of VM Instance in MB. 2048MB, 5120MB.",
 			},
@@ -893,48 +1003,49 @@ func (r *provisionVpxResource) Create(ctx context.Context, req resource.CreateRe
 
 func nsGetThePayloadFromtheConfig(ctx context.Context, data *provisionVpxResourceModel) provisionVpxResourceReq {
 	tflog.Debug(ctx, "In nsGetThePayloadFromtheConfig Function")
+
 	nsReqPayload := provisionVpxResourceReq{
 		Backplane:                  data.Backplane.ValueString(),
-		BurstPriority:              data.BurstPriority.ValueInt64Pointer(),
+		BurstPriority:              utils.ToIntValue(data.BurstPriority),
 		CmdPolicy:                  data.CmdPolicy.ValueString(),
-		ConfigType:                 data.ConfigType.ValueInt64Pointer(),
-		CryptoChangeRequiresReboot: data.CryptoChangeRequiresReboot.ValueBoolPointer(),
+		ConfigType:                 utils.ToIntValue(data.ConfigType),
+		CryptoChangeRequiresReboot: utils.ToBoolValue(data.CryptoChangeRequiresReboot),
 		Customid:                   data.Customid.ValueString(),
 		DatacenterId:               data.DatacenterId.ValueString(),
 		Description:                data.Description.ValueString(),
 		DeviceFamily:               data.DeviceFamily.ValueString(),
 		DisplayName:                data.DisplayName.ValueString(),
 		DomainName:                 data.DomainName.ValueString(),
-		EntBwAvailable:             data.EntBwAvailable.ValueInt64Pointer(),
-		EntBwConfig:                data.EntBwConfig.ValueInt64Pointer(),
-		EntBwTotal:                 data.EntBwTotal.ValueInt64Pointer(),
+		EntBwAvailable:             utils.ToIntValue(data.EntBwAvailable),
+		EntBwConfig:                utils.ToIntValue(data.EntBwConfig),
+		EntBwTotal:                 utils.ToIntValue(data.EntBwTotal),
 		FipsPartitionName:          data.FipsPartitionName.ValueString(),
 		Gateway:                    data.Gateway.ValueString(),
 		GatewayIpv6:                data.GatewayIpv6.ValueString(),
 		HostIpAddress:              data.HostIpAddress.ValueString(),
 		Hostname:                   data.Hostname.ValueString(),
-		If01:                       data.If01.ValueBoolPointer(),
-		If02:                       data.If02.ValueBoolPointer(),
-		IfInternalIpEnabled:        data.IfInternalIpEnabled.ValueBoolPointer(),
+		If01:                       utils.ToBoolValue(data.If01),
+		If02:                       utils.ToBoolValue(data.If02),
+		IfInternalIpEnabled:        utils.ToBoolValue(data.IfInternalIpEnabled),
 		ImageName:                  data.ImageName.ValueString(),
 		InstanceMode:               data.InstanceMode.ValueString(),
 		InternalIpAddress:          data.InternalIpAddress.ValueString(),
 		IpAddress:                  data.IpAddress.ValueString(),
 		Ipv4Address:                data.Ipv4Address.ValueString(),
 		Ipv6Address:                data.Ipv6Address.ValueString(),
-		IsClip:                     data.IsClip.ValueBoolPointer(),
-		IsManaged:                  data.IsManaged.ValueBoolPointer(),
-		IsNewCrypto:                data.IsNewCrypto.ValueBoolPointer(),
-		Iscco:                      data.Iscco.ValueBoolPointer(),
-		L2Enabled:                  data.L2Enabled.ValueBoolPointer(),
-		LaMgmt:                     data.LaMgmt.ValueBoolPointer(),
-		LastUpdatedTime:            data.LastUpdatedTime.ValueInt64Pointer(),
+		IsClip:                     utils.ToBoolValue(data.IsClip),
+		IsManaged:                  utils.ToBoolValue(data.IsManaged),
+		IsNewCrypto:                utils.ToBoolValue(data.IsNewCrypto),
+		Iscco:                      utils.ToBoolValue(data.Iscco),
+		L2Enabled:                  utils.ToBoolValue(data.L2Enabled),
+		LaMgmt:                     utils.ToBoolValue(data.LaMgmt),
+		LastUpdatedTime:            utils.ToIntValue(data.LastUpdatedTime),
 		License:                    data.License.ValueString(),
 		LicenseEdition:             data.LicenseEdition.ValueString(),
-		LicenseGraceTime:           data.LicenseGraceTime.ValueInt64Pointer(),
+		LicenseGraceTime:           utils.ToIntValue(data.LicenseGraceTime),
 		MastoolsVersion:            data.MastoolsVersion.ValueString(),
-		MaxBurstThroughput:         data.MaxBurstThroughput.ValueInt64Pointer(),
-		MetricsCollection:          data.MetricsCollection.ValueBoolPointer(),
+		MaxBurstThroughput:         utils.ToIntValue(data.MaxBurstThroughput),
+		MetricsCollection:          utils.ToBoolValue(data.MetricsCollection),
 		MgmtIpAddress:              data.MgmtIpAddress.ValueString(),
 		Name:                       data.Name.ValueString(),
 		Netmask:                    data.Netmask.ValueString(),
@@ -943,44 +1054,45 @@ func nsGetThePayloadFromtheConfig(ctx context.Context, data *provisionVpxResourc
 		NexthopV6:                  data.NexthopV6.ValueString(),
 		NodeId:                     data.NodeId.ValueString(),
 		NsIpAddress:                data.NsIpAddress.ValueString(),
-		NsvlanId:                   data.NsvlanId.ValueInt64Pointer(),
+		NsvlanId:                   utils.ToIntValue(data.NsvlanId),
 		NsvlanInterfaces:           utils.TypeListToUnmarshalStringList(data.NsvlanInterfaces),
-		NsvlanTagged:               data.NsvlanTagged.ValueBoolPointer(),
-		NumPes:                     data.NumPes.ValueInt64Pointer(),
-		NumberOfAcu:                data.NumberOfAcu.ValueInt64Pointer(),
-		NumberOfCores:              data.NumberOfCores.ValueInt64Pointer(),
-		NumberOfScu:                data.NumberOfScu.ValueInt64Pointer(),
-		NumberOfSslCards:           data.NumberOfSslCards.ValueInt64Pointer(),
-		NumberOfSslCores:           data.NumberOfSslCores.ValueInt64Pointer(),
-		NumberOfSslCoresUp:         data.NumberOfSslCoresUp.ValueInt64Pointer(),
+		NsvlanTagged:               utils.ToBoolValue(data.NsvlanTagged),
+		NumPes:                     utils.ToIntValue(data.NumPes),
+		NumberOfAcu:                utils.ToIntValue(data.NumberOfAcu),
+		NumberOfCores:              utils.ToIntValue(data.NumberOfCores),
+		NumberOfScu:                utils.ToIntValue(data.NumberOfScu),
+		NumberOfSslCards:           utils.ToIntValue(data.NumberOfSslCards),
+		NumberOfSslCores:           utils.ToIntValue(data.NumberOfSslCores),
+		NumberOfSslCoresUp:         utils.ToIntValue(data.NumberOfSslCoresUp),
 		Password:                   data.Password.ValueString(),
-		PltBwAvailable:             data.PltBwAvailable.ValueInt64Pointer(),
-		PltBwConfig:                data.PltBwConfig.ValueInt64Pointer(),
-		PltBwTotal:                 data.PltBwTotal.ValueInt64Pointer(),
+		PltBwAvailable:             utils.ToIntValue(data.PltBwAvailable),
+		PltBwConfig:                utils.ToIntValue(data.PltBwConfig),
+		PltBwTotal:                 utils.ToIntValue(data.PltBwTotal),
 		PluginIpAddress:            data.PluginIpAddress.ValueString(),
 		PluginNetmask:              data.PluginNetmask.ValueString(),
-		Pps:                        data.Pps.ValueInt64Pointer(),
+		Pps:                        utils.ToIntValue(data.Pps),
 		ProfileName:                data.ProfileName.ValueString(),
 		ProfilePassword:            data.ProfilePassword.ValueString(),
 		ProfileUsername:            data.ProfileUsername.ValueString(),
-		RebootVmOnCpuChange:        data.RebootVmOnCpuChange.ValueBoolPointer(),
-		SaveConfig:                 data.SaveConfig.ValueBoolPointer(),
+		RebootVmOnCpuChange:        utils.ToBoolValue(data.RebootVmOnCpuChange),
+		SaveConfig:                 utils.ToBoolValue(data.SaveConfig),
 		State:                      data.State.ValueString(),
-		StdBwAvailable:             data.StdBwAvailable.ValueInt64Pointer(),
-		StdBwConfig:                data.StdBwConfig.ValueInt64Pointer(),
-		StdBwTotal:                 data.StdBwTotal.ValueInt64Pointer(),
+		StdBwAvailable:             utils.ToIntValue(data.StdBwAvailable),
+		StdBwConfig:                utils.ToIntValue(data.StdBwConfig),
+		StdBwTotal:                 utils.ToIntValue(data.StdBwTotal),
 		TemplateName:               data.TemplateName.ValueString(),
-		Throughput:                 data.Throughput.ValueInt64Pointer(),
-		ThroughputAllocationMode:   data.ThroughputAllocationMode.ValueInt64Pointer(),
-		ThroughputLimit:            data.ThroughputLimit.ValueInt64Pointer(),
+		Throughput:                 utils.ToIntValue(data.Throughput),
+		ThroughputAllocationMode:   utils.ToIntValue(data.ThroughputAllocationMode),
+		ThroughputLimit:            utils.ToIntValue(data.ThroughputLimit),
 		Type:                       data.Type.ValueString(),
 		Username:                   data.Username.ValueString(),
-		VcpuConfig:                 data.VcpuConfig.ValueInt64Pointer(),
-		VlanId01:                   data.VlanId01.ValueInt64Pointer(),
-		VlanId02:                   data.VlanId02.ValueInt64Pointer(),
-		VlanType:                   data.VlanType.ValueInt64Pointer(),
-		VmMemoryTotal:              data.VmMemoryTotal.ValueInt64Pointer(),
+		VcpuConfig:                 utils.ToIntValue(data.VcpuConfig),
+		VlanId01:                   utils.ToIntValue(data.VlanId01),
+		VlanId02:                   utils.ToIntValue(data.VlanId02),
+		VlanType:                   utils.ToIntValue(data.VlanType),
+		VmMemoryTotal:              utils.ToIntValue(data.VmMemoryTotal),
 	}
+
 	return nsReqPayload
 }
 
@@ -995,10 +1107,14 @@ func networkInterfaceFromConfigToSchema(ctx context.Context, nidata basetypes.Li
 		mapNi := make(map[string]interface{}, 0)
 
 		for key, val := range internalObjectMap.Attributes() {
-			if !val.IsNull() {
+			if !val.IsNull() && !val.IsUnknown() {
 				switch val.Type(ctx) {
 				case types.StringType:
-					mapNi[key] = val.(basetypes.StringValue).ValueString()
+					if key == "network_interface_id" {
+						mapNi["id"] = val.(basetypes.StringValue).ValueString()
+					} else {
+						mapNi[key] = val.(basetypes.StringValue).ValueString()
+					}
 				case types.Int64Type:
 					mapNi[key] = val.(basetypes.Int64Value).ValueInt64()
 				case types.BoolType:
@@ -1027,9 +1143,9 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 	req.State.GetAttribute(ctx, path.Root("id"), &resId)
 	tflog.Debug(ctx, fmt.Sprintf("[DEBUG] In Read Method of provisionVpxResource with Id: %s", resId))
 
-	var state *provisionVpxResourceModel
+	var data *provisionVpxResourceModel
 
-	diags := req.State.Get(ctx, &state)
+	diags := req.State.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 
 	if resp.Diagnostics.HasError() {
@@ -1037,7 +1153,7 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 	}
 	endpoint := "ns"
 
-	dataArr, err := r.client.GetResource(endpoint, state.Id.ValueString())
+	dataArr, err := r.client.GetResource(endpoint, data.Id.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error Reading Resource",
@@ -1048,318 +1164,101 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 
 	getResponseData := dataArr[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !state.Backplane.IsNull() {
-		state.Backplane = types.StringValue(getResponseData["backplane"].(string))
-	}
-	if !state.BurstPriority.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["burst_priority"].(string))
-		state.BurstPriority = types.Int64Value(int64(val))
-	}
-	if !state.CmdPolicy.IsNull() {
-		state.CmdPolicy = types.StringValue(getResponseData["cmd_policy"].(string))
-	}
-	if !state.ConfigType.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["config_type"].(string))
-		state.ConfigType = types.Int64Value(int64(val))
-	}
-	if !state.CryptoChangeRequiresReboot.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["crypto_change_requires_reboot"].(string))
-		state.CryptoChangeRequiresReboot = types.BoolValue(val)
-	}
-	if !state.Customid.IsNull() {
-		state.Customid = types.StringValue(getResponseData["customid"].(string))
-	}
-	if !state.DatacenterId.IsNull() {
-		state.DatacenterId = types.StringValue(getResponseData["datacenter_id"].(string))
-	}
-	if !state.Description.IsNull() {
-		state.Description = types.StringValue(getResponseData["description"].(string))
-	}
-	if !state.DeviceFamily.IsNull() {
-		state.DeviceFamily = types.StringValue(getResponseData["device_family"].(string))
-	}
-	if !state.DisplayName.IsNull() {
-		state.DisplayName = types.StringValue(getResponseData["display_name"].(string))
-	}
-	if !state.DomainName.IsNull() {
-		state.DomainName = types.StringValue(getResponseData["domain_name"].(string))
-	}
-	if !state.EntBwAvailable.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["ent_bw_available"].(string))
-		state.EntBwAvailable = types.Int64Value(int64(val))
-	}
-	if !state.EntBwConfig.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["ent_bw_config"].(string))
-		state.EntBwConfig = types.Int64Value(int64(val))
-	}
-	if !state.EntBwTotal.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["ent_bw_total"].(string))
-		state.EntBwTotal = types.Int64Value(int64(val))
-	}
-	if !state.FipsPartitionName.IsNull() {
-		state.FipsPartitionName = types.StringValue(getResponseData["fips_partition_name"].(string))
-	}
-	if !state.Gateway.IsNull() {
-		state.Gateway = types.StringValue(getResponseData["gateway"].(string))
-	}
-	if !state.GatewayIpv6.IsNull() {
-		state.GatewayIpv6 = types.StringValue(getResponseData["gateway_ipv6"].(string))
-	}
-	if !state.HostIpAddress.IsNull() {
-		state.HostIpAddress = types.StringValue(getResponseData["host_ip_address"].(string))
-	}
-	if !state.Hostname.IsNull() {
-		state.Hostname = types.StringValue(getResponseData["hostname"].(string))
-	}
-	if !state.If01.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["if_0_1"].(string))
-		state.If01 = types.BoolValue(val)
-	}
-	if !state.If02.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["if_0_2"].(string))
-		state.If02 = types.BoolValue(val)
-	}
-	if !state.IfInternalIpEnabled.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["if_internal_ip_enabled"].(string))
-		state.IfInternalIpEnabled = types.BoolValue(val)
-	}
-	// if !state.ImageName.IsNull() {
-	// 	state.ImageName = types.StringValue(getResponseData["image_name"].(string))  // FIXME: API Problem. image_name is empty after Update operataion
-	// }
-	if !state.InstanceMode.IsNull() {
-		state.InstanceMode = types.StringValue(getResponseData["instance_mode"].(string))
-	}
-	if !state.InternalIpAddress.IsNull() {
-		state.InternalIpAddress = types.StringValue(getResponseData["internal_ip_address"].(string))
-	}
-	if !state.IpAddress.IsNull() {
-		state.IpAddress = types.StringValue(getResponseData["ip_address"].(string))
-	}
-	if !state.Ipv4Address.IsNull() {
-		state.Ipv4Address = types.StringValue(getResponseData["ipv4_address"].(string))
-	}
-	if !state.Ipv6Address.IsNull() {
-		state.Ipv6Address = types.StringValue(getResponseData["ipv6_address"].(string))
-	}
-	if !state.IsClip.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["is_clip"].(string))
-		state.IsClip = types.BoolValue(val)
-	}
-	if !state.IsManaged.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["is_managed"].(string))
-		state.IsManaged = types.BoolValue(val)
-	}
-	if !state.IsNewCrypto.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["is_new_crypto"].(string))
-		state.IsNewCrypto = types.BoolValue(val)
-	}
-	if !state.Iscco.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["iscco"].(string))
-		state.Iscco = types.BoolValue(val)
-	}
-	if !state.L2Enabled.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["l2_enabled"].(string))
-		state.L2Enabled = types.BoolValue(val)
-	}
-	if !state.LaMgmt.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["la_mgmt"].(string))
-		state.LaMgmt = types.BoolValue(val)
-	}
-	if !state.LastUpdatedTime.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["last_updated_time"].(string))
-		state.LastUpdatedTime = types.Int64Value(int64(val))
-	}
-	if !state.License.IsNull() {
-		state.License = types.StringValue(getResponseData["license"].(string))
-	}
-	if !state.LicenseEdition.IsNull() {
-		state.LicenseEdition = types.StringValue(getResponseData["license_edition"].(string))
-	}
-	if !state.LicenseGraceTime.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["license_grace_time"].(string))
-		state.LicenseGraceTime = types.Int64Value(int64(val))
-	}
-	if !state.MastoolsVersion.IsNull() {
-		state.MastoolsVersion = types.StringValue(getResponseData["mastools_version"].(string))
-	}
-	if !state.MaxBurstThroughput.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["max_burst_throughput"].(string))
-		state.MaxBurstThroughput = types.Int64Value(int64(val))
-	}
-	if !state.MetricsCollection.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["metrics_collection"].(string))
-		state.MetricsCollection = types.BoolValue(val)
-	}
-	if !state.MgmtIpAddress.IsNull() {
-		state.MgmtIpAddress = types.StringValue(getResponseData["mgmt_ip_address"].(string))
-	}
-	if !state.Name.IsNull() {
-		state.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !state.Netmask.IsNull() {
-		state.Netmask = types.StringValue(getResponseData["netmask"].(string))
-	}
-	if !state.NetworkInterfaces.IsNull() {
-		state.NetworkInterfaces = networkinterfaceTonetworkinterfaceTF(getResponseData["network_interfaces"].([]interface{}), state.NetworkInterfaces, ctx)
-	}
-	if !state.Nexthop.IsNull() {
-		state.Nexthop = types.StringValue(getResponseData["nexthop"].(string))
-	}
-	if !state.NexthopV6.IsNull() {
-		state.NexthopV6 = types.StringValue(getResponseData["nexthop_v6"].(string))
-	}
-	if !state.NodeId.IsNull() {
-		state.NodeId = types.StringValue(getResponseData["node_id"].(string))
-	}
-	if !state.NsIpAddress.IsNull() {
-		state.NsIpAddress = types.StringValue(getResponseData["ns_ip_address"].(string))
-	}
-	if !state.NsvlanId.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["nsvlan_id"].(string))
-		state.NsvlanId = types.Int64Value(int64(val))
-	}
-	if !state.NsvlanInterfaces.IsNull() {
-		state.NsvlanInterfaces = utils.StringListToTypeList(utils.ToStringList(getResponseData["nsvlan_interfaces"].([]interface{})))
-	}
-	if !state.NsvlanTagged.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["nsvlan_tagged"].(string))
-		state.NsvlanTagged = types.BoolValue(val)
-	}
-	if !state.NumPes.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["num_pes"].(string))
-		state.NumPes = types.Int64Value(int64(val))
-	}
-	if !state.NumberOfAcu.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["number_of_acu"].(string))
-		state.NumberOfAcu = types.Int64Value(int64(val))
-	}
-	if !state.NumberOfCores.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["number_of_cores"].(string))
-		state.NumberOfCores = types.Int64Value(int64(val))
-	}
-	if !state.NumberOfScu.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["number_of_scu"].(string))
-		state.NumberOfScu = types.Int64Value(int64(val))
-	}
-	if !state.NumberOfSslCards.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["number_of_ssl_cards"].(string))
-		state.NumberOfSslCards = types.Int64Value(int64(val))
-	}
-	if !state.NumberOfSslCores.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["number_of_ssl_cores"].(string))
-		state.NumberOfSslCores = types.Int64Value(int64(val))
-	}
-	if !state.NumberOfSslCoresUp.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["number_of_ssl_cores_up"].(string))
-		state.NumberOfSslCoresUp = types.Int64Value(int64(val))
-	}
-	// if !state.Password.IsNull() {
-	// 	state.Password = types.StringValue(getResponseData["password"].(string))
-	// }
-	if !state.PltBwAvailable.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["plt_bw_available"].(string))
-		state.PltBwAvailable = types.Int64Value(int64(val))
-	}
-	if !state.PltBwConfig.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["plt_bw_config"].(string))
-		state.PltBwConfig = types.Int64Value(int64(val))
-	}
-	if !state.PltBwTotal.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["plt_bw_total"].(string))
-		state.PltBwTotal = types.Int64Value(int64(val))
-	}
-	if !state.PluginIpAddress.IsNull() {
-		state.PluginIpAddress = types.StringValue(getResponseData["plugin_ip_address"].(string))
-	}
-	if !state.PluginNetmask.IsNull() {
-		state.PluginNetmask = types.StringValue(getResponseData["plugin_netmask"].(string))
-	}
-	if !state.Pps.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["pps"].(string))
-		state.Pps = types.Int64Value(int64(val))
-	}
-	if !state.ProfileName.IsNull() {
-		state.ProfileName = types.StringValue(getResponseData["profile_name"].(string))
-	}
-	if !state.ProfilePassword.IsNull() {
-		state.ProfilePassword = types.StringValue(getResponseData["profile_password"].(string))
-	}
-	if !state.ProfileUsername.IsNull() {
-		state.ProfileUsername = types.StringValue(getResponseData["profile_username"].(string))
-	}
-	if !state.RebootVmOnCpuChange.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["reboot_vm_on_cpu_change"].(string))
-		state.RebootVmOnCpuChange = types.BoolValue(val)
-	}
-	if !state.SaveConfig.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["save_config"].(string))
-		state.SaveConfig = types.BoolValue(val)
-	}
-	if !state.State.IsNull() {
-		state.State = types.StringValue(getResponseData["state"].(string))
-	}
-	if !state.StdBwAvailable.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["std_bw_available"].(string))
-		state.StdBwAvailable = types.Int64Value(int64(val))
-	}
-	if !state.StdBwConfig.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["std_bw_config"].(string))
-		state.StdBwConfig = types.Int64Value(int64(val))
-	}
-	if !state.StdBwTotal.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["std_bw_total"].(string))
-		state.StdBwTotal = types.Int64Value(int64(val))
-	}
-	if !state.TemplateName.IsNull() {
-		state.TemplateName = types.StringValue(getResponseData["template_name"].(string))
-	}
-	if !state.Throughput.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["throughput"].(string))
-		state.Throughput = types.Int64Value(int64(val))
-	}
-	if !state.ThroughputAllocationMode.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["throughput_allocation_mode"].(string))
-		state.ThroughputAllocationMode = types.Int64Value(int64(val))
-	}
-	if !state.ThroughputLimit.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["throughput_limit"].(string))
-		state.ThroughputLimit = types.Int64Value(int64(val))
-	}
-	if !state.Type.IsNull() {
-		state.Type = types.StringValue(getResponseData["type"].(string))
-	}
-	if !state.Username.IsNull() {
-		state.Username = types.StringValue(getResponseData["username"].(string))
-	}
-	if !state.VcpuConfig.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["vcpu_config"].(string))
-		state.VcpuConfig = types.Int64Value(int64(val))
-	}
-	if !state.VlanId01.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["vlan_id_0_1"].(string))
-		state.VlanId01 = types.Int64Value(int64(val))
-	}
-	if !state.VlanId02.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["vlan_id_0_2"].(string))
-		state.VlanId02 = types.Int64Value(int64(val))
-	}
-	if !state.VlanType.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["vlan_type"].(string))
-		state.VlanType = types.Int64Value(int64(val))
-	}
-	if !state.VmMemoryTotal.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["vm_memory_total"].(string))
-		state.VmMemoryTotal = types.Int64Value(int64(val))
-	}
+	data.Backplane = utils.StringValueToFramework(getResponseData["backplane"])
+	data.BurstPriority = utils.Int64ValueToFramework(getResponseData["burst_priority"])
+	data.CmdPolicy = utils.StringValueToFramework(getResponseData["cmd_policy"])
+	data.ConfigType = utils.Int64ValueToFramework(getResponseData["config_type"])
+	data.CryptoChangeRequiresReboot = utils.BoolValueToFramework(getResponseData["crypto_change_requires_reboot"])
+	data.Customid = utils.StringValueToFramework(getResponseData["customid"])
+	data.DatacenterId = utils.StringValueToFramework(getResponseData["datacenter_id"])
+	data.Description = utils.StringValueToFramework(getResponseData["description"])
+	data.DeviceFamily = utils.StringValueToFramework(getResponseData["device_family"])
+	data.DisplayName = utils.StringValueToFramework(getResponseData["display_name"])
+	data.DomainName = utils.StringValueToFramework(getResponseData["domain_name"])
+	data.EntBwAvailable = utils.Int64ValueToFramework(getResponseData["ent_bw_available"])
+	data.EntBwConfig = utils.Int64ValueToFramework(getResponseData["ent_bw_config"])
+	data.EntBwTotal = utils.Int64ValueToFramework(getResponseData["ent_bw_total"])
+	data.FipsPartitionName = utils.StringValueToFramework(getResponseData["fips_partition_name"])
+	data.Gateway = utils.StringValueToFramework(getResponseData["gateway"])
+	data.GatewayIpv6 = utils.StringValueToFramework(getResponseData["gateway_ipv6"])
+	data.HostIpAddress = utils.StringValueToFramework(getResponseData["host_ip_address"])
+	// data.Hostname = utils.StringValueToFramework(getResponseData["hostname"])
+	data.If01 = utils.BoolValueToFramework(getResponseData["if_0_1"])
+	data.If02 = utils.BoolValueToFramework(getResponseData["if_0_2"])
+	data.IfInternalIpEnabled = utils.BoolValueToFramework(getResponseData["if_internal_ip_enabled"])
+	// data.ImageName = utils.StringValueToFramework(getResponseData["image_name"])
+	data.InstanceMode = utils.StringValueToFramework(getResponseData["instance_mode"])
+	data.InternalIpAddress = utils.StringValueToFramework(getResponseData["internal_ip_address"])
+	data.IpAddress = utils.StringValueToFramework(getResponseData["ip_address"])
+	data.Ipv4Address = utils.StringValueToFramework(getResponseData["ipv4_address"])
+	data.Ipv6Address = utils.StringValueToFramework(getResponseData["ipv6_address"])
+	data.IsClip = utils.BoolValueToFramework(getResponseData["is_clip"])
+	data.IsManaged = utils.BoolValueToFramework(getResponseData["is_managed"])
+	data.IsNewCrypto = utils.BoolValueToFramework(getResponseData["is_new_crypto"])
+	data.Iscco = utils.BoolValueToFramework(getResponseData["iscco"])
+	data.L2Enabled = utils.BoolValueToFramework(getResponseData["l2_enabled"])
+	data.LaMgmt = utils.BoolValueToFramework(getResponseData["la_mgmt"])
+	data.LastUpdatedTime = utils.Int64ValueToFramework(getResponseData["last_updated_time"])
+	data.License = utils.StringValueToFramework(getResponseData["license"])
+	data.LicenseEdition = utils.StringValueToFramework(getResponseData["license_edition"])
+	data.LicenseGraceTime = utils.Int64ValueToFramework(getResponseData["license_grace_time"])
+	data.MastoolsVersion = utils.StringValueToFramework(getResponseData["mastools_version"])
+	data.MaxBurstThroughput = utils.Int64ValueToFramework(getResponseData["max_burst_throughput"])
+	data.MetricsCollection = utils.BoolValueToFramework(getResponseData["metrics_collection"])
+	// data.MgmtIpAddress = utils.StringValueToFramework(getResponseData["mgmt_ip_address"])
+	data.Name = utils.StringValueToFramework(getResponseData["name"])
+	data.Netmask = utils.StringValueToFramework(getResponseData["netmask"])
+	data.NetworkInterfaces = networkinterfaceTonetworkinterfaceTF(getResponseData["network_interfaces"].([]interface{}), data.NetworkInterfaces, ctx)
+	data.Nexthop = utils.StringValueToFramework(getResponseData["nexthop"])
+	data.NexthopV6 = utils.StringValueToFramework(getResponseData["nexthop_v6"])
+	data.NodeId = utils.StringValueToFramework(getResponseData["node_id"])
+	// data.NsIpAddress = utils.StringValueToFramework(getResponseData["ns_ip_address"])
+	data.NsvlanId = utils.Int64ValueToFramework(getResponseData["nsvlan_id"])
+	data.NsvlanInterfaces = utils.StringListToTypeList(utils.ToStringList(getResponseData["nsvlan_interfaces"].([]interface{})))
+	data.NsvlanTagged = utils.BoolValueToFramework(getResponseData["nsvlan_tagged"])
+	data.NumPes = utils.Int64ValueToFramework(getResponseData["num_pes"])
+	data.NumberOfAcu = utils.Int64ValueToFramework(getResponseData["number_of_acu"])
+	data.NumberOfCores = utils.Int64ValueToFramework(getResponseData["number_of_cores"])
+	data.NumberOfScu = utils.Int64ValueToFramework(getResponseData["number_of_scu"])
+	data.NumberOfSslCards = utils.Int64ValueToFramework(getResponseData["number_of_ssl_cards"])
+	data.NumberOfSslCores = utils.Int64ValueToFramework(getResponseData["number_of_ssl_cores"])
+	data.NumberOfSslCoresUp = utils.Int64ValueToFramework(getResponseData["number_of_ssl_cores_up"])
+	// data.Password = utils.StringValueToFramework(getResponseData["password"])
+	data.PltBwAvailable = utils.Int64ValueToFramework(getResponseData["plt_bw_available"])
+	data.PltBwConfig = utils.Int64ValueToFramework(getResponseData["plt_bw_config"])
+	data.PltBwTotal = utils.Int64ValueToFramework(getResponseData["plt_bw_total"])
+	data.PluginIpAddress = utils.StringValueToFramework(getResponseData["plugin_ip_address"])
+	data.PluginNetmask = utils.StringValueToFramework(getResponseData["plugin_netmask"])
+	data.Pps = utils.Int64ValueToFramework(getResponseData["pps"])
+	data.ProfileName = utils.StringValueToFramework(getResponseData["profile_name"])
+	// data.ProfilePassword = utils.StringValueToFramework(getResponseData["profile_password"])
+	data.ProfileUsername = utils.StringValueToFramework(getResponseData["profile_username"])
+	data.RebootVmOnCpuChange = utils.BoolValueToFramework(getResponseData["reboot_vm_on_cpu_change"])
+	data.SaveConfig = utils.BoolValueToFramework(getResponseData["save_config"])
+	data.State = utils.StringValueToFramework(getResponseData["state"])
+	data.StdBwAvailable = utils.Int64ValueToFramework(getResponseData["std_bw_available"])
+	data.StdBwConfig = utils.Int64ValueToFramework(getResponseData["std_bw_config"])
+	data.StdBwTotal = utils.Int64ValueToFramework(getResponseData["std_bw_total"])
+	data.TemplateName = utils.StringValueToFramework(getResponseData["template_name"])
+	data.Throughput = utils.Int64ValueToFramework(getResponseData["throughput"])
+	data.ThroughputAllocationMode = utils.Int64ValueToFramework(getResponseData["throughput_allocation_mode"])
+	data.ThroughputLimit = utils.Int64ValueToFramework(getResponseData["throughput_limit"])
+	data.Type = utils.StringValueToFramework(getResponseData["type"])
+	data.Username = utils.StringValueToFramework(getResponseData["username"])
+	data.VcpuConfig = utils.Int64ValueToFramework(getResponseData["vcpu_config"])
+	data.VlanId01 = utils.Int64ValueToFramework(getResponseData["vlan_id_0_1"])
+	data.VlanId02 = utils.Int64ValueToFramework(getResponseData["vlan_id_0_2"])
+	data.VlanType = utils.Int64ValueToFramework(getResponseData["vlan_type"])
+	data.VmMemoryTotal = utils.Int64ValueToFramework(getResponseData["vm_memory_total"])
 
-	diags = resp.State.Set(ctx, &state)
+	diags = resp.State.Set(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func networkinterfaceTonetworkinterfaceTF(nif []interface{}, stateNetworkInterface basetypes.ListValue, ctx context.Context) basetypes.ListValue {
+func networkinterfaceTonetworkinterfaceTF(nifGetResponse []interface{}, stateNetworkInterface basetypes.ListValue, ctx context.Context) basetypes.ListValue {
 	var nifSchemaAttributes = []string{
 		"port_name",
 		"name_server",
@@ -1388,104 +1287,67 @@ func networkinterfaceTonetworkinterfaceTF(nif []interface{}, stateNetworkInterfa
 		"sdx_formation_network_id",
 	}
 
-	var nifs []map[string]interface{}
+	var nifListFilterFromGetResponse []map[string]interface{}
 
-	// if network_interfaces is not set in the state file, then return empty list
-	if len(stateNetworkInterface.Elements()) == 0 {
-		return basetypes.ListValue{}
-	}
+	for _, v := range nifGetResponse {
 
-	for _, v := range stateNetworkInterface.Elements() {
-
-		inputNifs := v.(basetypes.ObjectValue).Attributes()
-
-		// get the portnames of all the inputNifs
-		var inputNifPortNames []string
-		for key, inputNif := range inputNifs {
-			if key == "port_name" {
-				inputNif := inputNif.(basetypes.StringValue).ValueString()
-				inputNifPortNames = append(inputNifPortNames, inputNif)
-			}
-		}
-
-		for _, nif := range nif {
-			nifMap := nif.(map[string]interface{})
-			if len(nifMap) == 0 {
-				continue
-			}
-			if !service.Contains(inputNifPortNames, nifMap["port_name"].(string)) {
-				continue
-			}
-			// iterate through nifMap and only keep the keys that are in the nifSchemaAttributes
-			// var nifMap2 map[string]interface{}
-			nifMap2 := make(map[string]interface{})
-			for k, v := range nifMap {
-				if service.Contains(nifSchemaAttributes, k) {
-					nifMap2[k] = v
+		nifMapGetResponse := v.(map[string]interface{})
+		nifMapFilterFromGetResponse := make(map[string]interface{})
+		if nifMapGetResponse["port_name"].(string) != "" && nifMapGetResponse["parent_channel_id"].(string) == "" {
+			for key, inputNif := range nifMapGetResponse {
+				if service.Contains(nifSchemaAttributes, key) {
+					nifMapFilterFromGetResponse[key] = inputNif
 				}
 			}
-			nifs = append(nifs, nifMap2)
+
+			nifListFilterFromGetResponse = append(nifListFilterFromGetResponse, nifMapFilterFromGetResponse)
 		}
 	}
+
 	var nifList []attr.Value
-	for listindex, nif := range nifs {
-		var networkInterfaceElementsInState []string
-		stateNetworkInterfaceElements := stateNetworkInterface.Elements()[listindex].(basetypes.ObjectValue)
-		for key, val := range stateNetworkInterfaceElements.Attributes() {
-			if !val.IsNull() {
-				networkInterfaceElementsInState = append(networkInterfaceElementsInState, key)
-			}
-		}
-		var newMap basetypes.ObjectValue
+	for _, nif := range nifListFilterFromGetResponse {
+
+		var nifObjectValue basetypes.ObjectValue
 		nifmap := make(map[string]attr.Value)
 		nifMapTypes := make(map[string]attr.Type)
 		for k, v := range nif {
-			if !service.Contains(networkInterfaceElementsInState, k) {
-				if k == "is_vlan_applied" || k == "is_mgmt_ifc" || k == "is_member_ifc" || k == "l2_enabled" || k == "receiveuntagged" {
-					nifmap[k] = basetypes.NewBoolNull()
-					nifMapTypes[k] = types.BoolType
-				} else if k == "vlan" {
-					nifmap[k] = basetypes.NewInt64Null()
-					nifMapTypes[k] = types.Int64Type
-				} else if k == "vrid_list_ipv4_array" || k == "vrid_list_ipv6_array" || k == "vlan_whitelist_array" {
+
+			if k == "is_vlan_applied" || k == "is_mgmt_ifc" || k == "is_member_ifc" || k == "l2_enabled" || k == "receiveuntagged" {
+				nifmap[k] = utils.BoolValueToFramework(v)
+				nifMapTypes[k] = types.BoolType
+			} else if k == "vlan" {
+				nifmap[k] = utils.Int64ValueToFramework(v)
+				nifMapTypes[k] = types.Int64Type
+			} else if k == "vrid_list_ipv4_array" || k == "vrid_list_ipv6_array" || k == "vlan_whitelist_array" {
+				if v == nil {
 					nifmap[k] = basetypes.NewListNull(types.StringType)
 					nifMapTypes[k] = types.ListType{ElemType: types.StringType}
+				} else if len(v.([]interface{})) == 0 {
+					val := make([]attr.Value, 0)
+					nifmap[k], _ = basetypes.NewListValue(types.StringType, val)
 				} else {
-					nifmap[k] = basetypes.NewStringNull()
-					nifMapTypes[k] = types.StringType
-				}
-			} else {
-				if k == "is_vlan_applied" || k == "is_mgmt_ifc" || k == "is_member_ifc" || k == "l2_enabled" || k == "receiveuntagged" {
-					val, _ := strconv.ParseBool(v.(string))
-					nifmap[k] = basetypes.NewBoolValue(val)
-					nifMapTypes[k] = types.BoolType
-				} else if k == "vlan" {
-					val, _ := strconv.ParseInt(v.(string), 10, 64)
-					nifmap[k] = basetypes.NewInt64Value(val)
-					nifMapTypes[k] = types.Int64Type
-				} else if k == "vrid_list_ipv4_array" || k == "vrid_list_ipv6_array" || k == "vlan_whitelist_array" {
-					if len(v.([]interface{})) == 0 {
-						val := make([]attr.Value, 0)
-						nifmap[k], _ = basetypes.NewListValue(types.StringType, val)
-					} else {
-						var stringSlice []attr.Value
-						for _, item := range v.([]interface{}) {
-							if str, ok := item.(string); ok {
-								stringSlice = append(stringSlice, basetypes.NewStringValue(str))
-							}
-							nifmap[k], _ = basetypes.NewListValue(types.StringType, stringSlice)
+					var stringSlice []attr.Value
+					for _, item := range v.([]interface{}) {
+						if str, ok := item.(string); ok {
+							stringSlice = append(stringSlice, basetypes.NewStringValue(str))
 						}
+						nifmap[k], _ = basetypes.NewListValue(types.StringType, stringSlice)
 					}
-					nifMapTypes[k] = types.ListType{ElemType: types.StringType}
+				}
+				nifMapTypes[k] = types.ListType{ElemType: types.StringType}
+			} else {
+				if k == "id" {
+					nifmap["network_interface_id"] = utils.StringValueToFramework(v)
+					nifMapTypes["network_interface_id"] = types.StringType
 				} else {
-					nifmap[k] = basetypes.NewStringValue(v.(string))
+					nifmap[k] = utils.StringValueToFramework(v)
 					nifMapTypes[k] = types.StringType
 				}
 			}
 		}
 
-		newMap, _ = basetypes.NewObjectValue(nifMapTypes, nifmap)
-		nifList = append(nifList, newMap)
+		nifObjectValue, _ = basetypes.NewObjectValue(nifMapTypes, nifmap)
+		nifList = append(nifList, nifObjectValue)
 
 	}
 	newNifList, _ := basetypes.NewListValueFrom(ctx, stateNetworkInterface.ElementType(ctx), nifList)
@@ -1500,8 +1362,8 @@ func (r *provisionVpxResource) Update(ctx context.Context, req resource.UpdateRe
 	req.State.GetAttribute(ctx, path.Root("id"), &resId)
 	tflog.Debug(ctx, fmt.Sprintf("[DEBUG] In Update Method of provisionVpxResource with Id: %s", resId))
 
-	var plan provisionVpxResourceModel
-	diags := req.Plan.Get(ctx, &plan)
+	var data provisionVpxResourceModel
+	diags := req.Plan.Get(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1516,8 +1378,8 @@ func (r *provisionVpxResource) Update(ctx context.Context, req resource.UpdateRe
 
 	resourceId := state.Id.ValueString()
 	endpoint := "ns"
-	requestPayload := nsGetThePayloadFromtheConfig(ctx, &plan)
-	plan.Id = state.Id
+	requestPayload := nsGetThePayloadFromtheConfig(ctx, &data)
+	data.Id = state.Id
 
 	_, err := r.client.UpdateResource(endpoint, requestPayload, resourceId)
 
@@ -1529,14 +1391,29 @@ func (r *provisionVpxResource) Update(ctx context.Context, req resource.UpdateRe
 		return
 	}
 
-	diags = resp.State.Set(ctx, &plan)
+	diags = resp.State.Set(ctx, &data)
 	resp.Diagnostics.Append(diags...)
 
 	if resp.Diagnostics.HasError() {
 		return
 	}
-}
 
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
+	}
+
+}
 func (r *provisionVpxResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 
 	var resId types.String
