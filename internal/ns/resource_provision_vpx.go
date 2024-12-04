@@ -1310,15 +1310,19 @@ func networkinterfaceTonetworkinterfaceTF(nifGetResponse []interface{}, stateNet
 		var nifObjectValue basetypes.ObjectValue
 		nifmap := make(map[string]attr.Value)
 		nifMapTypes := make(map[string]attr.Type)
+
+		attributeTypes := stateNetworkInterface.ElementType(ctx).(types.ObjectType).AttributeTypes()
+
 		for k, v := range nif {
 
-			if k == "is_vlan_applied" || k == "is_mgmt_ifc" || k == "is_member_ifc" || k == "l2_enabled" || k == "receiveuntagged" {
+			switch attributeTypes[k].(type) {
+			case basetypes.BoolType:
 				nifmap[k] = utils.BoolValueToFramework(v)
 				nifMapTypes[k] = types.BoolType
-			} else if k == "vlan" {
+			case basetypes.Int64Type:
 				nifmap[k] = utils.Int64ValueToFramework(v)
 				nifMapTypes[k] = types.Int64Type
-			} else if k == "vrid_list_ipv4_array" || k == "vrid_list_ipv6_array" || k == "vlan_whitelist_array" {
+			case basetypes.ListType:
 				if v == nil {
 					nifmap[k] = basetypes.NewListNull(types.StringType)
 					nifMapTypes[k] = types.ListType{ElemType: types.StringType}
@@ -1335,7 +1339,7 @@ func networkinterfaceTonetworkinterfaceTF(nifGetResponse []interface{}, stateNet
 					}
 				}
 				nifMapTypes[k] = types.ListType{ElemType: types.StringType}
-			} else {
+			default:
 				if k == "id" {
 					nifmap["network_interface_id"] = utils.StringValueToFramework(v)
 					nifMapTypes["network_interface_id"] = types.StringType
