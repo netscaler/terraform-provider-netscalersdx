@@ -527,6 +527,10 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 							Description:         "Gateway",
 							MarkdownDescription: "Gateway",
 						},
+						// Terraform does not expect `id` to be used as an attribute name.
+						// In Terraform, the `id` attribute is typically reserved for the unique identifier of a resource.
+						// Using `id` as an attribute name can lead to conflicts or unexpected behavior.
+						// Therefore, it is recommended to use a different attribute name to avoid such issues.						
 						"network_interface_id": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
