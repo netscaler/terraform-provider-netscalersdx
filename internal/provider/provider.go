@@ -18,6 +18,7 @@ import (
 	"terraform-provider-netscalersdx/internal/ldap_server"
 	"terraform-provider-netscalersdx/internal/mps"
 	"terraform-provider-netscalersdx/internal/mps_feature"
+	"terraform-provider-netscalersdx/internal/mps_ssl_certkey"
 	"terraform-provider-netscalersdx/internal/mpsgroup"
 	"terraform-provider-netscalersdx/internal/mpsuser"
 	"terraform-provider-netscalersdx/internal/ns"
@@ -155,6 +156,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		ssl_settings.SslSettingsResource,
 		system_settings.SystemSettingsResource,
 		current_hostname.CurrentHostnameResource,
+		mps_ssl_certkey.MpsSslCertkeyResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
