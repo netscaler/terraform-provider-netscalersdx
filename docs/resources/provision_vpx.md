@@ -196,7 +196,6 @@ Required:
 Optional:
 
 - `gateway` (String) Gateway
-- `id` (String) Id
 - `interface_name` (String) Interface Name
 - `ip_address` (String) IP Address
 - `is_member_ifc` (Boolean) `true` if this interface is member of a channel.
@@ -208,6 +207,7 @@ Optional:
 - `managed_device_id` (String) Managed Device Id
 - `name_server` (String) Name Server
 - `netmask` (String) Netmask
+- `network_interface_id` (String) Id
 - `parent_id` (String) Parent Id
 - `parent_name` (String) Parent Name
 - `receiveuntagged` (Boolean) Receive Untagged Packets on Interface/Channel. Allow Untagged Traffic.
