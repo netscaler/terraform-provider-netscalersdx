@@ -14,7 +14,7 @@ Configuration for System Hostname resource.
 
 ```terraform
 resource "netscalersdx_current_hostname" "tf_current_hostname" {
-  hostname            = "nssdx-mgmt"
+  hostname            = "example-mgmt"
   hypervisor_hostname = "netscaler-sdx"
 }
 ```

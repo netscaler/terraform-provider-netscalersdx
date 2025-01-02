@@ -14,7 +14,7 @@ Get a VPX device ID by IP address
 
 ```terraform
 data "netscalersdx_vpx" "instance1" {
-  ip_address = "10.10.10.176"
+  ip_address = "10.10.10.11"
 }
 
 output "instance1_id" {
