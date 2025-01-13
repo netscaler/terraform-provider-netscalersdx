@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0]
+
+### Added
+
+- **Import Support** `netscalersdx_provision_vpx`
+- **New Resource** `current_hostname` [#76]
+- **New Resource** `mps_ssl_certkey` [#56]
+
+### Changed
+
+- Updated dependent libraries due to security issues.
+- Updated the documentation using `tfplugindocs`
+- **netscalersdx_provision_vpx**: Updated read logic to handle network_interface attribute in more generic manner
+
+[#76]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/76
+[#56]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/56
+
 ## [0.5.0]
 
 ### Added
@@ -83,7 +100,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `provision_vpx`
 * **New Resource** `vpx_state`
 
-[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.2.0...v0.3.0
