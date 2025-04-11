@@ -70,6 +70,19 @@ type NitroClient struct {
 	logger    hclog.Logger
 }
 
+// Getter methods for private fields
+func (c *NitroClient) Host() string {
+	return c.host
+}
+
+func (c *NitroClient) Username() string {
+	return c.username
+}
+
+func (c *NitroClient) Password() string {
+	return c.password
+}
+
 // NewNitroClientFromParams returns a usable NitroClient. Does not check validity of supplied parameters
 func NewNitroClientFromParams(params NitroParamsapi) (*NitroClient, error) {
 	u, err := url.Parse(params.Host)
