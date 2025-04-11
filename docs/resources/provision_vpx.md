@@ -64,18 +64,21 @@ resource "netscalersdx_provision_vpx" "device1" {
   network_interfaces = [
     {
       port_name            = "LA/1"
+      device_channel_name  = "LA/1"
       mac_mode             = "default"
       receiveuntagged      = true
       vlan_whitelist_array = ["2", "3", "5"]
     },
     {
       port_name            = "LA/2"
+      device_channel_name  = "LA/2"
       mac_mode             = "default"
       receiveuntagged      = true
       vlan_whitelist_array = ["4000", "4001", "4005"] // individual vlan id (Ascending order)
     },
     {
       port_name            = "LA/3"
+      device_channel_name  = "LA/3"
       mac_mode             = "default"
       receiveuntagged      = true
       vlan_whitelist_array = ["100-105", "4000-4004"] // maintain the order as well (Ascending order)
@@ -195,6 +198,7 @@ Required:
 
 Optional:
 
+- `device_channel_name` (String) The name of the device channel.  Must be the same as the `port_name` value when a channel network interface is used, or the interface will start "flapping" if the VPX is reprovisioned by a change in the cpu or memory configuration.
 - `gateway` (String) Gateway
 - `interface_name` (String) Interface Name
 - `ip_address` (String) IP Address
