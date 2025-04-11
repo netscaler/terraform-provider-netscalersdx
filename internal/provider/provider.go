@@ -28,6 +28,7 @@ import (
 	"terraform-provider-netscalersdx/internal/ntp_server"
 	"terraform-provider-netscalersdx/internal/ntp_sync"
 	"terraform-provider-netscalersdx/internal/radius_server"
+	"terraform-provider-netscalersdx/internal/sdx_license"
 	"terraform-provider-netscalersdx/internal/smtp_server"
 	"terraform-provider-netscalersdx/internal/snmp_alarm_config"
 	"terraform-provider-netscalersdx/internal/snmp_manager"
@@ -157,6 +158,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		system_settings.SystemSettingsResource,
 		current_hostname.CurrentHostnameResource,
 		mps_ssl_certkey.MpsSslCertkeyResource,
+		sdx_license.LicenseFileResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
