@@ -170,26 +170,26 @@ func mpsgroupGetThePayloadFromtheConfig(ctx context.Context, data *mpsgroupModel
 	tflog.Debug(ctx, fmt.Sprintf("Data: %v", data.ApplyAllBoundEntities.ValueBoolPointer()))
 	mpsgroupReqPayload := mpsgroupReq{
 		AllowApplicationOnly:        data.AllowApplicationOnly.ValueBoolPointer(),
-		ApplicationNames:            utils.TypeListToStringList(data.ApplicationNames),
+		ApplicationNames:            utils.TypeListToUnmarshalStringList(data.ApplicationNames),
 		ApplyAllBoundEntities:       data.ApplyAllBoundEntities.ValueBoolPointer(),
 		AssignAllApps:               data.AssignAllApps.ValueBoolPointer(),
 		AssignAllAutoscaleGroups:    data.AssignAllAutoscaleGroups.ValueBoolPointer(),
 		AssignAllDevices:            data.AssignAllDevices.ValueBoolPointer(),
 		AssignAllSelectedDeviceApps: data.AssignAllSelectedDeviceApps.ValueBoolPointer(),
-		AutoscaleGroupsId:           utils.TypeListToStringList(data.AutoscaleGroupsId),
+		AutoscaleGroupsId:           utils.TypeListToUnmarshalStringList(data.AutoscaleGroupsId),
 		BoundEntitySelected:         data.BoundEntitySelected.ValueInt64Pointer(),
 		Description:                 data.Description.ValueStringPointer(),
 		EnableSessionTimeout:        data.EnableSessionTimeout.ValueBoolPointer(),
 		Name:                        data.Name.ValueString(),
 		Permission:                  data.Permission.ValueString(),
 		Role:                        data.Role.ValueString(),
-		Roles:                       utils.TypeListToStringList(data.Roles),
+		Roles:                       utils.TypeListToUnmarshalStringList(data.Roles),
 		SelectIndividualEntity:      data.SelectIndividualEntity.ValueBoolPointer(),
 		SessionTimeout:              data.SessionTimeout.ValueInt64Pointer(),
 		SessionTimeoutUnit:          data.SessionTimeoutUnit.ValueString(),
-		StandaloneInstancesId:       utils.TypeListToStringList(data.StandaloneInstancesId),
+		StandaloneInstancesId:       utils.TypeListToUnmarshalStringList(data.StandaloneInstancesId),
 		TenantId:                    data.TenantId.ValueString(),
-		Users:                       utils.TypeListToStringList(data.Users),
+		Users:                       utils.TypeListToUnmarshalStringList(data.Users),
 	}
 
 	return mpsgroupReqPayload
