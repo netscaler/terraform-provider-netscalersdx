@@ -14,7 +14,12 @@ import (
 
 var _ resource.Resource = (*snmpTrapResource)(nil)
 var _ resource.ResourceWithConfigure = (*snmpTrapResource)(nil)
+var _ resource.ResourceWithImportState = (*snmpTrapResource)(nil)
 
+func (r *snmpTrapResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+
+}
 func SnmpTrapResource() resource.Resource {
 	return &snmpTrapResource{}
 }
