@@ -75,7 +75,7 @@ func ntpParamGetThePayloadFromtheConfig(ctx context.Context, data *ntpParamModel
 		Authentication: data.Authentication.ValueBool(),
 		AutomaxLogsec:  data.AutomaxLogsec.ValueInt64(),
 		RevokeLogsec:   data.RevokeLogsec.ValueInt64(),
-		TrustedKeyList: utils.TypeListToStringList(data.TrustedKeyList),
+		TrustedKeyList: utils.TypeListToUnmarshalStringList(data.TrustedKeyList),
 	}
 	return ntpParamReqPayload
 }
