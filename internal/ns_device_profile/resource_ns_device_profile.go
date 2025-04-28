@@ -366,23 +366,11 @@ func (r *nsDeviceProfileResource) Read(ctx context.Context, req resource.ReadReq
 	if !state.Username.IsNull() {
 		state.Username = types.StringValue(getResponseData["username"].(string))
 	}
-	if !state.Snmpauthprotocol.IsNull() {
-		state.Snmpauthprotocol = types.StringValue(getResponseData["snmpauthprotocol"].(string))
-	}
 	if !state.SshPort.IsNull() {
 		state.SshPort = types.StringValue(getResponseData["ssh_port"].(string))
 	}
-	if !state.Snmpprivprotocol.IsNull() {
-		state.Snmpprivprotocol = types.StringValue(getResponseData["snmpprivprotocol"].(string))
-	}
-	if !state.HostPassword.IsNull() {
-		state.HostPassword = types.StringValue(getResponseData["host_password"].(string))
-	}
 	if !state.Snmpversion.IsNull() {
 		state.Snmpversion = types.StringValue(getResponseData["snmpversion"].(string))
-	}
-	if !state.Passphrase.IsNull() {
-		state.Passphrase = types.StringValue(getResponseData["passphrase"].(string))
 	}
 	if !state.HostUsername.IsNull() {
 		state.HostUsername = types.StringValue(getResponseData["host_username"].(string))
@@ -400,18 +388,12 @@ func (r *nsDeviceProfileResource) Read(ctx context.Context, req resource.ReadReq
 		val, _ := strconv.Atoi(getResponseData["http_port"].(string))
 		state.HttpPort = types.Int64Value(int64(val))
 	}
-	if !state.Snmpcommunity.IsNull() {
-		state.Snmpcommunity = types.StringValue(getResponseData["snmpcommunity"].(string))
-	}
 	if !state.HttpsPort.IsNull() {
 		val, _ := strconv.Atoi(getResponseData["https_port"].(string))
 		state.HttpsPort = types.Int64Value(int64(val))
 	}
 	if !state.MaxWaitTimeReboot.IsNull() {
 		state.MaxWaitTimeReboot = types.StringValue(getResponseData["max_wait_time_reboot"].(string))
-	}
-	if !state.Snmpprivpassword.IsNull() {
-		state.Snmpprivpassword = types.StringValue(getResponseData["snmpprivpassword"].(string))
 	}
 	if !state.CbProfileName.IsNull() {
 		state.CbProfileName = types.StringValue(getResponseData["cb_profile_name"].(string))
