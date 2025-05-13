@@ -357,9 +357,9 @@ func (r *nsDeviceProfileResource) Read(ctx context.Context, req resource.ReadReq
 	if !state.Type.IsNull() {
 		state.Type = types.StringValue(getResponseData["type"].(string))
 	}
-	if !state.NsProfileName.IsNull() {
-		state.NsProfileName = types.StringValue(getResponseData["ns_profile_name"].(string))
-	}
+	// if !state.NsProfileName.IsNull() {
+	// 	state.NsProfileName = types.StringValue(getResponseData["ns_profile_name"].(string))
+	// }
 	if !state.Snmpsecuritylevel.IsNull() {
 		state.Snmpsecuritylevel = types.StringValue(getResponseData["snmpsecuritylevel"].(string))
 	}
@@ -372,18 +372,18 @@ func (r *nsDeviceProfileResource) Read(ctx context.Context, req resource.ReadReq
 	if !state.Snmpversion.IsNull() {
 		state.Snmpversion = types.StringValue(getResponseData["snmpversion"].(string))
 	}
-	if !state.HostUsername.IsNull() {
-		state.HostUsername = types.StringValue(getResponseData["host_username"].(string))
-	}
+	// if !state.HostUsername.IsNull() {
+	// 	state.HostUsername = types.StringValue(getResponseData["host_username"].(string))
+	// }
 	if !state.Snmpsecurityname.IsNull() {
 		state.Snmpsecurityname = types.StringValue(getResponseData["snmpsecurityname"].(string))
 	}
-	if !state.SslPrivateKey.IsNull() {
-		state.SslPrivateKey = types.StringValue(getResponseData["ssl_private_key"].(string))
-	}
-	if !state.SslCert.IsNull() {
-		state.SslCert = types.StringValue(getResponseData["ssl_cert"].(string))
-	}
+	// if !state.SslPrivateKey.IsNull() {
+	// 	state.SslPrivateKey = types.StringValue(getResponseData["ssl_private_key"].(string))
+	// }
+	// if !state.SslCert.IsNull() {
+	// 	state.SslCert = types.StringValue(getResponseData["ssl_cert"].(string))
+	// }
 	if !state.HttpPort.IsNull() {
 		val, _ := strconv.Atoi(getResponseData["http_port"].(string))
 		state.HttpPort = types.Int64Value(int64(val))
@@ -395,12 +395,12 @@ func (r *nsDeviceProfileResource) Read(ctx context.Context, req resource.ReadReq
 	if !state.MaxWaitTimeReboot.IsNull() {
 		state.MaxWaitTimeReboot = types.StringValue(getResponseData["max_wait_time_reboot"].(string))
 	}
-	if !state.CbProfileName.IsNull() {
-		state.CbProfileName = types.StringValue(getResponseData["cb_profile_name"].(string))
-	}
-	if !state.Snmpauthpassword.IsNull() {
-		state.Snmpauthpassword = types.StringValue(getResponseData["snmpauthpassword"].(string))
-	}
+	// if !state.CbProfileName.IsNull() {
+	// 	state.CbProfileName = types.StringValue(getResponseData["cb_profile_name"].(string))
+	// }
+	// if !state.Snmpauthpassword.IsNull() {
+	// 	state.Snmpauthpassword = types.StringValue(getResponseData["snmpauthpassword"].(string))
+	// }
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
