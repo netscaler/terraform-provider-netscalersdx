@@ -42,11 +42,13 @@ func aaaServerResourceSchema() schema.Schema {
 			},
 			"fallback_local_authentication": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enable local fallback authentication.",
 				MarkdownDescription: "Enable local fallback authentication.",
 			},
 			"log_ext_group_info": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Log external group info.",
 				MarkdownDescription: "Log external group info.",
 			},
@@ -108,23 +110,13 @@ func externalServersFromConfigToRequest(ctx context.Context, externalServersData
 }
 func aaaServerSetAttrFromGet(ctx context.Context, data *aaaServerModel, getResponseData map[string]interface{}) *aaaServerModel {
 	tflog.Debug(ctx, "In aaaServerSetAttrFromGet Function")
-	if !data.ExternalServers.IsNull() {
-		data.ExternalServers = externalServerToTFValue(ctx, getResponseData["external_servers"].([]interface{}))
-	}
-	if !data.FallbackLocalAuthentication.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["fallback_local_authentication"].(string))
-		data.FallbackLocalAuthentication = types.BoolValue(val)
-	}
-	if !data.LogExtGroupInfo.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["log_ext_group_info"].(string))
-		data.LogExtGroupInfo = types.BoolValue(val)
-	}
-	if !data.PrimaryServerName.IsNull() {
-		data.PrimaryServerName = types.StringValue(getResponseData["primary_server_name"].(string))
-	}
-	if !data.PrimaryServerType.IsNull() {
-		data.PrimaryServerType = types.StringValue(getResponseData["primary_server_type"].(string))
-	}
+	data.ExternalServers = externalServerToTFValue(ctx, getResponseData["external_servers"].([]interface{}))
+	val1, _ := strconv.ParseBool(getResponseData["fallback_local_authentication"].(string))
+	data.FallbackLocalAuthentication = types.BoolValue(val1)
+	val2, _ := strconv.ParseBool(getResponseData["log_ext_group_info"].(string))
+	data.LogExtGroupInfo = types.BoolValue(val2)
+	data.PrimaryServerName = types.StringValue(getResponseData["primary_server_name"].(string))
+	data.PrimaryServerType = types.StringValue(getResponseData["primary_server_type"].(string))
 	return data
 }
 
