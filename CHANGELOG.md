@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1]
+
+### Changed
+
+- **Go-version**: Upgraded go version to 1.24
+
+### Fixed
+
+- **netscalersdx_ns_device_profile**: Handled read func to not set some attributes from NetScaler SDX [#86]
+
 ## [0.7.0]
 
 ### Fixed
@@ -108,7 +118,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `provision_vpx`
 * **New Resource** `vpx_state`
 
-[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.4.0...v0.5.0
