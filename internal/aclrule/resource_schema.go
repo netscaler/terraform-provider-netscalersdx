@@ -2,7 +2,7 @@ package aclrule
 
 import (
 	"context"
-	"strconv"
+	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -20,6 +20,7 @@ func aclruleResourceSchema() schema.Schema {
 			},
 			"dst_port": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enable external authentication.",
 				MarkdownDescription: "Enable external authentication.",
 			},
@@ -75,25 +76,12 @@ func aclruleGetThePayloadFromtheConfig(ctx context.Context, data *aclruleModel) 
 }
 func aclruleSetAttrFromGet(ctx context.Context, data *aclruleModel, getResponseData map[string]interface{}) *aclruleModel {
 	tflog.Debug(ctx, "In aclruleSetAttrFromGet Function")
-	if !data.Action.IsNull() {
-		data.Action = types.StringValue(getResponseData["action"].(string))
-	}
-	if !data.DstPort.IsNull() {
-		data.DstPort = types.StringValue(getResponseData["dst_port"].(string))
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.Priority.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["priority"].(string))
-		data.Priority = types.Int64Value(int64(val))
-	}
-	if !data.Protocol.IsNull() {
-		data.Protocol = types.StringValue(getResponseData["protocol"].(string))
-	}
-	if !data.SrcIp.IsNull() {
-		data.SrcIp = types.StringValue(getResponseData["src_ip"].(string))
-	}
+	data.Action = types.StringValue(getResponseData["action"].(string))
+	data.DstPort = types.StringValue(getResponseData["dst_port"].(string))
+	data.Name = types.StringValue(getResponseData["name"].(string))
+	data.Priority = types.Int64Value(utils.StringToInt(getResponseData["priority"].(string)))
+	data.Protocol = types.StringValue(getResponseData["protocol"].(string))
+	data.SrcIp = types.StringValue(getResponseData["src_ip"].(string))
 	return data
 }
 
