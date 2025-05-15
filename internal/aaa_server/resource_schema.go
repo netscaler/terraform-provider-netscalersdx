@@ -54,6 +54,7 @@ func aaaServerResourceSchema() schema.Schema {
 			},
 			"primary_server_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Name of primary server name. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Name of primary server name. Minimum length =  1 Maximum length =  128",
 			},
