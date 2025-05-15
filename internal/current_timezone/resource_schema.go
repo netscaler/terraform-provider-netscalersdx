@@ -44,9 +44,9 @@ func currentTimezoneGetThePayloadFromtheConfig(ctx context.Context, data *curren
 }
 func currentTimezoneSetAttrFromGet(ctx context.Context, data *currentTimezoneModel, getResponseData map[string]interface{}) *currentTimezoneModel {
 	tflog.Debug(ctx, "In currentTimezoneSetAttrFromGet Function")
-	if !data.Timezone.IsNull() {
-		data.Timezone = types.StringValue(getResponseData["timezone"].(string))
-	}
+
+	data.Timezone = types.StringValue(getResponseData["timezone"].(string))
+	
 	return data
 }
 
