@@ -104,3 +104,12 @@ func ToBoolValue(v basetypes.BoolValue) *bool {
 	}
 	return nil
 }
+
+func StringToInt(v string) int64 {
+	val, _ := strconv.Atoi(v)
+	return int64(val)
+}
+func StringToBool(v string) bool {
+	val, _ := strconv.ParseBool(v)
+	return val
+}
