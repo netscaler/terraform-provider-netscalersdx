@@ -15,6 +15,7 @@ import (
 
 var _ resource.Resource = (*currentTimezoneResource)(nil)
 var _ resource.ResourceWithConfigure = (*currentTimezoneResource)(nil)
+var _ resource.ResourceWithImportState = (*currentTimezoneResource)(nil)
 
 func CurrentTimezoneResource() resource.Resource {
 	return &currentTimezoneResource{}
@@ -22,6 +23,10 @@ func CurrentTimezoneResource() resource.Resource {
 
 type currentTimezoneResource struct {
 	client *service.NitroClient
+}
+
+func (r *currentTimezoneResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *currentTimezoneResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
