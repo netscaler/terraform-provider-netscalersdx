@@ -2,7 +2,7 @@ package snmp_view
 
 import (
 	"context"
-	"strconv"
+	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -59,16 +59,11 @@ func snmpViewGetThePayloadFromtheConfig(ctx context.Context, data *snmpViewModel
 }
 func snmpViewSetAttrFromGet(ctx context.Context, data *snmpViewModel, getResponseData map[string]interface{}) *snmpViewModel {
 	tflog.Debug(ctx, "In snmpViewSetAttrFromGet Function")
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.Subtree.IsNull() {
-		data.Subtree = types.StringValue(getResponseData["subtree"].(string))
-	}
-	if !data.Type.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["type"].(string))
-		data.Type = types.BoolValue(val)
-	}
+
+	data.Name = types.StringValue(getResponseData["name"].(string))
+	data.Subtree = types.StringValue(getResponseData["subtree"].(string))
+	data.Type = types.BoolValue(utils.StringToBool(getResponseData["type"].(string)))
+
 	return data
 }
 
