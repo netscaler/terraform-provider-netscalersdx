@@ -46,7 +46,7 @@ func currentTimezoneSetAttrFromGet(ctx context.Context, data *currentTimezoneMod
 	tflog.Debug(ctx, "In currentTimezoneSetAttrFromGet Function")
 
 	data.Timezone = types.StringValue(getResponseData["timezone"].(string))
-	
+
 	return data
 }
 

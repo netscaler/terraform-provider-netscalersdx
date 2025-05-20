@@ -17,7 +17,7 @@ func snmpTrapResourceSchema() schema.Schema {
 		Description: "Configuration for SNMP Trap Destinations resource.",
 		Attributes: map[string]schema.Attribute{
 			"community": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
 				Description:         "Community Name. Maximum length =  32",
 				MarkdownDescription: "Community Name. Maximum length =  32",
 			},
