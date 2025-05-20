@@ -14,6 +14,7 @@ import (
 
 var _ resource.Resource = (*snmpTrapResource)(nil)
 var _ resource.ResourceWithConfigure = (*snmpTrapResource)(nil)
+var _ resource.ResourceWithImportState = (*snmpTrapResource)(nil)
 
 func SnmpTrapResource() resource.Resource {
 	return &snmpTrapResource{}
@@ -21,6 +22,10 @@ func SnmpTrapResource() resource.Resource {
 
 type snmpTrapResource struct {
 	client *service.NitroClient
+}
+
+func (r *snmpTrapResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *snmpTrapResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -162,6 +167,23 @@ func (r *snmpTrapResource) Update(ctx context.Context, req resource.UpdateReques
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
+	}
+
 }
 
 func (r *snmpTrapResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
