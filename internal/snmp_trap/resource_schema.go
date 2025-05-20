@@ -2,7 +2,6 @@ package snmp_trap
 
 import (
 	"context"
-	"strconv"
 	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -18,12 +17,13 @@ func snmpTrapResourceSchema() schema.Schema {
 		Description: "Configuration for SNMP Trap Destinations resource.",
 		Attributes: map[string]schema.Attribute{
 			"community": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
 				Description:         "Community Name. Maximum length =  32",
 				MarkdownDescription: "Community Name. Maximum length =  32",
 			},
 			"dest_port": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Destination Port. Minimum value =  1 Maximum value =  ",
 				MarkdownDescription: "Destination Port. Minimum value =  1 Maximum value =  ",
 			},
@@ -38,11 +38,13 @@ func snmpTrapResourceSchema() schema.Schema {
 			"user_name": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Optional:            true,
+				Computed:            true,
 				Description:         "Name of SNMP Trap User. Minimum length =  1 Maximum length =  32",
 				MarkdownDescription: "Name of SNMP Trap User. Minimum length =  1 Maximum length =  32",
 			},
 			"version": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "SNMP version. Maximum length =  2",
 				MarkdownDescription: "SNMP version. Maximum length =  2",
 			},
@@ -76,22 +78,13 @@ func snmpTrapGetThePayloadFromtheConfig(ctx context.Context, data *snmpTrapModel
 }
 func snmpTrapSetAttrFromGet(ctx context.Context, data *snmpTrapModel, getResponseData map[string]interface{}) *snmpTrapModel {
 	tflog.Debug(ctx, "In snmpTrapSetAttrFromGet Function")
-	if !data.Community.IsNull() && getResponseData["version"] == "v2" {
-		data.Community = types.StringValue(getResponseData["community"].(string))
-	}
-	if !data.DestPort.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["dest_port"].(string))
-		data.DestPort = types.Int64Value(int64(val))
-	}
-	if !data.DestServer.IsNull() {
-		data.DestServer = types.StringValue(getResponseData["dest_server"].(string))
-	}
-	if !data.UserName.IsNull() && getResponseData["version"] == "v3" {
-		data.UserName = utils.StringListToTypeList(utils.ToStringList(getResponseData["user_name"].([]interface{})))
-	}
-	if !data.Version.IsNull() {
-		data.Version = types.StringValue(getResponseData["version"].(string))
-	}
+
+	// data.Community = types.StringValue(getResponseData["community"].(string))
+	data.DestPort = utils.Int64ValueToFramework(getResponseData["dest_port"])
+	data.DestServer = types.StringValue(getResponseData["dest_server"].(string))
+	data.UserName = utils.StringListToTypeList(utils.ToStringList(getResponseData["user_name"].([]interface{})))
+	data.Version = types.StringValue(getResponseData["version"].(string))
+
 	return data
 }
 
