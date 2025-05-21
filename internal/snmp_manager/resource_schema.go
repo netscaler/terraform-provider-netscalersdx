@@ -29,6 +29,7 @@ func snmpManagerResourceSchema() schema.Schema {
 			},
 			"netmask": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Netmask. Minimum length =  1 Maximum length =  64",
 				MarkdownDescription: "Netmask. Minimum length =  1 Maximum length =  64",
 			},
@@ -58,15 +59,9 @@ func snmpManagerGetThePayloadFromtheConfig(ctx context.Context, data *snmpManage
 }
 func snmpManagerSetAttrFromGet(ctx context.Context, data *snmpManagerModel, getResponseData map[string]interface{}) *snmpManagerModel {
 	tflog.Debug(ctx, "In snmpManagerSetAttrFromGet Function")
-	// if !data.Community.IsNull() {
-	// 	data.Community = types.StringValue(getResponseData["community"].(string))
-	// }
-	if !data.IpAddress.IsNull() {
-		data.IpAddress = types.StringValue(getResponseData["ip_address"].(string))
-	}
-	if !data.Netmask.IsNull() {
-		data.Netmask = types.StringValue(getResponseData["netmask"].(string))
-	}
+
+	data.IpAddress = types.StringValue(getResponseData["ip_address"].(string))
+	data.Netmask = types.StringValue(getResponseData["netmask"].(string))
 	return data
 }
 

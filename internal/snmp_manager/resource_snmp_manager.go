@@ -14,6 +14,7 @@ import (
 
 var _ resource.Resource = (*snmpManagerResource)(nil)
 var _ resource.ResourceWithConfigure = (*snmpManagerResource)(nil)
+var _ resource.ResourceWithImportState = (*snmpManagerResource)(nil)
 
 func SnmpManagerResource() resource.Resource {
 	return &snmpManagerResource{}
@@ -21,6 +22,10 @@ func SnmpManagerResource() resource.Resource {
 
 type snmpManagerResource struct {
 	client *service.NitroClient
+}
+
+func (r *snmpManagerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *snmpManagerResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -161,6 +166,22 @@ func (r *snmpManagerResource) Update(ctx context.Context, req resource.UpdateReq
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
 	}
 }
 
