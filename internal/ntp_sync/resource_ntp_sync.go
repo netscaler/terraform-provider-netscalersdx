@@ -16,6 +16,7 @@ import (
 
 var _ resource.Resource = (*ntpSyncResource)(nil)
 var _ resource.ResourceWithConfigure = (*ntpSyncResource)(nil)
+var _ resource.ResourceWithImportState = (*ntpSyncResource)(nil)
 
 func NtpSyncResource() resource.Resource {
 	return &ntpSyncResource{}
@@ -23,6 +24,10 @@ func NtpSyncResource() resource.Resource {
 
 type ntpSyncResource struct {
 	client *service.NitroClient
+}
+
+func (r *ntpSyncResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *ntpSyncResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
