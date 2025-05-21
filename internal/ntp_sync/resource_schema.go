@@ -2,7 +2,7 @@ package ntp_sync
 
 import (
 	"context"
-	"strconv"
+	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
@@ -47,10 +47,9 @@ func ntpSyncGetThePayloadFromtheConfig(ctx context.Context, data *ntpSyncModel) 
 }
 func ntpSyncSetAttrFromGet(ctx context.Context, data *ntpSyncModel, getResponseData map[string]interface{}) *ntpSyncModel {
 	tflog.Debug(ctx, "In ntpSyncSetAttrFromGet Function")
-	if !data.NtpdStatus.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["ntpd_status"].(string))
-		data.NtpdStatus = types.BoolValue(val)
-	}
+
+	data.NtpdStatus = types.BoolValue(utils.StringToBool(getResponseData["ntpd_status"].(string)))
+
 	return data
 }
 
