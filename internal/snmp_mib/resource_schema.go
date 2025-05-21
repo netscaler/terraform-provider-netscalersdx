@@ -66,7 +66,7 @@ func snmpMibSetAttrFromGet(ctx context.Context, data *snmpMibModel, getResponseD
 	data.CustomId = types.StringValue(getResponseData["custom_id"].(string))
 	data.Location = types.StringValue(getResponseData["location"].(string))
 	data.Name = types.StringValue(getResponseData["name"].(string))
-	
+
 	return data
 }
 
