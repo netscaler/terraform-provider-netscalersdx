@@ -2,7 +2,7 @@ package snmp_alarm_config
 
 import (
 	"context"
-	"strconv"
+	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -17,6 +17,7 @@ func snmpAlarmConfigResourceSchema() schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"enable": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enable Alarm.",
 				MarkdownDescription: "Enable Alarm.",
 			},
@@ -30,16 +31,19 @@ func snmpAlarmConfigResourceSchema() schema.Schema {
 			},
 			"severity": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Alarm severity. Supported values: Critical, Major, Minor, Warning, Informational . Maximum length =  128",
 				MarkdownDescription: "Alarm severity. Supported values: Critical, Major, Minor, Warning, Informational . Maximum length =  128",
 			},
 			"threshold": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Threshold Value for the alarm.",
 				MarkdownDescription: "Threshold Value for the alarm.",
 			},
 			"time": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Frequency of the alarm in minutes.",
 				MarkdownDescription: "Frequency of the alarm in minutes.",
 			},
@@ -73,24 +77,13 @@ func snmpAlarmConfigGetThePayloadFromtheConfig(ctx context.Context, data *snmpAl
 }
 func snmpAlarmConfigSetAttrFromGet(ctx context.Context, data *snmpAlarmConfigModel, getResponseData map[string]interface{}) *snmpAlarmConfigModel {
 	tflog.Debug(ctx, "In snmpAlarmConfigSetAttrFromGet Function")
-	if !data.Enable.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable"].(string))
-		data.Enable = types.BoolValue(val)
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.Severity.IsNull() {
-		data.Severity = types.StringValue(getResponseData["severity"].(string))
-	}
-	if !data.Threshold.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["threshold"].(string))
-		data.Threshold = types.Int64Value(int64(val))
-	}
-	if !data.Time.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["time"].(string))
-		data.Time = types.Int64Value(int64(val))
-	}
+
+	data.Enable = types.BoolValue(utils.StringToBool(getResponseData["enable"].(string)))
+	data.Name = types.StringValue(getResponseData["name"].(string))
+	data.Severity = types.StringValue(getResponseData["severity"].(string))
+	data.Threshold = types.Int64Value(utils.StringToInt(getResponseData["threshold"].(string)))
+	data.Time = types.Int64Value(utils.StringToInt(getResponseData["time"].(string)))
+
 	return data
 }
 
