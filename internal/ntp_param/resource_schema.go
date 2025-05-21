@@ -29,6 +29,7 @@ func ntpParamResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"automax_logsec": schema.Int64Attribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.Int64{
 					int64planmodifier.RequiresReplace(),
 				},
@@ -37,6 +38,7 @@ func ntpParamResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"revoke_logsec": schema.Int64Attribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.Int64{
 					int64planmodifier.RequiresReplace(),
 				},
@@ -46,6 +48,7 @@ func ntpParamResourceSchema(ctx context.Context) schema.Schema {
 			"trusted_key_list": schema.ListAttribute{
 				ElementType: types.Int64Type,
 				Optional:    true,
+				Computed:    true,
 				// We have below code insted of ForceNew
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.RequiresReplace(),

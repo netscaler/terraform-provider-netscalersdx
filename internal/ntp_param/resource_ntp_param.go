@@ -3,7 +3,6 @@ package ntp_param
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"terraform-provider-netscalersdx/internal/service"
 	"terraform-provider-netscalersdx/internal/utils"
@@ -16,6 +15,7 @@ import (
 
 var _ resource.Resource = (*ntpParamResource)(nil)
 var _ resource.ResourceWithConfigure = (*ntpParamResource)(nil)
+var _ resource.ResourceWithImportState = (*ntpParamResource)(nil)
 
 func NtpParamResource() resource.Resource {
 	return &ntpParamResource{}
@@ -23,6 +23,10 @@ func NtpParamResource() resource.Resource {
 
 type ntpParamResource struct {
 	client *service.NitroClient
+}
+
+func (r *ntpParamResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *ntpParamResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -121,21 +125,10 @@ func (r *ntpParamResource) Read(ctx context.Context, req resource.ReadRequest, r
 
 	getResponseData := responseData[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !data.Authentication.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["authentication"].(string))
-		data.Authentication = types.BoolValue(val)
-	}
-	if !data.AutomaxLogsec.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["automax_logsec"].(string))
-		data.AutomaxLogsec = types.Int64Value(int64(val))
-	}
-	if !data.RevokeLogsec.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["revoke_logsec"].(string))
-		data.RevokeLogsec = types.Int64Value(int64(val))
-	}
-	if !data.TrustedKeyList.IsNull() {
-		data.TrustedKeyList = utils.StringListToTypeInt64List(utils.ToStringList(getResponseData["trusted_key_list"].([]interface{})))
-	}
+	data.Authentication = types.BoolValue(utils.StringToBool(getResponseData["authentication"].(string)))
+	data.AutomaxLogsec = types.Int64Value(utils.StringToInt(getResponseData["automax_logsec"].(string)))
+	data.RevokeLogsec = types.Int64Value(utils.StringToInt(getResponseData["revoke_logsec"].(string)))
+	data.TrustedKeyList = utils.StringListToTypeInt64List(utils.ToStringList(getResponseData["trusted_key_list"].([]interface{})))
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
