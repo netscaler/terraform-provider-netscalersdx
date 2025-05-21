@@ -19,6 +19,7 @@ func snmpMibResourceSchema() schema.Schema {
 			},
 			"custom_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Custom identification number for appliance. Minimum length =  1 Maximum length =  127",
 				MarkdownDescription: "Custom identification number for appliance. Minimum length =  1 Maximum length =  127",
 			},
@@ -60,18 +61,12 @@ func snmpMibGetThePayloadFromtheConfig(ctx context.Context, data *snmpMibModel) 
 }
 func snmpMibSetAttrFromGet(ctx context.Context, data *snmpMibModel, getResponseData map[string]interface{}) *snmpMibModel {
 	tflog.Debug(ctx, "In snmpMibSetAttrFromGet Function")
-	if !data.Contact.IsNull() {
-		data.Contact = types.StringValue(getResponseData["contact"].(string))
-	}
-	if !data.CustomId.IsNull() {
-		data.CustomId = types.StringValue(getResponseData["custom_id"].(string))
-	}
-	if !data.Location.IsNull() {
-		data.Location = types.StringValue(getResponseData["location"].(string))
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
+
+	data.Contact = types.StringValue(getResponseData["contact"].(string))
+	data.CustomId = types.StringValue(getResponseData["custom_id"].(string))
+	data.Location = types.StringValue(getResponseData["location"].(string))
+	data.Name = types.StringValue(getResponseData["name"].(string))
+	
 	return data
 }
 
