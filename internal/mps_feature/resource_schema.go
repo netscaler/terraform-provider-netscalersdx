@@ -2,7 +2,7 @@ package mps_feature
 
 import (
 	"context"
-	"strconv"
+	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
@@ -16,16 +16,19 @@ func mpsFeatureResourceSchema() schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"admin_toggle": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "This is Admin controllable. 0: Disable UI and Backend, 1: Disable UI and enable Backend, 2: Enable UI and disable Backend, 3: Enable UI and Backend.. Maximum value =  ",
 				MarkdownDescription: "This is Admin controllable. 0: Disable UI and Backend, 1: Disable UI and enable Backend, 2: Enable UI and disable Backend, 3: Enable UI and Backend.. Maximum value =  ",
 			},
 			"built_in": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "This is Ops controllable and will not be visible to the Admin to control. If true: Ops controllable feature, false: Admin controllable feature..",
 				MarkdownDescription: "This is Ops controllable and will not be visible to the Admin to control. If true: Ops controllable feature, false: Admin controllable feature..",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Feature Description..",
 				MarkdownDescription: "Feature Description..",
 			},
@@ -36,6 +39,7 @@ func mpsFeatureResourceSchema() schema.Schema {
 			},
 			"ops_toggle": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "This is Ops controllable. 0: Disable UI and Backend, 1: Disable UI and enable Backend, 2: Enable UI and disable Backend, 3: Enable UI and Backend. Ops controlled takes higher precedence than Admin Controlled.. Maximum value =  ",
 				MarkdownDescription: "This is Ops controllable. 0: Disable UI and Backend, 1: Disable UI and enable Backend, 2: Enable UI and disable Backend, 3: Enable UI and Backend. Ops controlled takes higher precedence than Admin Controlled.. Maximum value =  ",
 			},
@@ -69,24 +73,13 @@ func mpsFeatureGetThePayloadFromtheConfig(ctx context.Context, data *mpsFeatureM
 }
 func mpsFeatureSetAttrFromGet(ctx context.Context, data *mpsFeatureModel, getResponseData map[string]interface{}) *mpsFeatureModel {
 	tflog.Debug(ctx, "In mpsFeatureSetAttrFromGet Function")
-	if !data.AdminToggle.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["admin_toggle"].(string))
-		data.AdminToggle = types.Int64Value(int64(val))
-	}
-	if !data.BuiltIn.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["built_in"].(string))
-		data.BuiltIn = types.BoolValue(val)
-	}
-	if !data.Description.IsNull() {
-		data.Description = types.StringValue(getResponseData["description"].(string))
-	}
-	if !data.FeatureName.IsNull() {
-		data.FeatureName = types.StringValue(getResponseData["feature_name"].(string))
-	}
-	if !data.OpsToggle.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["ops_toggle"].(string))
-		data.OpsToggle = types.Int64Value(int64(val))
-	}
+
+	data.AdminToggle = types.Int64Value(utils.StringToInt(getResponseData["admin_toggle"].(string)))
+	data.BuiltIn = types.BoolValue(utils.StringToBool(getResponseData["built_in"].(string)))
+	data.Description = types.StringValue(getResponseData["description"].(string))
+	data.FeatureName = types.StringValue(getResponseData["feature_name"].(string))
+	data.OpsToggle = types.Int64Value(utils.StringToInt(getResponseData["ops_toggle"].(string)))
+
 	return data
 }
 
