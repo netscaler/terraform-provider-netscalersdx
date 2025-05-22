@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"terraform-provider-netscalersdx/internal/service"
-	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -15,6 +14,7 @@ import (
 
 var _ resource.Resource = (*mpsFeatureResource)(nil)
 var _ resource.ResourceWithConfigure = (*mpsFeatureResource)(nil)
+var _ resource.ResourceWithImportState = (*mpsFeatureResource)(nil)
 
 func MpsFeatureResource() resource.Resource {
 	return &mpsFeatureResource{}
@@ -22,6 +22,10 @@ func MpsFeatureResource() resource.Resource {
 
 type mpsFeatureResource struct {
 	client *service.NitroClient
+}
+
+func (r *mpsFeatureResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *mpsFeatureResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -67,10 +71,8 @@ func (r *mpsFeatureResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	resID := utils.PrefixedUniqueId("mps_feature-")
-
 	// Example data value setting
-	data.Id = types.StringValue(resID)
+	data.Id = types.StringValue(data.FeatureName.ValueString())
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -133,7 +135,7 @@ func (r *mpsFeatureResource) Read(ctx context.Context, req resource.ReadRequest,
 	returnData := returnArr[endpoint].([]interface{})
 	for i, v := range returnData {
 		m := v.(map[string]interface{})
-		if m["feature_name"] == data.FeatureName.ValueString() {
+		if m["feature_name"] == resId.ValueString() {
 			foundIndex = i
 			break
 		}
@@ -142,7 +144,7 @@ func (r *mpsFeatureResource) Read(ctx context.Context, req resource.ReadRequest,
 	if foundIndex == -1 {
 		resp.Diagnostics.AddError(
 			fmt.Sprintf("No Resource found: %s", endpoint),
-			fmt.Sprintf("No mps_feature with %s", data.FeatureName.ValueString()),
+			fmt.Sprintf("No mps_feature with %s", resId.ValueString()),
 		)
 		return
 	}
@@ -191,6 +193,22 @@ func (r *mpsFeatureResource) Update(ctx context.Context, req resource.UpdateRequ
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
 	}
 }
 
