@@ -27,12 +27,30 @@ func TypeListToUnmarshalStringList(typeList basetypes.ListValue) (stringList []s
 	return
 }
 
+func TypeListToUnmarshalStringSet(typeList basetypes.SetValue) (stringList []string) {
+	for _, t := range typeList.Elements() {
+		var n string
+		json.Unmarshal([]byte(t.String()), &n)
+		stringList = append(stringList, n)
+	}
+	return
+}
+
 func StringListToTypeList(stringList []string) (typeList basetypes.ListValue) {
 	var valueList []attr.Value
 	for _, s := range stringList {
 		valueList = append(valueList, basetypes.NewStringValue(s))
 	}
 	val, _ := basetypes.NewListValue(types.StringType, valueList)
+	return val
+}
+
+func StringListToTypeSet(stringList []string) (typeList basetypes.SetValue) {
+	var valueList []attr.Value
+	for _, s := range stringList {
+		valueList = append(valueList, basetypes.NewStringValue(s))
+	}
+	val, _ := basetypes.NewSetValue(types.StringType, valueList)
 	return val
 }
 

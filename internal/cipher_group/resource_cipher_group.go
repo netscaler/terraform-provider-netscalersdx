@@ -15,6 +15,7 @@ import (
 
 var _ resource.Resource = (*cipherGroupResource)(nil)
 var _ resource.ResourceWithConfigure = (*cipherGroupResource)(nil)
+var _ resource.ResourceWithImportState = (*cipherGroupResource)(nil)
 
 func CipherGroupResource() resource.Resource {
 	return &cipherGroupResource{}
@@ -22,6 +23,10 @@ func CipherGroupResource() resource.Resource {
 
 type cipherGroupResource struct {
 	client *service.NitroClient
+}
+
+func (r *cipherGroupResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *cipherGroupResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -133,7 +138,7 @@ func (r *cipherGroupResource) Read(ctx context.Context, req resource.ReadRequest
 	returnData := returnArr[endpoint].([]interface{})
 	for i, v := range returnData {
 		m := v.(map[string]interface{})
-		if m["cipher_group_name"] == data.CipherGroupName.ValueString() {
+		if m["cipher_group_name"] == resId.ValueString() {
 			foundIndex = i
 			break
 		}
@@ -142,22 +147,16 @@ func (r *cipherGroupResource) Read(ctx context.Context, req resource.ReadRequest
 	if foundIndex == -1 {
 		resp.Diagnostics.AddError(
 			fmt.Sprintf("No Resource found: %s", endpoint),
-			fmt.Sprintf("No cipher_group with %s cipher_group_name", data.CipherGroupName.ValueString()),
+			fmt.Sprintf("No cipher_group with %s cipher_group_name", resId),
 		)
 		return
 	}
 
 	resourceData := returnArr[endpoint].([]interface{})[foundIndex].(map[string]interface{})
 
-	if !data.CipherGroupDescription.IsNull() {
-		data.CipherGroupDescription = types.StringValue(resourceData["cipher_group_description"].(string))
-	}
-	if !data.CipherGroupName.IsNull() {
-		data.CipherGroupName = types.StringValue(resourceData["cipher_group_name"].(string))
-	}
-	if !data.CipherNameListArray.IsNull() {
-		data.CipherNameListArray = utils.StringListToTypeList(utils.ToStringList(resourceData["cipher_name_list_array"].([]interface{})))
-	}
+	data.CipherGroupDescription = types.StringValue(resourceData["cipher_group_description"].(string))
+	data.CipherGroupName = types.StringValue(resourceData["cipher_group_name"].(string))
+	data.CipherNameListArray = utils.StringListToTypeSet(utils.ToStringList(resourceData["cipher_name_list_array"].([]interface{})))
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

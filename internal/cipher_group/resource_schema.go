@@ -26,7 +26,7 @@ func cipherGroupResourceSchema(ctx context.Context) schema.Schema {
 				Description:         "Name of Cipher Group. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Name of Cipher Group. Minimum length =  1 Maximum length =  128",
 			},
-			"cipher_name_list_array": schema.ListAttribute{
+			"cipher_name_list_array": schema.SetAttribute{
 				ElementType:         types.StringType,
 				Required:            true,
 				Description:         "list of cipher suites in form of array of strings.",
@@ -43,7 +43,7 @@ func cipherGroupResourceSchema(ctx context.Context) schema.Schema {
 type cipherGroupModel struct {
 	CipherGroupDescription types.String `tfsdk:"cipher_group_description"`
 	CipherGroupName        types.String `tfsdk:"cipher_group_name"`
-	CipherNameListArray    types.List   `tfsdk:"cipher_name_list_array"`
+	CipherNameListArray    types.Set    `tfsdk:"cipher_name_list_array"`
 	Id                     types.String `tfsdk:"id"`
 }
 
@@ -52,7 +52,7 @@ func cipherGroupGetThePayloadFromtheConfig(ctx context.Context, data *cipherGrou
 	cipherGroupReqPayload := cipherGroupReq{
 		CipherGroupDescription: data.CipherGroupDescription.ValueString(),
 		CipherGroupName:        data.CipherGroupName.ValueString(),
-		CipherNameListArray:    utils.TypeListToUnmarshalStringList(data.CipherNameListArray),
+		CipherNameListArray:    utils.TypeListToUnmarshalStringSet(data.CipherNameListArray),
 	}
 	return cipherGroupReqPayload
 }
