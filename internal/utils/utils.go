@@ -36,6 +36,16 @@ func TypeListToUnmarshalStringSet(typeList basetypes.SetValue) (stringList []str
 	return
 }
 
+func TypeListToUnmarshalStringSetPtr(typeList basetypes.SetValue) *[]string {
+	stringList := make([]string, 0)
+	for _, t := range typeList.Elements() {
+		var n string
+		json.Unmarshal([]byte(t.String()), &n)
+		stringList = append(stringList, n)
+	}
+	return &stringList
+}
+
 func StringListToTypeList(stringList []string) (typeList basetypes.ListValue) {
 	var valueList []attr.Value
 	for _, s := range stringList {
