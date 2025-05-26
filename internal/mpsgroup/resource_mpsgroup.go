@@ -14,6 +14,7 @@ import (
 
 var _ resource.Resource = (*mpsgroupResource)(nil)
 var _ resource.ResourceWithConfigure = (*mpsgroupResource)(nil)
+var _ resource.ResourceWithImportState = (*mpsgroupResource)(nil)
 
 func MpsgroupResource() resource.Resource {
 	return &mpsgroupResource{}
@@ -21,6 +22,10 @@ func MpsgroupResource() resource.Resource {
 
 type mpsgroupResource struct {
 	client *service.NitroClient
+}
+
+func (r *mpsgroupResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *mpsgroupResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -162,6 +167,23 @@ func (r *mpsgroupResource) Update(ctx context.Context, req resource.UpdateReques
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
+	}
+
 }
 
 func (r *mpsgroupResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
