@@ -15,6 +15,7 @@ import (
 
 var _ resource.Resource = (*syslogParamsResource)(nil)
 var _ resource.ResourceWithConfigure = (*syslogParamsResource)(nil)
+var _ resource.ResourceWithImportState = (*syslogParamsResource)(nil)
 
 func SyslogParamsResource() resource.Resource {
 	return &syslogParamsResource{}
@@ -22,6 +23,10 @@ func SyslogParamsResource() resource.Resource {
 
 type syslogParamsResource struct {
 	client *service.NitroClient
+}
+
+func (r *syslogParamsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *syslogParamsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

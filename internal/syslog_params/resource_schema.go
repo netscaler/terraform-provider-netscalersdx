@@ -15,7 +15,7 @@ func syslogParamsResourceSchema(ctx context.Context) schema.Schema {
 		Description: "Configuration for Syslog Parameters resource.",
 		Attributes: map[string]schema.Attribute{
 			"date_format": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 				// We have below code insted of ForceNew
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -24,7 +24,7 @@ func syslogParamsResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Format of date to be added in the syslog message.",
 			},
 			"timezone": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -55,12 +55,10 @@ func syslogParamsGetThePayloadFromtheConfig(ctx context.Context, data *syslogPar
 }
 func syslogParamsSetAttrFromGet(ctx context.Context, data *syslogParamsModel, getResponseData map[string]interface{}) *syslogParamsModel {
 	tflog.Debug(ctx, "In syslogParamsSetAttrFromGet Function")
-	if !data.DateFormat.IsNull() {
-		data.DateFormat = types.StringValue(getResponseData["date_format"].(string))
-	}
-	if !data.Timezone.IsNull() {
-		data.Timezone = types.StringValue(getResponseData["timezone"].(string))
-	}
+
+	data.DateFormat = types.StringValue(getResponseData["date_format"].(string))
+	data.Timezone = types.StringValue(getResponseData["timezone"].(string))
+
 	return data
 }
 
