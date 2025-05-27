@@ -29,14 +29,26 @@ resource "netscalersdx_snmp_user" "tf_snmp_user" {
 ### Required
 
 - `name` (String) Name of SNMP User. Minimum length =  1 Maximum length =  32
-- `security_level` (Number) Security Level of SNMP User. Values: 0: noAuthNoPriv, 1: authNoPriv, 2: authPriv. Maximum value =
+- `security_level` (Number) Security Level of SNMP User. 
+	* Values: 
+		* 0: noAuthNoPriv, 
+		* 1: authNoPriv, 
+		* 2: authPriv.
 
 ### Optional
 
 - `auth_password` (String) Authentication Password of SNMP User. Minimum length =  8 Maximum length =  32
-- `auth_protocol` (Number) Authentication Protocol of SNMP User. Values: 0:noValue, 1: MD5, 2: SHA1. Maximum value =
+- `auth_protocol` (Number) Authentication Protocol of SNMP User.
+	* Values:
+		* 0: noValue
+		* 1: MD5
+		* 2: SHA1
 - `privacy_password` (String) Privacy Password of SNMP User. Minimum length =  8 Maximum length =  32
-- `privacy_protocol` (Number) Privacy Protocol of SNMP User. Values: 0:noValue, 1: DES, 2: AES. Maximum value =
+- `privacy_protocol` (Number) Privacy Protocol of SNMP User.
+	* Values: 
+		* 0:noValue, 
+		* 1: DES, 
+		* 2: AES.
 - `view_name` (String) SNMP View Name attached to the SNMP User. Maximum length =  32
 
 ### Read-Only
