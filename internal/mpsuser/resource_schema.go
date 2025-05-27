@@ -2,7 +2,6 @@ package mpsuser
 
 import (
 	"context"
-	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -19,11 +18,13 @@ func mpsuserResourceSchema() schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"enable_session_timeout": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enables session timeout for user.",
 				MarkdownDescription: "Enables session timeout for user.",
 			},
 			"external_authentication": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enable external authentication.",
 				MarkdownDescription: "Enable external authentication.",
 			},
@@ -48,16 +49,19 @@ func mpsuserResourceSchema() schema.Schema {
 			},
 			"session_timeout": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Session timeout for the user.",
 				MarkdownDescription: "Session timeout for the user.",
 			},
 			"session_timeout_unit": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Session timeout unit for the user.",
 				MarkdownDescription: "Session timeout unit for the user.",
 			},
 			"tenant_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Tenant Id of the system users. Minimum length =  1 Maximum length =  128",
 				MarkdownDescription: "Tenant Id of the system users. Minimum length =  1 Maximum length =  128",
 			},
@@ -83,44 +87,38 @@ type mpsuserModel struct {
 
 func mpsuserGetThePayloadFromtheConfig(ctx context.Context, data *mpsuserModel) mpsuserReq {
 	tflog.Debug(ctx, "In mpsuserGetThePayloadFromtheConfig Function")
+
 	mpsuserReqPayload := mpsuserReq{
-		EnableSessionTimeout:   data.EnableSessionTimeout.ValueBoolPointer(),
-		ExternalAuthentication: data.ExternalAuthentication.ValueBoolPointer(),
-		Groups:                 utils.TypeListToUnmarshalStringList(data.Groups),
-		Name:                   data.Name.ValueString(),
-		Password:               data.Password.ValueString(),
-		SessionTimeout:         data.SessionTimeout.ValueInt64Pointer(),
-		SessionTimeoutUnit:     data.SessionTimeoutUnit.ValueString(),
-		TenantId:               data.TenantId.ValueString(),
+		Groups:             utils.TypeListToUnmarshalStringList(data.Groups),
+		Name:               data.Name.ValueString(),
+		Password:           data.Password.ValueString(),
+		SessionTimeoutUnit: data.SessionTimeoutUnit.ValueString(),
+		TenantId:           data.TenantId.ValueString(),
 	}
+
+	if !data.ExternalAuthentication.IsNull() && !data.ExternalAuthentication.IsUnknown() {
+		mpsuserReqPayload.ExternalAuthentication = data.ExternalAuthentication.ValueBoolPointer()
+	}
+	if !data.EnableSessionTimeout.IsNull() && !data.EnableSessionTimeout.IsUnknown() {
+		mpsuserReqPayload.EnableSessionTimeout = data.EnableSessionTimeout.ValueBoolPointer()
+	}
+	if !data.SessionTimeout.IsNull() && !data.SessionTimeout.IsUnknown() {
+		mpsuserReqPayload.SessionTimeout = data.SessionTimeout.ValueInt64Pointer()
+	}
+
 	return mpsuserReqPayload
 }
 func mpsuserSetAttrFromGet(ctx context.Context, data *mpsuserModel, getResponseData map[string]interface{}) *mpsuserModel {
 	tflog.Debug(ctx, "In mpsuserSetAttrFromGet Function")
-	if !data.EnableSessionTimeout.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_session_timeout"].(string))
-		data.EnableSessionTimeout = types.BoolValue(val)
-	}
-	if !data.ExternalAuthentication.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["external_authentication"].(string))
-		data.ExternalAuthentication = types.BoolValue(val)
-	}
-	if !data.Groups.IsNull() {
-		data.Groups = utils.StringListToTypeList(utils.ToStringList(getResponseData["groups"].([]interface{})))
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.SessionTimeout.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["session_timeout"].(string))
-		data.SessionTimeout = types.Int64Value(int64(val))
-	}
-	if !data.SessionTimeoutUnit.IsNull() {
-		data.SessionTimeoutUnit = types.StringValue(getResponseData["session_timeout_unit"].(string))
-	}
-	if !data.TenantId.IsNull() {
-		data.TenantId = types.StringValue(getResponseData["tenant_id"].(string))
-	}
+
+	data.EnableSessionTimeout = types.BoolValue(utils.StringToBool(getResponseData["enable_session_timeout"].(string)))
+	data.ExternalAuthentication = types.BoolValue(utils.StringToBool(getResponseData["external_authentication"].(string)))
+	data.Groups = utils.StringListToTypeList(utils.ToStringList(getResponseData["groups"].([]interface{})))
+	data.Name = types.StringValue(getResponseData["name"].(string))
+	data.SessionTimeout = types.Int64Value(utils.StringToInt(getResponseData["session_timeout"].(string)))
+	data.SessionTimeoutUnit = types.StringValue(getResponseData["session_timeout_unit"].(string))
+	data.TenantId = types.StringValue(getResponseData["tenant_id"].(string))
+
 	return data
 }
 
