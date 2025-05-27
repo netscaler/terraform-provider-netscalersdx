@@ -34,24 +34,24 @@ resource "netscalersdx_mpsgroup" "tf_mpsgroup" {
 ### Optional
 
 - `allow_application_only` (Boolean) Checks if only application centic page is needed.
-- `application_names` (List of String) All Application names that are part of this group.This includes selected appnames as well as applications which are result of defined regex.
+- `application_names` (Set of String) All Application names that are part of this group.This includes selected appnames as well as applications which are result of defined regex.
 - `apply_all_bound_entities` (Boolean) Apply for all bound entities (TRUE|FALSE).
 - `assign_all_apps` (Boolean) Assign All Applications (YES|NO).
 - `assign_all_autoscale_groups` (Boolean) Assign All Autoscale groups (YES|NO).
 - `assign_all_devices` (Boolean) Assign All Instances (YES|NO).
 - `assign_all_selected_device_apps` (Boolean) Assign All Application from selected instances (YES|NO).
-- `autoscale_groups_id` (List of String) Autoscale groups belong to this groupp.
+- `autoscale_groups_id` (Set of String) Autoscale groups belong to this groupp.
 - `bound_entity_selected` (Number) Which bound entiy is selected VSERVER(0),SERVICE(1),SERVICEGROUP(2),SERVER(3).
 - `description` (String) Description of Group. Minimum length =  1 Maximum length =  1024
 - `enable_session_timeout` (Boolean) Enables session timeout for group.
 - `role` (String) Role (admin|nonadmin).
-- `roles` (List of String) Roles assigned to the group.
+- `roles` (Set of String) Roles assigned to the group.
 - `select_individual_entity` (Boolean) Select Individual Entity Type.
 - `session_timeout` (Number) Session timeout for the Group.
 - `session_timeout_unit` (String) Session timeout unit for the Group.
-- `standalone_instances_id` (List of String) Stand alone instances belong to this groupp.
+- `standalone_instances_id` (Set of String) Stand alone instances belong to this groupp.
 - `tenant_id` (String) Id of the tenant. Minimum length =  1 Maximum length =  128
-- `users` (List of String) Users belong to the group.
+- `users` (Set of String) Users belong to the group.
 
 ### Read-Only
 
