@@ -14,6 +14,7 @@ import (
 
 var _ resource.Resource = (*staticRouteResource)(nil)
 var _ resource.ResourceWithConfigure = (*staticRouteResource)(nil)
+var _ resource.ResourceWithImportState = (*staticRouteResource)(nil)
 
 func StaticRouteResource() resource.Resource {
 	return &staticRouteResource{}
@@ -21,6 +22,10 @@ func StaticRouteResource() resource.Resource {
 
 type staticRouteResource struct {
 	client *service.NitroClient
+}
+
+func (r *staticRouteResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *staticRouteResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -118,7 +123,6 @@ func (r *staticRouteResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 
 	getReturnData := returnData[endpoint].([]interface{})[0].(map[string]interface{})
-	tflog.Debug(ctx, fmt.Sprintf("Read Method of static_route Resource with Id: %s and data: %v", data.Id.ValueString(), getReturnData))
 
 	data.Gateway = types.StringValue(getReturnData["gateway"].(string))
 	data.Netmask = types.StringValue(getReturnData["netmask"].(string))
