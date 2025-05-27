@@ -3,7 +3,6 @@ package syslog_server
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -15,6 +14,7 @@ import (
 
 var _ resource.Resource = (*syslogServerResource)(nil)
 var _ resource.ResourceWithConfigure = (*syslogServerResource)(nil)
+var _ resource.ResourceWithImportState = (*syslogServerResource)(nil)
 
 func SyslogServerResource() resource.Resource {
 	return &syslogServerResource{}
@@ -22,6 +22,10 @@ func SyslogServerResource() resource.Resource {
 
 type syslogServerResource struct {
 	client *service.NitroClient
+}
+
+func (r *syslogServerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *syslogServerResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -120,40 +124,7 @@ func (r *syslogServerResource) Read(ctx context.Context, req resource.ReadReques
 
 	getResponseData := responseData[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !data.IpAddress.IsNull() {
-		data.IpAddress = types.StringValue(getResponseData["ip_address"].(string))
-	}
-	if !data.LogLevelAll.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["log_level_all"].(string))
-		data.LogLevelAll = types.BoolValue(val)
-	}
-	if !data.LogLevelCritical.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["log_level_critical"].(string))
-		data.LogLevelCritical = types.BoolValue(val)
-	}
-	if !data.LogLevelError.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["log_level_error"].(string))
-		data.LogLevelError = types.BoolValue(val)
-	}
-	if !data.LogLevelInfo.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["log_level_info"].(string))
-		data.LogLevelInfo = types.BoolValue(val)
-	}
-	if !data.LogLevelNone.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["log_level_none"].(string))
-		data.LogLevelNone = types.BoolValue(val)
-	}
-	if !data.LogLevelWarning.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["log_level_warning"].(string))
-		data.LogLevelWarning = types.BoolValue(val)
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.Port.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["port"].(string))
-		data.Port = types.Int64Value(int64(val))
-	}
+	syslogServerModelSetAttrFromGet(ctx, &data, getResponseData)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -196,6 +167,23 @@ func (r *syslogServerResource) Update(ctx context.Context, req resource.UpdateRe
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
+	}
+
 }
 
 func (r *syslogServerResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
