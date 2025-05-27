@@ -16,6 +16,7 @@ import (
 
 var _ resource.Resource = (*cipherConfigResource)(nil)
 var _ resource.ResourceWithConfigure = (*cipherConfigResource)(nil)
+var _ resource.ResourceWithImportState = (*cipherConfigResource)(nil)
 
 func CipherConfigResource() resource.Resource {
 	return &cipherConfigResource{}
@@ -23,6 +24,10 @@ func CipherConfigResource() resource.Resource {
 
 type cipherConfigResource struct {
 	client *service.NitroClient
+}
+
+func (r *cipherConfigResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *cipherConfigResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
