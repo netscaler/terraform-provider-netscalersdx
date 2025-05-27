@@ -3,7 +3,6 @@ package smtp_server
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -15,6 +14,7 @@ import (
 
 var _ resource.Resource = (*smtpServerResource)(nil)
 var _ resource.ResourceWithConfigure = (*smtpServerResource)(nil)
+var _ resource.ResourceWithImportState = (*smtpServerResource)(nil)
 
 func SmtpServerResource() resource.Resource {
 	return &smtpServerResource{}
@@ -22,6 +22,10 @@ func SmtpServerResource() resource.Resource {
 
 type smtpServerResource struct {
 	client *service.NitroClient
+}
+
+func (r *smtpServerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *smtpServerResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -120,25 +124,7 @@ func (r *smtpServerResource) Read(ctx context.Context, req resource.ReadRequest,
 
 	getResponseData := responseData[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !data.IsAuth.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["is_auth"].(string))
-		data.IsAuth = types.BoolValue(val)
-	}
-	if !data.IsSsl.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["is_ssl"].(string))
-		data.IsSsl = types.BoolValue(val)
-	}
-	if !data.Port.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["port"].(string))
-		data.Port = types.Int64Value(int64(val))
-	}
-	if !data.Username.IsNull() {
-		data.Username = types.StringValue(getResponseData["username"].(string))
-	}
-	if !data.SenderMailId.IsNull() {
-		data.SenderMailId = types.StringValue(getResponseData["sender_mail_id"].(string))
-	}
-	data.ServerName = types.StringValue(getResponseData["server_name"].(string))
+	smtpServerSetAttrFromGet(ctx, &data, getResponseData)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -180,6 +166,22 @@ func (r *smtpServerResource) Update(ctx context.Context, req resource.UpdateRequ
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
 	}
 }
 
