@@ -16,6 +16,7 @@ import (
 
 var _ resource.Resource = (*sslSettingsResource)(nil)
 var _ resource.ResourceWithConfigure = (*sslSettingsResource)(nil)
+var _ resource.ResourceWithImportState = (*sslSettingsResource)(nil)
 
 func SslSettingsResource() resource.Resource {
 	return &sslSettingsResource{}
@@ -23,6 +24,10 @@ func SslSettingsResource() resource.Resource {
 
 type sslSettingsResource struct {
 	client *service.NitroClient
+}
+
+func (r *sslSettingsResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *sslSettingsResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
