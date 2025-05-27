@@ -3,7 +3,6 @@ package ntp_server
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -15,6 +14,7 @@ import (
 
 var _ resource.Resource = (*ntpServerResource)(nil)
 var _ resource.ResourceWithConfigure = (*ntpServerResource)(nil)
+var _ resource.ResourceWithImportState = (*ntpServerResource)(nil)
 
 func NtpServerResource() resource.Resource {
 	return &ntpServerResource{}
@@ -22,6 +22,10 @@ func NtpServerResource() resource.Resource {
 
 type ntpServerResource struct {
 	client *service.NitroClient
+}
+
+func (r *ntpServerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *ntpServerResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -120,29 +124,7 @@ func (r *ntpServerResource) Read(ctx context.Context, req resource.ReadRequest, 
 
 	getResponseData := dataArr[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !data.Autokey.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["autokey"].(string))
-		data.Autokey = types.BoolValue(val)
-	}
-	if !data.KeyId.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["key_id"].(string))
-		data.KeyId = types.Int64Value(int64(val))
-	}
-	if !data.Maxpoll.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["maxpoll"].(string))
-		data.Maxpoll = types.Int64Value(int64(val))
-	}
-	if !data.Minpoll.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["minpoll"].(string))
-		data.Minpoll = types.Int64Value(int64(val))
-	}
-	if !data.PreferredServer.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["preferred_server"].(string))
-		data.PreferredServer = types.BoolValue(val)
-	}
-	if !data.Server.IsNull() {
-		data.Server = types.StringValue(getResponseData["server"].(string))
-	}
+	ntpServerSetAttrFromGet(ctx, &data, getResponseData)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -181,6 +163,22 @@ func (r *ntpServerResource) Update(ctx context.Context, req resource.UpdateReque
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
+	}
 }
 
 func (r *ntpServerResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
