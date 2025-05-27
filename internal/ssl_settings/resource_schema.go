@@ -2,7 +2,7 @@ package ssl_settings
 
 import (
 	"context"
-	"strconv"
+	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -17,6 +17,7 @@ func sslSettingsResourceSchema() schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"sslreneg": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -25,6 +26,7 @@ func sslSettingsResourceSchema() schema.Schema {
 			},
 			"sslv3": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -33,6 +35,7 @@ func sslSettingsResourceSchema() schema.Schema {
 			},
 			"tlsv1": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -41,6 +44,7 @@ func sslSettingsResourceSchema() schema.Schema {
 			},
 			"tlsv1_1": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -49,6 +53,7 @@ func sslSettingsResourceSchema() schema.Schema {
 			},
 			"tlsv1_2": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -74,37 +79,35 @@ type sslSettingsModel struct {
 
 func sslSettingsGetThePayloadFromtheConfig(ctx context.Context, data *sslSettingsModel) sslSettingsReq {
 	tflog.Debug(ctx, "In sslSettingsGetThePayloadFromtheConfig Function")
-	sslSettingsReqPayload := sslSettingsReq{
-		Sslreneg: data.Sslreneg.ValueBoolPointer(),
-		Sslv3:    data.Sslv3.ValueBoolPointer(),
-		Tlsv1:    data.Tlsv1.ValueBoolPointer(),
-		Tlsv11:   data.Tlsv11.ValueBoolPointer(),
-		Tlsv12:   data.Tlsv12.ValueBoolPointer(),
+	sslSettingsReqPayload := sslSettingsReq{}
+
+	if !data.Sslreneg.IsNull() && !data.Sslreneg.IsUnknown() {
+		sslSettingsReqPayload.Sslreneg = data.Sslreneg.ValueBoolPointer()
 	}
+	if !data.Sslv3.IsNull() && !data.Sslv3.IsUnknown() {
+		sslSettingsReqPayload.Sslv3 = data.Sslv3.ValueBoolPointer()
+	}
+	if !data.Tlsv1.IsNull() && !data.Tlsv1.IsUnknown() {
+		sslSettingsReqPayload.Tlsv1 = data.Tlsv1.ValueBoolPointer()
+	}
+	if !data.Tlsv11.IsNull() && !data.Tlsv11.IsUnknown() {
+		sslSettingsReqPayload.Tlsv11 = data.Tlsv11.ValueBoolPointer()
+	}
+	if !data.Tlsv12.IsNull() && !data.Tlsv12.IsUnknown() {
+		sslSettingsReqPayload.Tlsv12 = data.Tlsv12.ValueBoolPointer()
+	}
+
 	return sslSettingsReqPayload
 }
 func sslSettingsSetAttrFromGet(ctx context.Context, data *sslSettingsModel, getResponseData map[string]interface{}) *sslSettingsModel {
 	tflog.Debug(ctx, "In sslSettingsSetAttrFromGet Function")
-	if !data.Sslreneg.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["sslreneg"].(string))
-		data.Sslreneg = types.BoolValue(val)
-	}
-	if !data.Sslv3.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["sslv3"].(string))
-		data.Sslv3 = types.BoolValue(val)
-	}
-	if !data.Tlsv1.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["tlsv1"].(string))
-		data.Tlsv1 = types.BoolValue(val)
-	}
-	if !data.Tlsv11.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["tlsv1_1"].(string))
-		data.Tlsv11 = types.BoolValue(val)
-	}
-	if !data.Tlsv12.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["tlsv1_2"].(string))
-		data.Tlsv12 = types.BoolValue(val)
-	}
+
+	data.Sslreneg = types.BoolValue(utils.StringToBool(getResponseData["sslreneg"].(string)))
+	data.Sslv3 = types.BoolValue(utils.StringToBool(getResponseData["sslv3"].(string)))
+	data.Tlsv1 = types.BoolValue(utils.StringToBool(getResponseData["tlsv1"].(string)))
+	data.Tlsv11 = types.BoolValue(utils.StringToBool(getResponseData["tlsv1_1"].(string)))
+	data.Tlsv12 = types.BoolValue(utils.StringToBool(getResponseData["tlsv1_2"].(string)))
+
 	return data
 }
 
