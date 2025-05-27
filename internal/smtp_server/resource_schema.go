@@ -4,6 +4,8 @@ package smtp_server
 
 import (
 	"context"
+	"terraform-provider-netscalersdx/internal/utils"
+
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -16,26 +18,31 @@ func smtpServerResourceSchema(ctx context.Context) schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"is_auth": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Is authentication enabled for this smtp server.",
 				MarkdownDescription: "Is authentication enabled for this smtp server.",
 			},
 			"is_ssl": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Is this smtp server is SSL support configured..",
 				MarkdownDescription: "Is this smtp server is SSL support configured..",
 			},
 			"password": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Password for the smtp server. Maximum length =  128",
 				MarkdownDescription: "Password for the smtp server. Maximum length =  128",
 			},
 			"port": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "SMTP Server port address.. Minimum value =  1 Maximum value =  ",
 				MarkdownDescription: "SMTP Server port address.. Minimum value =  1 Maximum value =  ",
 			},
 			"sender_mail_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Email Address from which email is to be sent.",
 				MarkdownDescription: "Email Address from which email is to be sent.",
 			},
@@ -46,6 +53,7 @@ func smtpServerResourceSchema(ctx context.Context) schema.Schema {
 			},
 			"username": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Username for the smtp server. Maximum length =  128",
 				MarkdownDescription: "Username for the smtp server. Maximum length =  128",
 			},
@@ -68,25 +76,45 @@ type smtpServerModel struct {
 	Id           types.String `tfsdk:"id"`
 }
 
+func smtpServerSetAttrFromGet(ctx context.Context, data *smtpServerModel, getResponseData map[string]interface{}) *smtpServerModel {
+	tflog.Debug(ctx, "In smtpServerSetAttrFromGet Function")
+
+	data.IsAuth = types.BoolValue(utils.StringToBool(getResponseData["is_auth"].(string)))
+	data.IsSsl = types.BoolValue(utils.StringToBool(getResponseData["is_ssl"].(string)))
+	data.Port = types.Int64Value(utils.StringToInt(getResponseData["port"].(string)))
+	data.Username = types.StringValue(getResponseData["username"].(string))
+	data.SenderMailId = types.StringValue(getResponseData["sender_mail_id"].(string))
+	data.ServerName = types.StringValue(getResponseData["server_name"].(string))
+
+	return data
+}
+
 func smtpServerGetThePayloadFromtheConfig(ctx context.Context, data *smtpServerModel) smtpServerReq {
 	tflog.Debug(ctx, "In smtpServerGetThePayloadFromtheConfig Function")
 	smtpServerReqPayload := smtpServerReq{
-		IsAuth:       data.IsAuth.ValueBool(),
-		IsSsl:        data.IsSsl.ValueBool(),
 		Password:     data.Password.ValueString(),
-		Port:         data.Port.ValueInt64(),
 		SenderMailId: data.SenderMailId.ValueString(),
 		ServerName:   data.ServerName.ValueString(),
 		Username:     data.Username.ValueString(),
 	}
+	if !data.IsAuth.IsNull() && !data.IsAuth.IsUnknown() {
+		smtpServerReqPayload.IsAuth = data.IsAuth.ValueBoolPointer()
+	}
+	if !data.IsSsl.IsNull() && !data.IsSsl.IsUnknown() {
+		smtpServerReqPayload.IsSsl = data.IsSsl.ValueBoolPointer()
+	}
+	if !data.Port.IsNull() && !data.Port.IsUnknown() {
+		smtpServerReqPayload.Port = data.Port.ValueInt64Pointer()
+	}
+
 	return smtpServerReqPayload
 }
 
 type smtpServerReq struct {
-	IsAuth       bool   `json:"is_auth,omitempty"`
-	IsSsl        bool   `json:"is_ssl,omitempty"`
+	IsAuth       *bool  `json:"is_auth,omitempty"`
+	IsSsl        *bool  `json:"is_ssl,omitempty"`
 	Password     string `json:"password,omitempty"`
-	Port         int64  `json:"port,omitempty"`
+	Port         *int64 `json:"port,omitempty"`
 	SenderMailId string `json:"sender_mail_id,omitempty"`
 	ServerName   string `json:"server_name,omitempty"`
 	Username     string `json:"username,omitempty"`
