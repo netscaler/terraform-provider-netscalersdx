@@ -3,7 +3,6 @@ package tacacs_server
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -15,6 +14,7 @@ import (
 
 var _ resource.Resource = (*tacacsServerResource)(nil)
 var _ resource.ResourceWithConfigure = (*tacacsServerResource)(nil)
+var _ resource.ResourceWithImportState = (*tacacsServerResource)(nil)
 
 func TacacsServerResource() resource.Resource {
 	return &tacacsServerResource{}
@@ -22,6 +22,10 @@ func TacacsServerResource() resource.Resource {
 
 type tacacsServerResource struct {
 	client *service.NitroClient
+}
+
+func (r *tacacsServerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *tacacsServerResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -120,27 +124,7 @@ func (r *tacacsServerResource) Read(ctx context.Context, req resource.ReadReques
 
 	getResponseData := responseData[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !data.Accounting.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["accounting"].(string))
-		data.Accounting = types.BoolValue(val)
-	}
-	if !data.AuthTimeout.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["auth_timeout"].(string))
-		data.AuthTimeout = types.Int64Value(int64(val))
-	}
-	if !data.GroupAttrName.IsNull() {
-		data.GroupAttrName = types.StringValue(getResponseData["group_attr_name"].(string))
-	}
-	if !data.IpAddress.IsNull() {
-		data.IpAddress = types.StringValue(getResponseData["ip_address"].(string))
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.Port.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["port"].(string))
-		data.Port = types.Int64Value(int64(val))
-	}
+	tacacsServerModelSetAttrFromGet(ctx, &data, getResponseData)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -182,6 +166,22 @@ func (r *tacacsServerResource) Update(ctx context.Context, req resource.UpdateRe
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
 	}
 }
 
