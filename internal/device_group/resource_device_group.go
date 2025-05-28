@@ -3,7 +3,6 @@ package device_group
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -15,6 +14,7 @@ import (
 
 var _ resource.Resource = (*deviceGroupResource)(nil)
 var _ resource.ResourceWithConfigure = (*deviceGroupResource)(nil)
+var _ resource.ResourceWithImportState = (*deviceGroupResource)(nil)
 
 func DeviceGroupResource() resource.Resource {
 	return &deviceGroupResource{}
@@ -22,6 +22,10 @@ func DeviceGroupResource() resource.Resource {
 
 type deviceGroupResource struct {
 	client *service.NitroClient
+}
+
+func (r *deviceGroupResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *deviceGroupResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -120,51 +124,7 @@ func (r *deviceGroupResource) Read(ctx context.Context, req resource.ReadRequest
 
 	getResponseData := responseData[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !data.Category.IsNull() {
-		data.Category = types.StringValue(getResponseData["category"].(string))
-	}
-	if !data.CriteriaCondn.IsNull() {
-		data.CriteriaCondn = types.StringValue(getResponseData["criteria_condn"].(string))
-	}
-	if !data.CriteriaType.IsNull() {
-		data.CriteriaType = types.StringValue(getResponseData["criteria_type"].(string))
-	}
-	if !data.CriteriaValue.IsNull() {
-		data.CriteriaValue = types.StringValue(getResponseData["criteria_value"].(string))
-	}
-	if !data.DeviceFamily.IsNull() {
-		data.DeviceFamily = types.StringValue(getResponseData["device_family"].(string))
-	}
-	if !data.DisableUpgrade.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["disable_upgrade"].(string))
-		data.DisableUpgrade = types.BoolValue(val)
-	}
-	if !data.Duration.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["duration"].(string))
-		data.Duration = types.Int64Value(int64(val))
-	}
-	if !data.LockAcquireTime.IsNull() {
-		data.LockAcquireTime = types.StringValue(getResponseData["lock_acquire_time"].(string))
-	}
-	if !data.LockAcquiringDevice.IsNull() {
-		data.LockAcquiringDevice = types.StringValue(getResponseData["lock_acquiring_device"].(string))
-	}
-	if !data.MaintenanceWindowStart.IsNull() {
-		data.MaintenanceWindowStart = types.StringValue(getResponseData["maintenance_window_start"].(string))
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.StaticDeviceList.IsNull() {
-		data.StaticDeviceList = types.StringValue(getResponseData["static_device_list"].(string))
-	}
-	if !data.UpgradeLock.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["upgrade_lock"].(string))
-		data.UpgradeLock = types.BoolValue(val)
-	}
-	if !data.UpgradeVersion.IsNull() {
-		data.UpgradeVersion = types.StringValue(getResponseData["upgrade_version"].(string))
-	}
+	deviceGroupSetAttrFromGet(ctx, &data, getResponseData)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -206,6 +166,22 @@ func (r *deviceGroupResource) Update(ctx context.Context, req resource.UpdateReq
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
 	}
 }
 
