@@ -3,7 +3,6 @@ package ldap_server
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -15,6 +14,7 @@ import (
 
 var _ resource.Resource = (*ldapServerResource)(nil)
 var _ resource.ResourceWithConfigure = (*ldapServerResource)(nil)
+var _ resource.ResourceWithImportState = (*ldapServerResource)(nil)
 
 func LdapServerResource() resource.Resource {
 	return &ldapServerResource{}
@@ -22,6 +22,10 @@ func LdapServerResource() resource.Resource {
 
 type ldapServerResource struct {
 	client *service.NitroClient
+}
+
+func (r *ldapServerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *ldapServerResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -120,97 +124,7 @@ func (r *ldapServerResource) Read(ctx context.Context, req resource.ReadRequest,
 
 	getResponseData := responseData[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !data.AuthTimeout.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["auth_timeout"].(string))
-		data.AuthTimeout = types.Int64Value(int64(val))
-	}
-	if !data.Authentication.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["authentication"].(string))
-		data.Authentication = types.BoolValue(val)
-	}
-	if !data.BaseDn.IsNull() {
-		data.BaseDn = types.StringValue(getResponseData["base_dn"].(string))
-	}
-	if !data.BindDn.IsNull() {
-		data.BindDn = types.StringValue(getResponseData["bind_dn"].(string))
-	}
-	if !data.BindPasswd.IsNull() {
-		data.BindPasswd = types.StringValue(getResponseData["bind_passwd"].(string))
-	}
-	if !data.ChangePassword.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["change_password"].(string))
-		data.ChangePassword = types.BoolValue(val)
-	}
-	if !data.DefaultAuthenticationGroup.IsNull() {
-		data.DefaultAuthenticationGroup = types.StringValue(getResponseData["default_authentication_group"].(string))
-	}
-	if !data.FollowReferrals.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["follow_referrals"].(string))
-		data.FollowReferrals = types.BoolValue(val)
-	}
-	if !data.GroupAttrName.IsNull() {
-		data.GroupAttrName = types.StringValue(getResponseData["group_attr_name"].(string))
-	}
-	if !data.GroupNameIdentifier.IsNull() {
-		data.GroupNameIdentifier = types.StringValue(getResponseData["group_name_identifier"].(string))
-	}
-	if !data.GroupSearchAttribute.IsNull() {
-		data.GroupSearchAttribute = types.StringValue(getResponseData["group_search_attribute"].(string))
-	}
-	if !data.GroupSearchFilter.IsNull() {
-		data.GroupSearchFilter = types.StringValue(getResponseData["group_search_filter"].(string))
-	}
-	if !data.GroupSearchSubattribute.IsNull() {
-		data.GroupSearchSubattribute = types.StringValue(getResponseData["group_search_subattribute"].(string))
-	}
-	if !data.IpAddress.IsNull() {
-		data.IpAddress = types.StringValue(getResponseData["ip_address"].(string))
-	}
-	if !data.LdapHostName.IsNull() {
-		data.LdapHostName = types.StringValue(getResponseData["ldap_host_name"].(string))
-	}
-	if !data.LoginName.IsNull() {
-		data.LoginName = types.StringValue(getResponseData["login_name"].(string))
-	}
-	if !data.MaxLdapReferrals.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["max_ldap_referrals"].(string))
-		data.MaxLdapReferrals = types.Int64Value(int64(val))
-	}
-	if !data.MaxNestingLevel.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["max_nesting_level"].(string))
-		data.MaxNestingLevel = types.Int64Value(int64(val))
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.NestedGroupExtraction.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["nested_group_extraction"].(string))
-		data.NestedGroupExtraction = types.BoolValue(val)
-	}
-	if !data.Port.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["port"].(string))
-		data.Port = types.Int64Value(int64(val))
-	}
-	if !data.SearchFilter.IsNull() {
-		data.SearchFilter = types.StringValue(getResponseData["search_filter"].(string))
-	}
-	if !data.SecType.IsNull() {
-		data.SecType = types.StringValue(getResponseData["sec_type"].(string))
-	}
-	if !data.SshPublicKey.IsNull() {
-		data.SshPublicKey = types.StringValue(getResponseData["ssh_public_key"].(string))
-	}
-	if !data.SubattributeName.IsNull() {
-		data.SubattributeName = types.StringValue(getResponseData["subattribute_name"].(string))
-	}
-	if !data.Type.IsNull() {
-		data.Type = types.StringValue(getResponseData["type"].(string))
-	}
-	if !data.ValidateLdapServerCerts.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["validate_ldap_server_certs"].(string))
-		data.ValidateLdapServerCerts = types.BoolValue(val)
-	}
-
+	ldapServerSetAttrFromGet(ctx, &data, getResponseData)
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -251,6 +165,22 @@ func (r *ldapServerResource) Update(ctx context.Context, req resource.UpdateRequ
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
+	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
 	}
 }
 
