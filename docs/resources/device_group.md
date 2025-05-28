@@ -42,7 +42,7 @@ resource "netscalersdx_device_group" "tf_device_group" {
 - `lock_acquiring_device` (String) Upgrade Lock acquiring device. Maximum length =  255
 - `maintenance_window_start` (String) Maintenance window start time for groups of category upgrade. Maximum length =  255
 - `static_device_list` (String) Devices in the group.
-- `static_device_list_arr` (List of String) Static Device List.
+- `static_device_list_arr` (Set of String) Static Device List.
 - `upgrade_lock` (Boolean) Lock to be acquired before upgrading device group.
 - `upgrade_version` (String) New Available upgrade version for devices. Maximum length =  255
 
