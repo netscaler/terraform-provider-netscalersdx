@@ -63,12 +63,20 @@ type mpsFeatureModel struct {
 func mpsFeatureGetThePayloadFromtheConfig(ctx context.Context, data *mpsFeatureModel) mpsFeatureReq {
 	tflog.Debug(ctx, "In mpsFeatureGetThePayloadFromtheConfig Function")
 	mpsFeatureReqPayload := mpsFeatureReq{
-		AdminToggle: data.AdminToggle.ValueInt64Pointer(),
-		BuiltIn:     data.BuiltIn.ValueBoolPointer(),
 		Description: data.Description.ValueString(),
 		FeatureName: data.FeatureName.ValueString(),
-		OpsToggle:   data.OpsToggle.ValueInt64Pointer(),
 	}
+
+	if !data.AdminToggle.IsNull() && !data.AdminToggle.IsUnknown() {
+		mpsFeatureReqPayload.AdminToggle = data.AdminToggle.ValueInt64Pointer()
+	}
+	if !data.BuiltIn.IsNull() && !data.BuiltIn.IsUnknown() {
+		mpsFeatureReqPayload.BuiltIn = data.BuiltIn.ValueBoolPointer()
+	}
+	if !data.OpsToggle.IsNull() && !data.OpsToggle.IsUnknown() {
+		mpsFeatureReqPayload.OpsToggle = data.OpsToggle.ValueInt64Pointer()
+	}
+
 	return mpsFeatureReqPayload
 }
 func mpsFeatureSetAttrFromGet(ctx context.Context, data *mpsFeatureModel, getResponseData map[string]interface{}) *mpsFeatureModel {
