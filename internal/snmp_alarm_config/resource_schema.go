@@ -67,12 +67,20 @@ type snmpAlarmConfigModel struct {
 func snmpAlarmConfigGetThePayloadFromtheConfig(ctx context.Context, data *snmpAlarmConfigModel) snmpAlarmConfigReq {
 	tflog.Debug(ctx, "In snmpAlarmConfigGetThePayloadFromtheConfig Function")
 	snmpAlarmConfigReqPayload := snmpAlarmConfigReq{
-		Enable:    data.Enable.ValueBoolPointer(),
-		Name:      data.Name.ValueString(),
-		Severity:  data.Severity.ValueString(),
-		Threshold: data.Threshold.ValueInt64Pointer(),
-		Time:      data.Time.ValueInt64Pointer(),
+		Name:     data.Name.ValueString(),
+		Severity: data.Severity.ValueString(),
 	}
+
+	if !data.Enable.IsNull() && !data.Enable.IsUnknown() {
+		snmpAlarmConfigReqPayload.Enable = data.Enable.ValueBoolPointer()
+	}
+	if !data.Threshold.IsNull() && !data.Threshold.IsUnknown() {
+		snmpAlarmConfigReqPayload.Threshold = data.Threshold.ValueInt64Pointer()
+	}
+	if !data.Time.IsNull() && !data.Time.IsUnknown() {
+		snmpAlarmConfigReqPayload.Time = data.Time.ValueInt64Pointer()
+	}
+
 	return snmpAlarmConfigReqPayload
 }
 func snmpAlarmConfigSetAttrFromGet(ctx context.Context, data *snmpAlarmConfigModel, getResponseData map[string]interface{}) *snmpAlarmConfigModel {
