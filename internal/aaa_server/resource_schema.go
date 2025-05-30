@@ -75,10 +75,15 @@ func aaaServerGetThePayloadFromtheConfig(ctx context.Context, data *aaaServerMod
 	tflog.Debug(ctx, "In aaaServerGetThePayloadFromtheConfig Function")
 	aaaServerReqPayload := aaaServerReq{
 		ExternalServers:             externalServersFromConfigToRequest(ctx, data.ExternalServers),
-		FallbackLocalAuthentication: data.FallbackLocalAuthentication.ValueBoolPointer(),
-		LogExtGroupInfo:             data.LogExtGroupInfo.ValueBoolPointer(),
 		PrimaryServerName:           data.PrimaryServerName.ValueString(),
 		PrimaryServerType:           data.PrimaryServerType.ValueString(),
+	}
+
+	if !data.FallbackLocalAuthentication.IsNull() && !data.FallbackLocalAuthentication.IsUnknown() {
+		aaaServerReqPayload.FallbackLocalAuthentication = data.FallbackLocalAuthentication.ValueBoolPointer()
+	}
+	if !data.LogExtGroupInfo.IsNull() && !data.LogExtGroupInfo.IsUnknown() {
+		aaaServerReqPayload.LogExtGroupInfo = data.LogExtGroupInfo.ValueBoolPointer()
 	}
 	return aaaServerReqPayload
 }
