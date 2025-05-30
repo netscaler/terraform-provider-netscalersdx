@@ -186,27 +186,48 @@ func mpsgroupGetThePayloadFromtheConfig(ctx context.Context, data *mpsgroupModel
 	tflog.Debug(ctx, "In mpsgroupGetThePayloadFromtheConfig Function")
 
 	mpsgroupReqPayload := mpsgroupReq{
-		AllowApplicationOnly:        data.AllowApplicationOnly.ValueBoolPointer(),
-		ApplicationNames:            utils.TypeListToUnmarshalStringSet(data.ApplicationNames),
-		ApplyAllBoundEntities:       data.ApplyAllBoundEntities.ValueBoolPointer(),
-		AssignAllApps:               data.AssignAllApps.ValueBoolPointer(),
-		AssignAllAutoscaleGroups:    data.AssignAllAutoscaleGroups.ValueBoolPointer(),
-		AssignAllDevices:            data.AssignAllDevices.ValueBoolPointer(),
-		AssignAllSelectedDeviceApps: data.AssignAllSelectedDeviceApps.ValueBoolPointer(),
-		AutoscaleGroupsId:           utils.TypeListToUnmarshalStringSet(data.AutoscaleGroupsId),
-		BoundEntitySelected:         data.BoundEntitySelected.ValueInt64Pointer(),
-		Description:                 data.Description.ValueStringPointer(),
-		EnableSessionTimeout:        data.EnableSessionTimeout.ValueBoolPointer(),
-		Name:                        data.Name.ValueString(),
-		Permission:                  data.Permission.ValueString(),
-		Role:                        data.Role.ValueString(),
-		Roles:                       utils.TypeListToUnmarshalStringSet(data.Roles),
-		SelectIndividualEntity:      data.SelectIndividualEntity.ValueBoolPointer(),
-		SessionTimeout:              data.SessionTimeout.ValueInt64Pointer(),
-		SessionTimeoutUnit:          data.SessionTimeoutUnit.ValueString(),
-		StandaloneInstancesId:       utils.TypeListToUnmarshalStringSetPtr(data.StandaloneInstancesId),
-		TenantId:                    data.TenantId.ValueString(),
-		Users:                       utils.TypeListToUnmarshalStringSetPtr(data.Users),
+		ApplicationNames:      utils.TypeListToUnmarshalStringSet(data.ApplicationNames),
+		AutoscaleGroupsId:     utils.TypeListToUnmarshalStringSet(data.AutoscaleGroupsId),
+		Description:           data.Description.ValueString(),
+		Name:                  data.Name.ValueString(),
+		Permission:            data.Permission.ValueString(),
+		Role:                  data.Role.ValueString(),
+		Roles:                 utils.TypeListToUnmarshalStringSet(data.Roles),
+		SessionTimeoutUnit:    data.SessionTimeoutUnit.ValueString(),
+		StandaloneInstancesId: utils.TypeListToUnmarshalStringSetPtr(data.StandaloneInstancesId),
+		TenantId:              data.TenantId.ValueString(),
+		Users:                 utils.TypeListToUnmarshalStringSetPtr(data.Users),
+	}
+
+	if !data.AllowApplicationOnly.IsNull() && !data.AllowApplicationOnly.IsUnknown() {
+		mpsgroupReqPayload.AllowApplicationOnly = data.AllowApplicationOnly.ValueBoolPointer()
+	}
+	if !data.ApplyAllBoundEntities.IsNull() && !data.ApplyAllBoundEntities.IsUnknown() {
+		mpsgroupReqPayload.ApplyAllBoundEntities = data.ApplyAllBoundEntities.ValueBoolPointer()
+	}
+	if !data.AssignAllApps.IsNull() && !data.AssignAllApps.IsUnknown() {
+		mpsgroupReqPayload.AssignAllApps = data.AssignAllApps.ValueBoolPointer()
+	}
+	if !data.AssignAllAutoscaleGroups.IsNull() && !data.AssignAllAutoscaleGroups.IsUnknown() {
+		mpsgroupReqPayload.AssignAllAutoscaleGroups = data.AssignAllAutoscaleGroups.ValueBoolPointer()
+	}
+	if !data.AssignAllDevices.IsNull() && !data.AssignAllDevices.IsUnknown() {
+		mpsgroupReqPayload.AssignAllDevices = data.AssignAllDevices.ValueBoolPointer()
+	}
+	if !data.AssignAllSelectedDeviceApps.IsNull() && !data.AssignAllSelectedDeviceApps.IsUnknown() {
+		mpsgroupReqPayload.AssignAllSelectedDeviceApps = data.AssignAllSelectedDeviceApps.ValueBoolPointer()
+	}
+	if !data.BoundEntitySelected.IsNull() && !data.BoundEntitySelected.IsUnknown() {
+		mpsgroupReqPayload.BoundEntitySelected = data.BoundEntitySelected.ValueInt64Pointer()
+	}
+	if !data.EnableSessionTimeout.IsNull() && !data.EnableSessionTimeout.IsUnknown() {
+		mpsgroupReqPayload.EnableSessionTimeout = data.EnableSessionTimeout.ValueBoolPointer()
+	}
+	if !data.SelectIndividualEntity.IsNull() && !data.SelectIndividualEntity.IsUnknown() {
+		mpsgroupReqPayload.SelectIndividualEntity = data.SelectIndividualEntity.ValueBoolPointer()
+	}
+	if !data.SessionTimeout.IsNull() && !data.SessionTimeout.IsUnknown() {
+		mpsgroupReqPayload.SessionTimeout = data.SessionTimeout.ValueInt64Pointer()
 	}
 
 	return mpsgroupReqPayload
@@ -249,7 +270,7 @@ type mpsgroupReq struct {
 	AssignAllSelectedDeviceApps *bool     `json:"assign_all_selected_device_apps,omitempty"`
 	AutoscaleGroupsId           []string  `json:"autoscale_groups_id,omitempty"`
 	BoundEntitySelected         *int64    `json:"bound_entity_selected,omitempty"`
-	Description                 *string   `json:"description,omitempty"`
+	Description                 string    `json:"description,omitempty"`
 	EnableSessionTimeout        *bool     `json:"enable_session_timeout,omitempty"`
 	Name                        string    `json:"name,omitempty"`
 	Permission                  string    `json:"permission,omitempty"`

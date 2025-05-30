@@ -74,9 +74,9 @@ func aaaServerResourceSchema() schema.Schema {
 func aaaServerGetThePayloadFromtheConfig(ctx context.Context, data *aaaServerModel) aaaServerReq {
 	tflog.Debug(ctx, "In aaaServerGetThePayloadFromtheConfig Function")
 	aaaServerReqPayload := aaaServerReq{
-		ExternalServers:             externalServersFromConfigToRequest(ctx, data.ExternalServers),
-		PrimaryServerName:           data.PrimaryServerName.ValueString(),
-		PrimaryServerType:           data.PrimaryServerType.ValueString(),
+		ExternalServers:   externalServersFromConfigToRequest(ctx, data.ExternalServers),
+		PrimaryServerName: data.PrimaryServerName.ValueString(),
+		PrimaryServerType: data.PrimaryServerType.ValueString(),
 	}
 
 	if !data.FallbackLocalAuthentication.IsNull() && !data.FallbackLocalAuthentication.IsUnknown() {
