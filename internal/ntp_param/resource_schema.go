@@ -75,17 +75,24 @@ type ntpParamModel struct {
 func ntpParamGetThePayloadFromtheConfig(ctx context.Context, data *ntpParamModel) ntpParamReq {
 	tflog.Debug(ctx, "In ntpParamGetThePayloadFromtheConfig Function")
 	ntpParamReqPayload := ntpParamReq{
-		Authentication: data.Authentication.ValueBool(),
-		AutomaxLogsec:  data.AutomaxLogsec.ValueInt64(),
-		RevokeLogsec:   data.RevokeLogsec.ValueInt64(),
 		TrustedKeyList: utils.TypeListToUnmarshalStringList(data.TrustedKeyList),
 	}
+	if !data.Authentication.IsNull() && !data.Authentication.IsUnknown() {
+		ntpParamReqPayload.Authentication = data.Authentication.ValueBoolPointer()
+	}
+	if !data.AutomaxLogsec.IsNull() && !data.AutomaxLogsec.IsUnknown() {
+		ntpParamReqPayload.AutomaxLogsec = data.AutomaxLogsec.ValueInt64Pointer()
+	}
+	if !data.RevokeLogsec.IsNull() && !data.RevokeLogsec.IsUnknown() {
+		ntpParamReqPayload.RevokeLogsec = data.RevokeLogsec.ValueInt64Pointer()
+	}
+
 	return ntpParamReqPayload
 }
 
 type ntpParamReq struct {
-	Authentication bool     `json:"authentication"`
-	AutomaxLogsec  int64    `json:"automax_logsec,omitempty"`
-	RevokeLogsec   int64    `json:"revoke_logsec,omitempty"`
+	Authentication *bool    `json:"authentication"`
+	AutomaxLogsec  *int64   `json:"automax_logsec,omitempty"`
+	RevokeLogsec   *int64   `json:"revoke_logsec,omitempty"`
 	TrustedKeyList []string `json:"trusted_key_list,omitempty"`
 }
