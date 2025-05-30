@@ -2,7 +2,7 @@ package system_settings
 
 import (
 	"context"
-	"strconv"
+	"terraform-provider-netscalersdx/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -15,96 +15,115 @@ func systemSettingsResourceSchema() schema.Schema {
 		Attributes: map[string]schema.Attribute{
 			"authorize_deviceapiproxy": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Authorize the DeviceAPIProxy request.",
 				MarkdownDescription: "Authorize the DeviceAPIProxy request.",
 			},
 			"basicauth": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Allow Basic Authentication Protocol.",
 				MarkdownDescription: "Allow Basic Authentication Protocol.",
 			},
 			"disable_agent_old_password_input": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Disable old password input requirement while changing ADM agent password.",
 				MarkdownDescription: "Disable old password input requirement while changing ADM agent password.",
 			},
 			"disk_utilization_threshold": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Disk utilization threshold after which data processing it stopped.",
 				MarkdownDescription: "Disk utilization threshold after which data processing it stopped.",
 			},
 			"enable_apiproxy_credentials": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enable API Proxy Credentials.",
 				MarkdownDescription: "Enable API Proxy Credentials.",
 			},
 			"enable_certificate_download": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enable Certificate Download.",
 				MarkdownDescription: "Enable Certificate Download.",
 			},
 			"enable_cuxip": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Used to enable/disable CUXIP(Customer User Experience Improvement Program).",
 				MarkdownDescription: "Used to enable/disable CUXIP(Customer User Experience Improvement Program).",
 			},
 			"enable_delete_interface_on_adc": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Flag to enable/disable deleting interface from ADCs on SDX.",
 				MarkdownDescription: "Flag to enable/disable deleting interface from ADCs on SDX.",
 			},
 			"enable_nsrecover_login": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "This setting enalbes nsrecover login for SVM.",
 				MarkdownDescription: "This setting enalbes nsrecover login for SVM.",
 			},
 			"enable_session_timeout": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enables session timeout feature.",
 				MarkdownDescription: "Enables session timeout feature.",
 			},
 			"enable_shell_access": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enable Shell access for non-nsroot User(s).",
 				MarkdownDescription: "Enable Shell access for non-nsroot User(s).",
 			},
 			"is_metering_enabled": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Enable Metering for NetScaler VPX on SDX.",
 				MarkdownDescription: "Enable Metering for NetScaler VPX on SDX.",
 			},
 			"keep_adc_image_count": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Count for number of NetScaler images to be saved in Agent.",
 				MarkdownDescription: "Count for number of NetScaler images to be saved in Agent.",
 			},
 			"keep_alive_ping_interval": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Agent web socket keep alive ping interval for the system.",
 				MarkdownDescription: "Agent web socket keep alive ping interval for the system.",
 			},
 			"prompt_creds_for_stylebooks": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Prompt Credentials for Stylebooks.",
 				MarkdownDescription: "Prompt Credentials for Stylebooks.",
 			},
 			"secure_access_only": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Secure Access only.",
 				MarkdownDescription: "Secure Access only.",
 			},
 			"session_timeout": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Session timeout for the system.",
 				MarkdownDescription: "Session timeout for the system.",
 			},
 			"session_timeout_unit": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Session timeout unit for the system. Possible Values: [ Minutes, Hours ]",
 				MarkdownDescription: "Session timeout unit for the system. Possible Values: [ Minutes, Hours ]",
 			},
 			"svm_ns_comm": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				Description:         "Communication with Instances. Minimum length =  1 Maximum length =  10. Possible Values: [ http, https ]",
 				MarkdownDescription: "Communication with Instances. Minimum length =  1 Maximum length =  10. Possible Values: [ http, https ]",
 			},
@@ -142,104 +161,86 @@ type systemSettingsModel struct {
 func systemSettingsGetThePayloadFromtheConfig(ctx context.Context, data *systemSettingsModel) systemSettingsReq {
 	tflog.Debug(ctx, "In systemSettingsGetThePayloadFromtheConfig Function")
 	systemSettingsReqPayload := systemSettingsReq{
-		AuthorizeDeviceapiproxy:      data.AuthorizeDeviceapiproxy.ValueBoolPointer(),
-		Basicauth:                    data.Basicauth.ValueBoolPointer(),
-		DisableAgentOldPasswordInput: data.DisableAgentOldPasswordInput.ValueBoolPointer(),
-		DiskUtilizationThreshold:     data.DiskUtilizationThreshold.ValueInt64Pointer(),
-		EnableApiproxyCredentials:    data.EnableApiproxyCredentials.ValueBoolPointer(),
-		EnableCertificateDownload:    data.EnableCertificateDownload.ValueBoolPointer(),
-		EnableCuxip:                  data.EnableCuxip.ValueBoolPointer(),
-		EnableDeleteInterfaceOnAdc:   data.EnableDeleteInterfaceOnAdc.ValueBoolPointer(),
-		EnableNsrecoverLogin:         data.EnableNsrecoverLogin.ValueBoolPointer(),
-		EnableSessionTimeout:         data.EnableSessionTimeout.ValueBoolPointer(),
-		EnableShellAccess:            data.EnableShellAccess.ValueBoolPointer(),
-		IsMeteringEnabled:            data.IsMeteringEnabled.ValueBoolPointer(),
-		KeepAdcImageCount:            data.KeepAdcImageCount.ValueInt64Pointer(),
-		KeepAlivePingInterval:        data.KeepAlivePingInterval.ValueInt64Pointer(),
-		PromptCredsForStylebooks:     data.PromptCredsForStylebooks.ValueBoolPointer(),
-		SecureAccessOnly:             data.SecureAccessOnly.ValueBoolPointer(),
-		SessionTimeout:               data.SessionTimeout.ValueInt64Pointer(),
-		SessionTimeoutUnit:           data.SessionTimeoutUnit.ValueString(),
-		SvmNsComm:                    data.SvmNsComm.ValueString(),
+		SessionTimeoutUnit: data.SessionTimeoutUnit.ValueString(),
+		SvmNsComm:          data.SvmNsComm.ValueString(),
 	}
+	if !data.AuthorizeDeviceapiproxy.IsNull() && !data.AuthorizeDeviceapiproxy.IsUnknown() {
+		systemSettingsReqPayload.AuthorizeDeviceapiproxy = data.AuthorizeDeviceapiproxy.ValueBoolPointer()
+	}
+	if !data.Basicauth.IsNull() && !data.Basicauth.IsUnknown() {
+		systemSettingsReqPayload.Basicauth = data.Basicauth.ValueBoolPointer()
+	}
+	if !data.DisableAgentOldPasswordInput.IsNull() && !data.DisableAgentOldPasswordInput.IsUnknown() {
+		systemSettingsReqPayload.DisableAgentOldPasswordInput = data.DisableAgentOldPasswordInput.ValueBoolPointer()
+	}
+	if !data.DiskUtilizationThreshold.IsNull() && !data.DiskUtilizationThreshold.IsUnknown() {
+		systemSettingsReqPayload.DiskUtilizationThreshold = data.DiskUtilizationThreshold.ValueInt64Pointer()
+	}
+	if !data.EnableApiproxyCredentials.IsNull() && !data.EnableApiproxyCredentials.IsUnknown() {
+		systemSettingsReqPayload.EnableApiproxyCredentials = data.EnableApiproxyCredentials.ValueBoolPointer()
+	}
+	if !data.EnableCertificateDownload.IsNull() && !data.EnableCertificateDownload.IsUnknown() {
+		systemSettingsReqPayload.EnableCertificateDownload = data.EnableCertificateDownload.ValueBoolPointer()
+	}
+	if !data.EnableCuxip.IsNull() && !data.EnableCuxip.IsUnknown() {
+		systemSettingsReqPayload.EnableCuxip = data.EnableCuxip.ValueBoolPointer()
+	}
+	if !data.EnableDeleteInterfaceOnAdc.IsNull() && !data.EnableDeleteInterfaceOnAdc.IsUnknown() {
+		systemSettingsReqPayload.EnableDeleteInterfaceOnAdc = data.EnableDeleteInterfaceOnAdc.ValueBoolPointer()
+	}
+	if !data.EnableNsrecoverLogin.IsNull() && !data.EnableNsrecoverLogin.IsUnknown() {
+		systemSettingsReqPayload.EnableNsrecoverLogin = data.EnableNsrecoverLogin.ValueBoolPointer()
+	}
+	if !data.EnableSessionTimeout.IsNull() && !data.EnableSessionTimeout.IsUnknown() {
+		systemSettingsReqPayload.EnableSessionTimeout = data.EnableSessionTimeout.ValueBoolPointer()
+	}
+	if !data.EnableShellAccess.IsNull() && !data.EnableShellAccess.IsUnknown() {
+		systemSettingsReqPayload.EnableShellAccess = data.EnableShellAccess.ValueBoolPointer()
+	}
+	if !data.IsMeteringEnabled.IsNull() && !data.IsMeteringEnabled.IsUnknown() {
+		systemSettingsReqPayload.IsMeteringEnabled = data.IsMeteringEnabled.ValueBoolPointer()
+	}
+	if !data.KeepAdcImageCount.IsNull() && !data.KeepAdcImageCount.IsUnknown() {
+		systemSettingsReqPayload.KeepAdcImageCount = data.KeepAdcImageCount.ValueInt64Pointer()
+	}
+	if !data.KeepAlivePingInterval.IsNull() && !data.KeepAlivePingInterval.IsUnknown() {
+		systemSettingsReqPayload.KeepAlivePingInterval = data.KeepAlivePingInterval.ValueInt64Pointer()
+	}
+	if !data.PromptCredsForStylebooks.IsNull() && !data.PromptCredsForStylebooks.IsUnknown() {
+		systemSettingsReqPayload.PromptCredsForStylebooks = data.PromptCredsForStylebooks.ValueBoolPointer()
+	}
+	if !data.SecureAccessOnly.IsNull() && !data.SecureAccessOnly.IsUnknown() {
+		systemSettingsReqPayload.SecureAccessOnly = data.SecureAccessOnly.ValueBoolPointer()
+	}
+	if !data.SessionTimeout.IsNull() && !data.SessionTimeout.IsUnknown() {
+		systemSettingsReqPayload.SessionTimeout = data.SessionTimeout.ValueInt64Pointer()
+	}
+
 	return systemSettingsReqPayload
 }
 func systemSettingsSetAttrFromGet(ctx context.Context, data *systemSettingsModel, getResponseData map[string]interface{}) *systemSettingsModel {
 	tflog.Debug(ctx, "In systemSettingsSetAttrFromGet Function")
-	if !data.AuthorizeDeviceapiproxy.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["authorize_deviceapiproxy"].(string))
-		data.AuthorizeDeviceapiproxy = types.BoolValue(val)
-	}
-	if !data.Basicauth.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["basicauth"].(string))
-		data.Basicauth = types.BoolValue(val)
-	}
-	if !data.DisableAgentOldPasswordInput.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["disable_agent_old_password_input"].(string))
-		data.DisableAgentOldPasswordInput = types.BoolValue(val)
-	}
-	if !data.DiskUtilizationThreshold.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["disk_utilization_threshold"].(string))
-		data.DiskUtilizationThreshold = types.Int64Value(int64(val))
-	}
-	if !data.EnableApiproxyCredentials.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_apiproxy_credentials"].(string))
-		data.EnableApiproxyCredentials = types.BoolValue(val)
-	}
-	if !data.EnableCertificateDownload.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_certificate_download"].(string))
-		data.EnableCertificateDownload = types.BoolValue(val)
-	}
-	if !data.EnableCuxip.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_cuxip"].(string))
-		data.EnableCuxip = types.BoolValue(val)
-	}
-	if !data.EnableDeleteInterfaceOnAdc.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_delete_interface_on_adc"].(string))
-		data.EnableDeleteInterfaceOnAdc = types.BoolValue(val)
-	}
-	if !data.EnableNsrecoverLogin.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_nsrecover_login"].(string))
-		data.EnableNsrecoverLogin = types.BoolValue(val)
-	}
-	if !data.EnableSessionTimeout.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_session_timeout"].(string))
-		data.EnableSessionTimeout = types.BoolValue(val)
-	}
-	if !data.EnableShellAccess.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_shell_access"].(string))
-		data.EnableShellAccess = types.BoolValue(val)
-	}
-	if !data.IsMeteringEnabled.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["is_metering_enabled"].(string))
-		data.IsMeteringEnabled = types.BoolValue(val)
-	}
-	if !data.KeepAdcImageCount.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["keep_adc_image_count"].(string))
-		data.KeepAdcImageCount = types.Int64Value(int64(val))
-	}
-	if !data.KeepAlivePingInterval.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["keep_alive_ping_interval"].(string))
-		data.KeepAlivePingInterval = types.Int64Value(int64(val))
-	}
-	if !data.PromptCredsForStylebooks.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["prompt_creds_for_stylebooks"].(string))
-		data.PromptCredsForStylebooks = types.BoolValue(val)
-	}
-	if !data.SecureAccessOnly.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["secure_access_only"].(string))
-		data.SecureAccessOnly = types.BoolValue(val)
-	}
-	if !data.SessionTimeout.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["session_timeout"].(string))
-		data.SessionTimeout = types.Int64Value(int64(val))
-	}
-	if !data.SessionTimeoutUnit.IsNull() {
-		data.SessionTimeoutUnit = types.StringValue(getResponseData["session_timeout_unit"].(string))
-	}
-	if !data.SvmNsComm.IsNull() {
-		data.SvmNsComm = types.StringValue(getResponseData["svm_ns_comm"].(string))
-	}
+
+	data.AuthorizeDeviceapiproxy = types.BoolValue(utils.StringToBool(getResponseData["authorize_deviceapiproxy"].(string)))
+	data.Basicauth = types.BoolValue(utils.StringToBool(getResponseData["basicauth"].(string)))
+	data.DisableAgentOldPasswordInput = types.BoolValue(utils.StringToBool(getResponseData["disable_agent_old_password_input"].(string)))
+	data.DiskUtilizationThreshold = types.Int64Value(utils.StringToInt(getResponseData["disk_utilization_threshold"].(string)))
+	data.EnableApiproxyCredentials = types.BoolValue(utils.StringToBool(getResponseData["enable_apiproxy_credentials"].(string)))
+	data.EnableCertificateDownload = types.BoolValue(utils.StringToBool(getResponseData["enable_certificate_download"].(string)))
+	data.EnableCuxip = types.BoolValue(utils.StringToBool(getResponseData["enable_cuxip"].(string)))
+	data.EnableDeleteInterfaceOnAdc = types.BoolValue(utils.StringToBool(getResponseData["enable_delete_interface_on_adc"].(string)))
+	data.EnableNsrecoverLogin = types.BoolValue(utils.StringToBool(getResponseData["enable_nsrecover_login"].(string)))
+	data.EnableSessionTimeout = types.BoolValue(utils.StringToBool(getResponseData["enable_session_timeout"].(string)))
+	data.EnableShellAccess = types.BoolValue(utils.StringToBool(getResponseData["enable_shell_access"].(string)))
+	data.IsMeteringEnabled = types.BoolValue(utils.StringToBool(getResponseData["is_metering_enabled"].(string)))
+	data.KeepAdcImageCount = types.Int64Value(utils.StringToInt(getResponseData["keep_adc_image_count"].(string)))
+	data.KeepAlivePingInterval = types.Int64Value(utils.StringToInt(getResponseData["keep_alive_ping_interval"].(string)))
+	data.PromptCredsForStylebooks = types.BoolValue(utils.StringToBool(getResponseData["prompt_creds_for_stylebooks"].(string)))
+	data.SecureAccessOnly = types.BoolValue(utils.StringToBool(getResponseData["secure_access_only"].(string)))
+	data.SessionTimeout = types.Int64Value(utils.StringToInt(getResponseData["session_timeout"].(string)))
+	data.SessionTimeoutUnit = types.StringValue(getResponseData["session_timeout_unit"].(string))
+	data.SvmNsComm = types.StringValue(getResponseData["svm_ns_comm"].(string))
+
 	return data
 }
 
