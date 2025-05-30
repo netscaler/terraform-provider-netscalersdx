@@ -3,7 +3,6 @@ package radius_server
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"terraform-provider-netscalersdx/internal/service"
 
@@ -15,6 +14,7 @@ import (
 
 var _ resource.Resource = (*radiusServerResource)(nil)
 var _ resource.ResourceWithConfigure = (*radiusServerResource)(nil)
+var _ resource.ResourceWithImportState = (*radiusServerResource)(nil)
 
 func RadiusServerResource() resource.Resource {
 	return &radiusServerResource{}
@@ -22,6 +22,10 @@ func RadiusServerResource() resource.Resource {
 
 type radiusServerResource struct {
 	client *service.NitroClient
+}
+
+func (r *radiusServerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
 func (r *radiusServerResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -120,71 +124,7 @@ func (r *radiusServerResource) Read(ctx context.Context, req resource.ReadReques
 
 	getResponseData := responseData[endpoint].([]interface{})[0].(map[string]interface{})
 
-	if !data.Accounting.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["accounting"].(string))
-		data.Accounting = types.BoolValue(val)
-	}
-	if !data.AddressType.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["address_type"].(string))
-		data.AddressType = types.Int64Value(int64(val))
-	}
-	if !data.AttributeType.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["attribute_type"].(string))
-		data.AttributeType = types.Int64Value(int64(val))
-	}
-	if !data.AuthTimeout.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["auth_timeout"].(string))
-		data.AuthTimeout = types.Int64Value(int64(val))
-	}
-	if !data.DefaultAuthenticationGroup.IsNull() {
-		data.DefaultAuthenticationGroup = types.StringValue(getResponseData["default_authentication_group"].(string))
-	}
-	if !data.EnableNasIp.IsNull() {
-		val, _ := strconv.ParseBool(getResponseData["enable_nas_ip"].(string))
-		data.EnableNasIp = types.BoolValue(val)
-	}
-	if !data.GroupSeparator.IsNull() {
-		data.GroupSeparator = types.StringValue(getResponseData["group_separator"].(string))
-	}
-	if !data.GroupsPrefix.IsNull() {
-		data.GroupsPrefix = types.StringValue(getResponseData["groups_prefix"].(string))
-	}
-	if !data.IpAddress.IsNull() {
-		data.IpAddress = types.StringValue(getResponseData["ip_address"].(string))
-	}
-	if !data.IpAttributeType.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["ip_attribute_type"].(string))
-		data.IpAttributeType = types.Int64Value(int64(val))
-	}
-	if !data.IpVendorId.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["ip_vendor_id"].(string))
-		data.IpVendorId = types.Int64Value(int64(val))
-	}
-	if !data.Name.IsNull() {
-		data.Name = types.StringValue(getResponseData["name"].(string))
-	}
-	if !data.NasId.IsNull() {
-		data.NasId = types.StringValue(getResponseData["nas_id"].(string))
-	}
-	if !data.PassEncoding.IsNull() {
-		data.PassEncoding = types.StringValue(getResponseData["pass_encoding"].(string))
-	}
-	if !data.Port.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["port"].(string))
-		data.Port = types.Int64Value(int64(val))
-	}
-	if !data.PwdAttributeType.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["pwd_attribute_type"].(string))
-		data.PwdAttributeType = types.Int64Value(int64(val))
-	}
-	if !data.PwdVendorId.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["pwd_vendor_id"].(string))
-		data.PwdVendorId = types.Int64Value(int64(val))
-	}
-	if !data.VendorId.IsNull() {
-		val, _ := strconv.Atoi(getResponseData["vendor_id"].(string))
-		data.VendorId = types.Int64Value(int64(val))
-	}
+	radiusServerSetAttrFromGet(ctx, &data, getResponseData)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -227,6 +167,23 @@ func (r *radiusServerResource) Update(ctx context.Context, req resource.UpdateRe
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	rreq := resource.ReadRequest{
+		State:        resp.State,
+		ProviderMeta: req.ProviderMeta,
+	}
+	rresp := resource.ReadResponse{
+		State:       resp.State,
+		Diagnostics: resp.Diagnostics,
+	}
+
+	r.Read(ctx, rreq, &rresp)
+
+	*resp = resource.UpdateResponse{
+		State:       rresp.State,
+		Diagnostics: rresp.Diagnostics,
+	}
+
 }
 
 func (r *radiusServerResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
