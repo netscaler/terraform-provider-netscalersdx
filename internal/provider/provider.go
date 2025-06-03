@@ -164,6 +164,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		ns.VpxDataSource,
+		aaa_server.AaaServerDataSource,
 	}
 }
 
