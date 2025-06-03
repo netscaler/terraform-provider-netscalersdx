@@ -42,7 +42,7 @@ resource "netscalersdx_cipher_config" "tf_cipher_config" {
 ### Optional
 
 - `cipher_group_name` (String) Name of the Cipher Group. Minimum length =  1 Maximum length =  128
-- `cipher_name_list_array` (List of String) list of cipher suites in form of array of strings.
+- `cipher_name_list_array` (Set of String) list of cipher suites in form of array of strings.
 - `config_mode` (String) SSL Ciphers Config Mode [CipherGroup, CipherSuites].
 
 ### Read-Only
