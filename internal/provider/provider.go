@@ -165,6 +165,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 	return []func() datasource.DataSource{
 		ns.VpxDataSource,
 		aaa_server.AaaServerDataSource,
+		cipher_config.CipherConfigDataSource,
 	}
 }
 
