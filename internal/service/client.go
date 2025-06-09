@@ -333,6 +333,48 @@ func (c *NitroClient) GetAllResource(resource string) (map[string]interface{}, e
 	return returnData, nil
 }
 
+// GetResourceWithArgs will fetch the resource with the given args
+func (c *NitroClient) GetResourceWithArgs(resource string, args map[string]string) (map[string]interface{}, error) {
+	log.Println("GetResourceWithArgs method:", resource)
+	var returnData map[string]interface{}
+
+	var resourcePath string
+	resourcePath = fmt.Sprintf("nitro/v1/config/%s", resource)
+
+	// Append query parameters to the resource path
+	if len(args) > 0 {
+		var argPairs []string
+		for key, value := range args {
+			argPairs = append(argPairs, fmt.Sprintf("%s:%s", key, value))
+		}
+		queryParams := url.Values{}
+		queryParams.Set("args", strings.Join(argPairs, ","))
+		resourcePath += "?" + queryParams.Encode()
+	}
+	log.Println("GetResourceWithArgs args:", resourcePath)
+
+	n := NitroRequestParams{
+		Resource:           resource,
+		ResourcePath:       resourcePath,
+		Method:             "GET",
+		SuccessStatusCodes: []int{200},
+	}
+
+	body, err := c.MakeNitroRequest(n)
+	if err != nil {
+		return returnData, err
+	}
+
+	if len(body) > 0 {
+		err = json.Unmarshal(body, &returnData)
+		if err != nil {
+			return returnData, err
+		}
+		log.Printf("GetResource response %v", toJSONIndent(returnData))
+	}
+	return returnData, nil
+}
+
 // AddResource adds a resource
 func (c *NitroClient) AddResource(resource string, resourceData interface{}) (map[string]interface{}, error) {
 	// For security reasons, we don't want to print the resourceData for login resource

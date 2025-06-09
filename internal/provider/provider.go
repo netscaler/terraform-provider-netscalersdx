@@ -167,6 +167,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		aaa_server.AaaServerDataSource,
 		cipher_config.CipherConfigDataSource,
 		cipher_group.CipherGroupDataSource,
+		radius_server.RadiusServerDataSource,
 	}
 }
 
