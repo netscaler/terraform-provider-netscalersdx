@@ -174,6 +174,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		mps_feature.MpsFeatureDataSource,
 		mpsgroup.MpsgroupDataSource,
 		mpsuser.MpsuserDataSource,
+		ns_device_profile.NsDeviceProfileDataSource,
 	}
 }
 
