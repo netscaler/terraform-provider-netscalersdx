@@ -171,6 +171,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		device_group.DeviceGroupDataSource,
 		ldap_server.LdapServerDataSource,
 		mps.MpsDataSource,
+		mps_feature.MpsFeatureDataSource,
 	}
 }
 
