@@ -87,8 +87,8 @@ func deviceGroupDataSourceSchema() schema.Schema {
 				MarkdownDescription: "New Available upgrade version for devices. Maximum length =  255",
 			},
 			"id": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
+				Computed:    true,
+				Optional:    true,
 				Description: "The ID of this resource",
 			},
 		},
