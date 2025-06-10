@@ -177,6 +177,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		ns_device_profile.NsDeviceProfileDataSource,
 		ntp_param.NtpParamDataSource,
 		ntp_server.NtpServerDataSource,
+		smtp_server.SmtpServerDataSource,
 	}
 }
 
