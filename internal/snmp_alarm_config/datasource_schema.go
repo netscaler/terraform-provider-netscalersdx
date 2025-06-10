@@ -14,7 +14,7 @@ func snmpAlarmConfigDataSourceSchema() schema.Schema {
 				MarkdownDescription: "Enable Alarm.",
 			},
 			"name": schema.StringAttribute{
-				Optional:    true,
+				Optional:            true,
 				Computed:            true,
 				Description:         "Alarm Name. Maximum length =  128",
 				MarkdownDescription: "Alarm Name. Maximum length =  128",
