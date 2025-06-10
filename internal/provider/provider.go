@@ -187,6 +187,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		syslog_params.SyslogParamsDataSource,
 		syslog_server.SyslogServerDataSource,
 		system_settings.SystemSettingsDataSource,
+		tacacs_server.TacacsServerDataSource,
 	}
 }
 
