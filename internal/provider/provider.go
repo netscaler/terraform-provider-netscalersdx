@@ -186,6 +186,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		snmp_view.SnmpViewDataSource,
 		syslog_params.SyslogParamsDataSource,
 		syslog_server.SyslogServerDataSource,
+		system_settings.SystemSettingsDataSource,
 	}
 }
 
