@@ -182,6 +182,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		snmp_manager.SnmpManagerDataSource,
 		snmp_mib.SnmpMibDataSource,
 		snmp_trap.SnmpTrapDataSource,
+		snmp_user.SnmpUserDataSource,
 	}
 }
 
