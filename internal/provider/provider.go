@@ -178,6 +178,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		ntp_param.NtpParamDataSource,
 		ntp_server.NtpServerDataSource,
 		smtp_server.SmtpServerDataSource,
+		snmp_alarm_config.SnmpAlarmConfigDataSource,
 	}
 }
 
