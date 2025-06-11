@@ -194,6 +194,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		current_hostname.CurrentHostnameDataSource,
 		ssl_settings.SslSettingsDataSource,
 		mps_ssl_certkey.MpsSslCertkeyDataSource,
+		aclrule.AclruleDataSource,
 	}
 }
 
