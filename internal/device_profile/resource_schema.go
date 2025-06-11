@@ -205,10 +205,11 @@ func deviceProfileGetThePayloadFromtheConfig(ctx context.Context, data *devicePr
 	}
 	return deviceProfileReqPayload
 }
-func deviceProfileSetAttrFromGet(ctx context.Context, data *deviceProfileModel, getResponseData map[string]interface{}) *deviceProfileModel {
-	tflog.Debug(ctx, "In deviceProfileSetAttrFromGet Function")
-	return data
-}
+
+// func deviceProfileSetAttrFromGet(ctx context.Context, data *deviceProfileModel, getResponseData map[string]interface{}) *deviceProfileModel {
+// 	tflog.Debug(ctx, "In deviceProfileSetAttrFromGet Function")
+// 	return data
+// }
 
 type deviceProfileReq struct {
 	CbProfileName                          string `json:"cb_profile_name,omitempty"`
