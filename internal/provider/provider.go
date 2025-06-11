@@ -195,6 +195,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		ssl_settings.SslSettingsDataSource,
 		mps_ssl_certkey.MpsSslCertkeyDataSource,
 		aclrule.AclruleDataSource,
+		static_route.StaticRouteDataSource,
 	}
 }
 
