@@ -192,6 +192,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		device_profile.DeviceProfileDataSource,
 		current_timezone.CurrentTimezoneDataSource,
 		current_hostname.CurrentHostnameDataSource,
+		ssl_settings.SslSettingsDataSource,
 	}
 }
 
