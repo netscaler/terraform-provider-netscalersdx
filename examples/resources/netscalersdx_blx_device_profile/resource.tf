@@ -12,5 +12,5 @@ resource "netscalersdx_blx_device_profile" "tf_blx_device_profile" {
   snmpsecuritylevel                            = "NoAuthNoPriv"
   snmpsecurityname                             = "device-profile"
   ssh_port                                     = 22
-  svm_ns_comm                                  = "http"
+  svm_ns_comm                                  = "https"
 }
