@@ -189,6 +189,7 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		system_settings.SystemSettingsDataSource,
 		tacacs_server.TacacsServerDataSource,
 		blx_device_profile.BlxDeviceProfileDataSource,
+		device_profile.DeviceProfileDataSource,
 	}
 }
 
