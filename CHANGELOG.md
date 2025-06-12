@@ -7,6 +7,79 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.2]
+
+### Added
+
+#### New Data Sources
+
+- `aaa_server`
+- `aclrule`
+- `blx_device_profile`
+- `cipher_config`
+- `cipher_group`
+- `current_hostname`
+- `current_timezone`
+- `device_group`
+- `device_profile`
+- `ldap_server`
+- `mps`
+- `mps_feature`
+- `mpsgroup`
+- `mps_ssl_certkey`
+- `mpsuser`
+- `ns_device_profile`
+- `ntp_param`
+- `ntp_server`
+- `radius_server`
+- `smtp_server`
+- `snmp_alarm_config`
+- `snmp_manager`
+- `snmp_mib`
+- `snmp_trap`
+- `snmp_user`
+- `snmp_view`
+- `ssl_settings`
+- `static_route`
+- `syslog_params`
+- `syslog_server`
+- `system_settings`
+- `tacacs_server`
+
+#### Import Support
+
+- `netscalersdx_aaa_server`
+- `netscalersdx_aclrule`
+- `netscalersdx_cipher_config`
+- `netscalersdx_cipher_group`
+- `netscalersdx_current_hostname`
+- `netscalersdx_current_timezone`
+- `netscalersdx_device_group`
+- `netscalersdx_ldap_server`
+- `netscalersdx_mps`
+- `netscalersdx_mps_feature`
+- `netscalersdx_mpsgroup`
+- `netscalersdx_mps_ssl_certkey`
+- `netscalersdx_mpsuser`
+- `netscalersdx_ntp_param`
+- `netscalersdx_ntp_server`
+- `netscalersdx_ntp_sync`
+- `netscalersdx_radius_server`
+- `netscalersdx_sdx_license`
+- `netscalersdx_smtp_server`
+- `netscalersdx_snmp_alarm_config`
+- `netscalersdx_snmp_manager`
+- `netscalersdx_snmp_mib`
+- `netscalersdx_snmp_trap`
+- `netscalersdx_snmp_user`
+- `netscalersdx_snmp_view`
+- `netscalersdx_ssl_settings`
+- `netscalersdx_static_route`
+- `netscalersdx_syslog_params`
+- `netscalersdx_syslog_server`
+- `netscalersdx_system_settings`
+- `netscalersdx_tacacs_server`
+
 ## [0.7.1]
 
 ### Changed
@@ -118,7 +191,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `provision_vpx`
 * **New Resource** `vpx_state`
 
-[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.2...HEAD
+[0.7.2]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.5.0...v0.6.0
