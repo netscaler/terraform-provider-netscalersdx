@@ -2,6 +2,8 @@ module terraform-provider-netscalersdx
 
 go 1.24
 
+toolchain go1.24.13
+
 godebug tlsrsakex=1
 
 require (
