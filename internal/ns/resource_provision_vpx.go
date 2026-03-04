@@ -521,6 +521,11 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 				Description: "Network Interfaces.",
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"device_channel_name": schema.StringAttribute{
+							Optional:            true,
+							Description:         "Device channel name of the interface on the host machine.",
+							MarkdownDescription: "Device channel name of the interface on the host machine.",
+						},
 						"gateway": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
@@ -1265,6 +1270,7 @@ func (r *provisionVpxResource) Read(ctx context.Context, req resource.ReadReques
 func networkinterfaceTonetworkinterfaceTF(nifGetResponse []interface{}, stateNetworkInterface basetypes.ListValue, ctx context.Context) basetypes.ListValue {
 	var nifSchemaAttributes = []string{
 		"port_name",
+		"device_channel_name",
 		"name_server",
 		"is_mgmt_ifc",
 		"gateway",
