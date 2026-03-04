@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.3]
+
+### Changed
+
+- **Go-version**: Upgraded go toolchain version to 1.24.13
+
+### Fixed
+
+- **netscalersdx_provision_vpx**: Add device_channel_name to the network_interfaces.  [#79]
+
+[#79]: https://github.com/netscaler/terraform-provider-netscalersdx/issues/79
+
 ## [0.7.2]
 
 ### Added
@@ -192,6 +204,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `vpx_state`
 
 [Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.2...HEAD
+[0.7.3]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.2...v0.7.3
 [0.7.2]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.6.0...v0.7.0
