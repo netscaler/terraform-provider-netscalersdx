@@ -523,6 +523,7 @@ func (r *provisionVpxResource) Schema(ctx context.Context, req resource.SchemaRe
 					Attributes: map[string]schema.Attribute{
 						"device_channel_name": schema.StringAttribute{
 							Optional:            true,
+							Computed:            true,
 							Description:         "Device channel name of the interface on the host machine.",
 							MarkdownDescription: "Device channel name of the interface on the host machine.",
 						},
