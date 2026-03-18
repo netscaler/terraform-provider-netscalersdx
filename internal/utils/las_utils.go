@@ -932,7 +932,7 @@ func ApplyLicenseBlobADM(ctx context.Context, ip, username, password string, blo
 		return fmt.Errorf("failed to upload license blob: %w", err)
 	}
 
-	// Apply license
+	// Apply license - SDX API expects form-encoded data with "object" key
 	auth := &BasicAuth{Username: username, Password: password}
 	url := fmt.Sprintf("http://%s/nitro/v1/config/las_lic_apply", ip)
 
@@ -941,8 +941,12 @@ func ApplyLicenseBlobADM(ctx context.Context, ip, username, password string, blo
 			"las_token_file_name": filename,
 		},
 	}
-	body, _ := json.Marshal(payload)
-	headers := map[string]string{"Content-Type": "application/json"}
+	payloadJSON, _ := json.Marshal(payload)
+
+	// Form-encode with "object" key
+	formData := fmt.Sprintf("object=%s", string(payloadJSON))
+	body := []byte(formData)
+	headers := map[string]string{"Content-Type": "application/x-www-form-urlencoded"}
 
 	// Log request
 	tflog.Debug(ctx, "API Call: ApplyLicenseBlobADM", map[string]interface{}{
@@ -952,7 +956,7 @@ func ApplyLicenseBlobADM(ctx context.Context, ip, username, password string, blo
 		"filename": filename,
 	})
 	tflog.Debug(ctx, "Request Payload", map[string]interface{}{
-		"body": string(body),
+		"body": formData,
 	})
 
 	respBody, err := RunCurlHTTPSFallback(ctx, url, "POST", auth, body, headers)
