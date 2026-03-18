@@ -14,7 +14,7 @@ Configuration for NetScaler SDX LAS Offline License resource. This resource gene
 
 ```terraform
 resource "netscalersdx_nslaslicense_offline" "license" {
-  request_pem      = "CNS_M17500_SERVER"
+  request_pem      = "CNS_M9195_SERVER"
   request_edition  = "Premium"
   las_secrets_json = "${path.module}/las_secrets.json"
 }
@@ -52,3 +52,11 @@ The `las_secrets_json` file must contain the following JSON structure with your 
 - `lsguid` (String) License Server GUID (computed from device).
 - `status` (String) License application status.
 - `version` (String) SDX software version (computed).
+
+## Notes
+
+* This resource requires SSH/SFTP access to the NetScaler SDX device for license application.
+* The provider's `username` must be "nsroot" for offline licensing operations.
+* License blobs are saved locally in `/tmp/offline_token_<device_ip>_sdx_activation.blob.tgz`.
+* The resource performs a complete offline licensing workflow: version check, request generation, LAS service interaction, and license application.
+* On resource deletion, the license remains active on the device; only the Terraform state is removed.
