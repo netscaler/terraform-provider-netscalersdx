@@ -24,6 +24,7 @@ import (
 	"terraform-provider-netscalersdx/internal/ns"
 	"terraform-provider-netscalersdx/internal/ns_device_profile"
 	"terraform-provider-netscalersdx/internal/ns_save_config"
+	"terraform-provider-netscalersdx/internal/nslaslicense_offline"
 	"terraform-provider-netscalersdx/internal/ntp_param"
 	"terraform-provider-netscalersdx/internal/ntp_server"
 	"terraform-provider-netscalersdx/internal/ntp_sync"
@@ -159,6 +160,7 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		current_hostname.CurrentHostnameResource,
 		mps_ssl_certkey.MpsSslCertkeyResource,
 		sdx_license.LicenseFileResource,
+		nslaslicense_offline.NslaslicenseOfflineResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
