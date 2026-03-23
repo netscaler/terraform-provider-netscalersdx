@@ -14,8 +14,7 @@ Configuration for NetScaler SDX LAS Offline License resource. This resource gene
 
 ```terraform
 resource "netscalersdx_nslaslicense_offline" "license" {
-  request_pem      = "CNS_M9195_SERVER"
-  request_edition  = "Premium"
+  entitlement_name = "SDX 9195 Premium"
   las_secrets_json = "${path.module}/las_secrets.json"
 }
 ```
@@ -25,9 +24,8 @@ resource "netscalersdx_nslaslicense_offline" "license" {
 
 ### Required
 
+- `entitlement_name` (String) Entitlement name for the SDX license as listed in LAS customer entitlements (e.g., `SDX 9195 Premium`). Must start with a valid SDX model prefix: `SDX 89`, `SDX 91`, `SDX 92`, `SDX 14`, `SDX 15`, `SDX 16`, `SDX 17`, or `SDX 26`. 
 - `las_secrets_json` (String, Sensitive) Path to JSON file containing LAS credentials (ccid, client, password, las_endpoint, cc_endpoint).
-- `request_edition` (String) License edition for SDX. Standard models: 'Premium'. CNS_M15xxx models: '50G'. CNS_M26xxx models: '50S' or '100G'. All result in Premium license tier.
-- `request_pem` (String) Platform Entitlement Model (PEM) code for SDX (must start with CNS_M, e.g., CNS_M8920_SERVER, CNS_M15120_SERVER, CNS_M26200_SERVER).
 
 #### LAS Secrets File
 
