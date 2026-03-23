@@ -26,12 +26,8 @@ func nslaslicenseOfflineResourceSchema(ctx context.Context) schema.Schema {
 				Required:            true,
 				Sensitive:           true,
 			},
-			"request_pem": schema.StringAttribute{
-				MarkdownDescription: "Platform Entitlement Model (PEM) code for SDX (must start with CNS_M, e.g., CNS_M8920_SERVER, CNS_M15120_SERVER, CNS_M26200_SERVER).",
-				Required:            true,
-			},
-			"request_edition": schema.StringAttribute{
-				MarkdownDescription: "License edition for SDX. Standard models: 'Premium'. CNS_M15xxx models: '50G'. CNS_M26xxx models: '50S' or '100G'. All result in Premium license tier.",
+			"entitlement_name": schema.StringAttribute{
+				MarkdownDescription: "Entitlement name for the license (e.g., 'SDX 9195 Premium')",
 				Required:            true,
 			},
 			"lsguid": schema.StringAttribute{
@@ -63,14 +59,13 @@ func nslaslicenseOfflineResourceSchema(ctx context.Context) schema.Schema {
 }
 
 type nslaslicenseOfflineModel struct {
-	Id             types.String `tfsdk:"id"`
-	LASSecretsJson types.String `tfsdk:"las_secrets_json"`
-	RequestPEM     types.String `tfsdk:"request_pem"`
-	RequestED      types.String `tfsdk:"request_edition"`
-	LSGUID         types.String `tfsdk:"lsguid"`
-	Version        types.String `tfsdk:"version"`
-	Build          types.String `tfsdk:"build"`
-	LicenseBlob    types.String `tfsdk:"license_blob_path"`
-	Status         types.String `tfsdk:"status"`
-	LastUpdated    types.String `tfsdk:"last_updated"`
+	Id              types.String `tfsdk:"id"`
+	LASSecretsJson  types.String `tfsdk:"las_secrets_json"`
+	EntitlementName types.String `tfsdk:"entitlement_name"`
+	LSGUID          types.String `tfsdk:"lsguid"`
+	Version         types.String `tfsdk:"version"`
+	Build           types.String `tfsdk:"build"`
+	LicenseBlob     types.String `tfsdk:"license_blob_path"`
+	Status          types.String `tfsdk:"status"`
+	LastUpdated     types.String `tfsdk:"last_updated"`
 }

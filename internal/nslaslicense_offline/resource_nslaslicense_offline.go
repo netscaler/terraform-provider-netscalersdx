@@ -133,45 +133,66 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	// Validate PEM code for SDX - must start with CNS_M
-	requestPEM := data.RequestPEM.ValueString()
-	if !strings.HasPrefix(requestPEM, "CNS_M") {
+	// // Validate PEM code for SDX - must start with CNS_M
+	// requestPEM := data.RequestPEM.ValueString()
+	// if !strings.HasPrefix(requestPEM, "CNS_M") {
+	// 	resp.Diagnostics.AddError(
+	// 		"Invalid PEM Code for SDX",
+	// 		fmt.Sprintf("SDX PEM codes must start with 'CNS_M' (e.g., CNS_M8920_SERVER, CNS_M15120_SERVER). Got: %s", requestPEM),
+	// 	)
+	// 	return
+	// }
+
+	// // Validate edition for SDX based on PEM code
+	// requestED := data.RequestED.ValueString()
+	// if strings.Contains(requestPEM, "CNS_M15") {
+	// 	// M15xxx models support "50G" edition
+	// 	if requestED != "50G" && requestED != "Premium" {
+	// 		resp.Diagnostics.AddError(
+	// 			"Invalid Edition for SDX M15xxx",
+	// 			fmt.Sprintf("SDX M15xxx models support '50G' or 'Premium' editions. Got: %s", requestED),
+	// 		)
+	// 		return
+	// 	}
+	// } else if strings.Contains(requestPEM, "CNS_M26") {
+	// 	// M26xxx models support "50S", "100G", or "Premium" editions
+	// 	if requestED != "50S" && requestED != "100G" && requestED != "Premium" {
+	// 		resp.Diagnostics.AddError(
+	// 			"Invalid Edition for SDX M26xxx",
+	// 			fmt.Sprintf("SDX M26xxx models support '50S', '100G', or 'Premium' editions. Got: %s", requestED),
+	// 		)
+	// 		return
+	// 	}
+	// } else {
+	// 	// Standard SDX models only support "Premium" edition
+	// 	if requestED != "Premium" {
+	// 		resp.Diagnostics.AddError(
+	// 			"Invalid Edition for SDX",
+	// 			fmt.Sprintf("Standard SDX models only support 'Premium' edition. For special bandwidth models, use M15xxx (50G) or M26xxx (50S/100G). Got: %s", requestED),
+	// 		)
+	// 		return
+	// 	}
+	// }
+
+	// Read and validate entitlement_name from config
+	entitlementName := data.EntitlementName.ValueString()
+	validSDXPrefixes := []string{
+		"SDX 89", "SDX 91", "SDX 92", "SDX 14",
+		"SDX 15", "SDX 16", "SDX 17", "SDX 26",
+	}
+	validPrefix := false
+	for _, prefix := range validSDXPrefixes {
+		if strings.HasPrefix(entitlementName, prefix) {
+			validPrefix = true
+			break
+		}
+	}
+	if !validPrefix {
 		resp.Diagnostics.AddError(
-			"Invalid PEM Code for SDX",
-			fmt.Sprintf("SDX PEM codes must start with 'CNS_M' (e.g., CNS_M8920_SERVER, CNS_M15120_SERVER). Got: %s", requestPEM),
+			"Invalid Entitlement Name",
+			fmt.Sprintf("entitlement_name must start with a valid SDX model prefix (%s). Got: %s", strings.Join(validSDXPrefixes, ", "), entitlementName),
 		)
 		return
-	}
-
-	// Validate edition for SDX based on PEM code
-	requestED := data.RequestED.ValueString()
-	if strings.Contains(requestPEM, "CNS_M15") {
-		// M15xxx models support "50G" edition
-		if requestED != "50G" && requestED != "Premium" {
-			resp.Diagnostics.AddError(
-				"Invalid Edition for SDX M15xxx",
-				fmt.Sprintf("SDX M15xxx models support '50G' or 'Premium' editions. Got: %s", requestED),
-			)
-			return
-		}
-	} else if strings.Contains(requestPEM, "CNS_M26") {
-		// M26xxx models support "50S", "100G", or "Premium" editions
-		if requestED != "50S" && requestED != "100G" && requestED != "Premium" {
-			resp.Diagnostics.AddError(
-				"Invalid Edition for SDX M26xxx",
-				fmt.Sprintf("SDX M26xxx models support '50S', '100G', or 'Premium' editions. Got: %s", requestED),
-			)
-			return
-		}
-	} else {
-		// Standard SDX models only support "Premium" edition
-		if requestED != "Premium" {
-			resp.Diagnostics.AddError(
-				"Invalid Edition for SDX",
-				fmt.Sprintf("Standard SDX models only support 'Premium' edition. For special bandwidth models, use M15xxx (50G) or M26xxx (50S/100G). Got: %s", requestED),
-			)
-			return
-		}
 	}
 
 	product := "SDX" // This resource is for SDX only
@@ -227,16 +248,16 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 
 	tflog.Info(ctx, "Extracted LSGUID", map[string]interface{}{"lsguid": lsguid})
 
-	// Step 4: Determine entitlement name for SDX
-	entitlementName, err := lasutils.GetEntitlementNameForFixedBW(product, data.RequestPEM.ValueString(), data.RequestED.ValueString(), false)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Invalid Entitlement Configuration",
-			fmt.Sprintf("Failed to determine entitlement name: %s", err.Error()),
-		)
-		return
-	}
-	tflog.Info(ctx, "Determined entitlement", map[string]interface{}{"entitlementName": entitlementName})
+	// // Step 4: Determine entitlement name for SDX
+	// entitlementName, err := lasutils.GetEntitlementNameForFixedBW(product, data.RequestPEM.ValueString(), data.RequestED.ValueString(), false)
+	// if err != nil {
+	// 	resp.Diagnostics.AddError(
+	// 		"Invalid Entitlement Configuration",
+	// 		fmt.Sprintf("Failed to determine entitlement name: %s", err.Error()),
+	// 	)
+	// 	return
+	// }
+	// tflog.Info(ctx, "Determined entitlement", map[string]interface{}{"entitlementName": entitlementName})
 
 	// Step 5: Initialize LAS Token Generator
 	ltg := lasutils.NewLASTokenGenerator(
@@ -259,7 +280,45 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	// Step 7: Get fingerprint and deregister if exists
+	// Step 7: Validate entitlement_name against LAS customer entitlements
+	platform := strings.ReplaceAll(entitlementName[:6], " ", "_")
+	entitlementResp, entErr := ltg.GetCustomerEntitlements(ctx, platform)
+	if entErr != nil {
+		resp.Diagnostics.AddError(
+			"Failed to Fetch Customer Entitlements",
+			fmt.Sprintf("Failed to fetch entitlements from LAS for platform '%s': %s", platform, entErr.Error()),
+		)
+		return
+	}
+
+	validEntitlement := false
+	var validEntitlementNames []string
+	if entitlements, ok := entitlementResp["entitlements"].([]interface{}); ok {
+		for _, e := range entitlements {
+			if obj, ok := e.(map[string]interface{}); ok {
+				if name, ok := obj["type"].(string); ok {
+					validEntitlementNames = append(validEntitlementNames, name)
+					if name == entitlementName {
+						validEntitlement = true
+					}
+				}
+			}
+		}
+	}
+	if !validEntitlement {
+		resp.Diagnostics.AddError(
+			"Invalid Entitlement Name",
+			fmt.Sprintf("entitlement_name '%s' is not a valid entitlement for platform '%s'. Valid entitlements: %s", entitlementName, platform, strings.Join(validEntitlementNames, ", ")),
+		)
+		return
+	}
+
+	tflog.Info(ctx, "Entitlement name validated against LAS", map[string]interface{}{
+		"entitlementName": entitlementName,
+		"platform":        platform,
+	})
+
+	// Step 8: Get fingerprint and deregister if exists
 	fingerprint, err := ltg.GetFingerprintForLSGUID(ctx)
 	if err != nil {
 		tflog.Warn(ctx, "Failed to get fingerprint", map[string]interface{}{"error": err.Error()})
@@ -268,7 +327,7 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 
 	tflog.Info(ctx, "Fingerprint lookup complete", map[string]interface{}{"fingerprint": fingerprint})
 
-	// Step 8: Import offline activation request
+	// Step 9: Import offline activation request
 	importToken, err := ltg.ImportOfflineActivationRequest(ctx, packageData, fingerprint)
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -280,7 +339,7 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 
 	tflog.Info(ctx, "Import successful", map[string]interface{}{"importToken": importToken})
 
-	// Step 9: Generate offline activation
+	// Step 10: Generate offline activation
 	activationResp, err := ltg.GenerateOfflineActivation(ctx, importToken, entitlementName)
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -306,7 +365,7 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 
 	tflog.Info(ctx, "Activation generated", map[string]interface{}{"activationID": activationID})
 
-	// Step 10: Export offline activation response (license blob)
+	// Step 11: Export offline activation response (license blob)
 	licenseBlob, err := ltg.ExportOfflineActivationResponse(ctx, activationID, activationFingerprint)
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -316,7 +375,7 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	// Step 11: Save license blob to local file
+	// Step 12: Save license blob to local file
 	blobPath := fmt.Sprintf("/tmp/offline_token_%s_%s_activation.blob.tgz", deviceIP, hostname)
 	if err := os.WriteFile(blobPath, licenseBlob, 0644); err != nil {
 		resp.Diagnostics.AddError(
@@ -329,7 +388,7 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 
 	tflog.Info(ctx, "License blob saved", map[string]interface{}{"path": blobPath})
 
-	// Step 12: Apply license blob to SDX device
+	// Step 13: Apply license blob to SDX device
 	err = lasutils.ApplyLicenseBlobADM(ctx, deviceIP, username, password, licenseBlob)
 
 	if err != nil {
