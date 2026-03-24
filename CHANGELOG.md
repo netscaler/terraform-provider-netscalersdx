@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.4]
+
+### Added
+
+- **New Resource** `nslaslicense_offline`: Support for Offline LAS (License Activation Service) licensing. 
+
 ## [0.7.3]
 
 ### Changed
@@ -203,7 +209,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **New Resource** `provision_vpx`
 * **New Resource** `vpx_state`
 
-[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.2...HEAD
+[Unreleased]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.4...HEAD
+[0.7.4]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.3...v0.7.4
 [0.7.3]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.2...v0.7.3
 [0.7.2]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/netscaler/terraform-provider-netscalersdx/compare/v0.7.0...v0.7.1
