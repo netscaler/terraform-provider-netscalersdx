@@ -76,4 +76,3 @@ The `las_secrets_json` file must contain the following JSON structure with your 
 * License blobs are saved locally in `/tmp/offline_token_<device_ip>_sdx_activation.blob.tgz`.
 * The resource performs a complete offline licensing workflow: version check, request generation, LAS service interaction, and license application.
 * On resource deletion, the license remains active on the device; only the Terraform state is removed.
-* In `restricted_mode`, the LAS service uses `importrestrictedofflineactivationrequest` instead of `importofflineactivationrequest`. The device must support extracting `lsid` and `pubkey` from its offline activation request package.
