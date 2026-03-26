@@ -328,13 +328,33 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 	tflog.Info(ctx, "Fingerprint lookup complete", map[string]interface{}{"fingerprint": fingerprint})
 
 	// Step 9: Import offline activation request
-	importToken, err := ltg.ImportOfflineActivationRequest(ctx, packageData, fingerprint)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Import Request Failed",
-			fmt.Sprintf("Failed to import offline activation request: %s", err.Error()),
-		)
-		return
+	var importToken string
+	if data.RestrictedMode.ValueBool() {
+		lsid, pubkey, err := lasutils.ExtractLSIDAndPubKeyFromPackage(ctx, product, packageData)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"LSID/PubKey Extraction Failed",
+				fmt.Sprintf("Failed to extract lsid and pubkey from request package: %s", err.Error()),
+			)
+			return
+		}
+		importToken, err = ltg.ImportRestrictedOfflineActivationRequest(ctx, lsid, pubkey)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Import Restricted Request Failed",
+				fmt.Sprintf("Failed to import restricted offline activation request: %s", err.Error()),
+			)
+			return
+		}
+	} else {
+		importToken, err = ltg.ImportOfflineActivationRequest(ctx, packageData, fingerprint)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Import Request Failed",
+				fmt.Sprintf("Failed to import offline activation request: %s", err.Error()),
+			)
+			return
+		}
 	}
 
 	tflog.Info(ctx, "Import successful", map[string]interface{}{"importToken": importToken})

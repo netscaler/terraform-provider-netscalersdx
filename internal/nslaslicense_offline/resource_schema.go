@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -54,6 +55,12 @@ func nslaslicenseOfflineResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Timestamp of last update",
 				Computed:            true,
 			},
+			"restricted_mode": schema.BoolAttribute{
+				MarkdownDescription: "When true, uses the restricted offline activation flow (JSON body with lsid and pubkey) instead of uploading the request package file to LAS service. Default is false.",
+				Optional:            true,
+				Computed:            true,
+				Default:             booldefault.StaticBool(false),
+			},
 		},
 	}
 }
@@ -68,4 +75,5 @@ type nslaslicenseOfflineModel struct {
 	LicenseBlob     types.String `tfsdk:"license_blob_path"`
 	Status          types.String `tfsdk:"status"`
 	LastUpdated     types.String `tfsdk:"last_updated"`
+	RestrictedMode  types.Bool   `tfsdk:"restricted_mode"`
 }

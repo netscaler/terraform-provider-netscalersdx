@@ -12,10 +12,24 @@ Configuration for NetScaler SDX LAS Offline License resource. This resource gene
 
 ## Example Usage
 
+### Standard Offline Activation
+
 ```terraform
 resource "netscalersdx_nslaslicense_offline" "license" {
   entitlement_name = "SDX 9195 Premium"
   las_secrets_json = "${path.module}/las_secrets.json"
+}
+```
+
+### Restricted Offline Activation
+
+Use `restricted_mode = true` in environments where file uploads to the LAS service are not permitted (e.g., air-gapped or high-security environments). In this mode, the device's LSID and public key are sent as a JSON body instead of uploading the request package file.
+
+```terraform
+resource "netscalersdx_nslaslicense_offline" "license" {
+  entitlement_name = "SDX 9195 Premium"
+  las_secrets_json = "${path.module}/las_secrets.json"
+  restricted_mode  = true
 }
 ```
 
@@ -24,7 +38,7 @@ resource "netscalersdx_nslaslicense_offline" "license" {
 
 ### Required
 
-- `entitlement_name` (String) Entitlement name for the SDX license as listed in LAS customer entitlements (e.g., `SDX 9195 Premium`). Must start with a valid SDX model prefix: `SDX 89`, `SDX 91`, `SDX 92`, `SDX 14`, `SDX 15`, `SDX 16`, `SDX 17`, or `SDX 26`. 
+- `entitlement_name` (String) Entitlement name for the SDX license as listed in LAS customer entitlements (e.g., `SDX 9195 Premium`). Must start with a valid SDX model prefix: `SDX 89`, `SDX 91`, `SDX 92`, `SDX 14`, `SDX 15`, `SDX 16`, `SDX 17`, or `SDX 26`.
 - `las_secrets_json` (String, Sensitive) Path to JSON file containing LAS credentials (ccid, client, password, las_endpoint, cc_endpoint).
 
 #### LAS Secrets File
@@ -40,6 +54,10 @@ The `las_secrets_json` file must contain the following JSON structure with your 
   "cc_endpoint": "https://trust.citrixworkspacesapi.net/root/tokens/clients"
 }
 ```
+
+### Optional
+
+- `restricted_mode` (Boolean) When `true`, uses the restricted offline activation flow: the device's LSID and public key are sent as a JSON body to the LAS service instead of uploading the request package file. Use this in environments where file uploads to LAS are not permitted (e.g., air-gapped or high-security environments). Defaults to `false`.
 
 ### Read-Only
 
@@ -58,3 +76,4 @@ The `las_secrets_json` file must contain the following JSON structure with your 
 * License blobs are saved locally in `/tmp/offline_token_<device_ip>_sdx_activation.blob.tgz`.
 * The resource performs a complete offline licensing workflow: version check, request generation, LAS service interaction, and license application.
 * On resource deletion, the license remains active on the device; only the Terraform state is removed.
+* In `restricted_mode`, the LAS service uses `importrestrictedofflineactivationrequest` instead of `importofflineactivationrequest`. The device must support extracting `lsid` and `pubkey` from its offline activation request package.
