@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **New Resource** `ssl_cert`: Upload an SSL certificate file to the SDX appliance.
+- **New Resource** `ssl_key`: Upload an SSL key file to the SDX appliance.
+
+#### New Data Sources
+
+- `ssl_cert`
+- `ssl_key`
+
+### Changed
+
+- **Dependencies**: Upgraded `terraform-plugin-testing` from v1.5.1 to v1.12.0 (transitively `terraform-plugin-sdk/v2` from v2.28.0 to v2.36.1) to fix the acceptance-test harness build.
+
 ## [0.7.5]
 
 ### Changed

@@ -9,9 +9,11 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -509,6 +511,234 @@ func (c *NitroClient) DeleteResource(resource string, resourceID string) (map[st
 			return returnData, err
 		}
 		log.Printf("DeleteResource response %v", toJSONIndent(returnData))
+	}
+	return returnData, nil
+}
+
+// GetResourceV2 returns a resource via the /nitro/v2/config/ endpoint.
+// Use for resources whose NITRO documentation specifies v2 URLs (e.g. ssl_cert, ssl_key).
+func (c *NitroClient) GetResourceV2(resource string, resourceID string) (map[string]interface{}, error) {
+	log.Println("GetResourceV2 method:", resource, resourceID)
+	var returnData map[string]interface{}
+
+	resourcePath := fmt.Sprintf("nitro/v2/config/%s/%s", resource, resourceID)
+
+	n := NitroRequestParams{
+		Resource:           resource,
+		ResourcePath:       resourcePath,
+		Method:             "GET",
+		SuccessStatusCodes: []int{200},
+	}
+
+	body, err := c.MakeNitroRequest(n)
+	if err != nil {
+		return returnData, err
+	}
+
+	if len(body) > 0 {
+		err = json.Unmarshal(body, &returnData)
+		if err != nil {
+			return returnData, err
+		}
+		log.Printf("GetResourceV2 response %v", toJSONIndent(returnData))
+	}
+	return returnData, nil
+}
+
+// GetAllResourceV2 returns all resources via the /nitro/v2/config/ endpoint.
+func (c *NitroClient) GetAllResourceV2(resource string) (map[string]interface{}, error) {
+	log.Println("GetAllResourceV2 method:", resource)
+	var returnData map[string]interface{}
+
+	resourcePath := fmt.Sprintf("nitro/v2/config/%s", resource)
+
+	n := NitroRequestParams{
+		Resource:           resource,
+		ResourcePath:       resourcePath,
+		Method:             "GET",
+		SuccessStatusCodes: []int{200},
+	}
+
+	body, err := c.MakeNitroRequest(n)
+	if err != nil {
+		return returnData, err
+	}
+
+	if len(body) > 0 {
+		err = json.Unmarshal(body, &returnData)
+		if err != nil {
+			return returnData, err
+		}
+		log.Printf("GetAllResourceV2 response %v", toJSONIndent(returnData))
+	}
+	return returnData, nil
+}
+
+// DeleteResourceV2 deletes a resource via the /nitro/v2/config/ endpoint.
+func (c *NitroClient) DeleteResourceV2(resource string, resourceID string) (map[string]interface{}, error) {
+	log.Println("DeleteResourceV2 method:", resource, resourceID)
+	var returnData map[string]interface{}
+
+	resourcePath := fmt.Sprintf("nitro/v2/config/%s/%s", resource, resourceID)
+
+	n := NitroRequestParams{
+		Resource:           resource,
+		ResourcePath:       resourcePath,
+		Method:             "DELETE",
+		SuccessStatusCodes: []int{200, 202, 204},
+	}
+
+	body, err := c.MakeNitroRequest(n)
+	if err != nil {
+		return returnData, err
+	}
+
+	if len(body) > 0 {
+		err = json.Unmarshal(body, &returnData)
+		if err != nil {
+			return returnData, err
+		}
+		log.Printf("DeleteResourceV2 response %v", toJSONIndent(returnData))
+	}
+	return returnData, nil
+}
+
+// webLogin authenticates via the SDX login endpoint and returns a session id.
+//
+// The /nitro/v2/upload/ endpoints do NOT accept X-NITRO-USER/PASS header auth
+// (they answer "File upload not allowed"). They require a browser-style web
+// session: a SESSID cookie obtained from a prior login, presented together with
+// the NITRO-WEB-APPLICATION header (see UploadFileReader). This mirrors the
+// proven getSessionID flow in internal/sdx_license/login.go.
+func (c *NitroClient) webLogin() (string, error) {
+	loginBody, err := JSONMarshal(map[string]interface{}{
+		"login": map[string]string{"username": c.username, "password": c.password},
+	})
+	if err != nil {
+		return "", fmt.Errorf("webLogin: marshal: %w", err)
+	}
+
+	urlstr := fmt.Sprintf("%s/nitro/v2/config/login", c.host)
+	req, err := http.NewRequest("POST", urlstr, strings.NewReader(strings.TrimSpace(string(loginBody))))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Content-Type", "text/plain")
+	req.Header.Set("Accept", "application/json")
+
+	resp, err := c.client.Do(req)
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+	if err != nil {
+		return "", err
+	}
+	body, _ := io.ReadAll(resp.Body)
+	if !statusCodeSuccess([]int{200, 201}, resp.StatusCode) {
+		return "", errors.New("webLogin failed: " + resp.Status + " (" + string(body) + ")")
+	}
+
+	var parsed map[string]interface{}
+	if err := json.Unmarshal(body, &parsed); err != nil {
+		return "", fmt.Errorf("webLogin: unmarshal: %w", err)
+	}
+	if login, ok := parsed["login"].([]interface{}); ok && len(login) > 0 {
+		if session, ok := login[0].(map[string]interface{}); ok {
+			if sid, ok := session["sessionid"].(string); ok && sid != "" {
+				return sid, nil
+			}
+		}
+	}
+	return "", errors.New("webLogin: sessionid not found in login response")
+}
+
+// UploadFile uploads a file to the /nitro/v2/upload/<resource> endpoint as
+// multipart/form-data. formField is the multipart form field name expected by
+// the SDX endpoint (this is NOT the resource name — SDX uses the plural form,
+// e.g. "ssl_certs" for the ssl_cert resource and "ssl_keys" for ssl_key). The
+// file is stored on the appliance under filepath.Base(filePath), which becomes
+// its id for later GET/DELETE.
+func (c *NitroClient) UploadFile(resource, formField, filePath string) (map[string]interface{}, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("UploadFile: cannot open %s: %w", filePath, err)
+	}
+	defer file.Close()
+	return c.UploadFileReader(resource, formField, filepath.Base(filePath), file)
+}
+
+// UploadFileReader is the io.Reader-based counterpart to UploadFile. Lets
+// callers stream arbitrary content (in-memory, network, etc.) without going
+// through a temporary file. filename is the value reported in the multipart
+// Content-Disposition header, and is the name the appliance stores the file
+// under (i.e. its id).
+//
+// SDX /nitro/v2/upload/ endpoints reject X-NITRO-USER/PASS header auth
+// ("File upload not allowed"). They require a web session: a SESSID cookie from
+// a prior login plus the NITRO-WEB-APPLICATION header. This method performs that
+// login itself, so callers keep using ordinary NitroClient credentials.
+func (c *NitroClient) UploadFileReader(resource, formField, filename string, body io.Reader) (map[string]interface{}, error) {
+	log.Println("UploadFileReader method:", resource, "formField:", formField, "filename:", filename)
+	var returnData map[string]interface{}
+
+	sessionID, err := c.webLogin()
+	if err != nil {
+		return returnData, fmt.Errorf("UploadFileReader: web login: %w", err)
+	}
+
+	buf := &bytes.Buffer{}
+	writer := multipart.NewWriter(buf)
+	part, err := writer.CreateFormFile(formField, filename)
+	if err != nil {
+		return returnData, fmt.Errorf("UploadFileReader: CreateFormFile: %w", err)
+	}
+	if _, err := io.Copy(part, body); err != nil {
+		return returnData, fmt.Errorf("UploadFileReader: io.Copy: %w", err)
+	}
+	if err := writer.Close(); err != nil {
+		return returnData, fmt.Errorf("UploadFileReader: writer.Close: %w", err)
+	}
+
+	urlstr := fmt.Sprintf("%s/nitro/v2/upload/%s", c.host, resource)
+	req, err := http.NewRequest("POST", urlstr, buf)
+	if err != nil {
+		return returnData, err
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	for k, v := range c.headers {
+		req.Header.Set(k, v)
+	}
+	// Session auth is set last so it always takes effect: the upload endpoint
+	// needs the SESSID cookie + NITRO-WEB-APPLICATION header, not X-NITRO-*.
+	req.Header.Set("Cookie", fmt.Sprintf("SESSID=%s", sessionID))
+	req.Header.Set("NITRO-WEB-APPLICATION", "true")
+	log.Println("UploadFileReader HTTP POST", "url", urlstr, "headers", maskHeaders(req.Header))
+
+	resp, err := c.client.Do(req)
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+	if err != nil {
+		return returnData, err
+	}
+
+	respBody, _ := io.ReadAll(resp.Body)
+	if !statusCodeSuccess([]int{200, 201, 202}, resp.StatusCode) {
+		return returnData, errors.New("UploadFileReader failed: " + resp.Status + " (" + string(respBody) + ")")
+	}
+	if len(respBody) > 0 {
+		if err := json.Unmarshal(respBody, &returnData); err != nil {
+			return returnData, err
+		}
+		log.Printf("UploadFileReader response %v", toJSONIndent(returnData))
+	}
+	// The upload endpoint returns HTTP 200 even on logical failure (e.g.
+	// {"errorcode": 10013, "message": "File upload not allowed"}), so a non-zero
+	// errorcode must be surfaced as an error rather than treated as success.
+	if ec, ok := returnData["errorcode"].(float64); ok && ec != 0 {
+		msg, _ := returnData["message"].(string)
+		return returnData, fmt.Errorf("UploadFileReader: NITRO errorcode %d: %s", int(ec), msg)
 	}
 	return returnData, nil
 }
