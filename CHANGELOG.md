@@ -9,9 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **NITRO client**: new `UploadFile` / `UploadFileReader` methods for multipart file uploads to `/nitro/v2/upload/...`, plus v2-aware `GetResourceV2` / `GetAllResourceV2` / `DeleteResourceV2` helpers. Enables file-upload-style resources (cert / key / file managers) to use the shared client instead of hand-rolling HTTP requests. Uploads authenticate via an SDX web session (SESSID cookie + `NITRO-WEB-APPLICATION` header) — `X-NITRO-USER`/`X-NITRO-PASS` header auth is rejected by the upload endpoint — and a non-zero NITRO `errorcode` in an HTTP-200 upload response is now surfaced as an error.
-- **netscalersdx_ssl_cert** (resource and data source): Uploads an SSL certificate file to the SDX appliance. `file_location_path` is the local **directory** containing the file and `file_name` is the file within it (and the name it is stored under on the appliance).
-- **netscalersdx_ssl_key** (resource and data source): Uploads an SSL key file to the SDX appliance. `file_location_path` is the local **directory** containing the file and `file_name` is the file within it (and the name it is stored under on the appliance).
+- **New Resource** `ssl_cert`: Upload an SSL certificate file to the SDX appliance.
+- **New Resource** `ssl_key`: Upload an SSL key file to the SDX appliance.
+
+#### New Data Sources
+
+- `ssl_cert`
+- `ssl_key`
+
+### Changed
+
+- **Dependencies**: Upgraded `terraform-plugin-testing` from v1.5.1 to v1.12.0 (transitively `terraform-plugin-sdk/v2` from v2.28.0 to v2.36.1) to fix the acceptance-test harness build.
 
 ## [0.7.5]
 
