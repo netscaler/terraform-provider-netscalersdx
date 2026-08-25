@@ -37,6 +37,8 @@ import (
 	"terraform-provider-netscalersdx/internal/snmp_trap"
 	"terraform-provider-netscalersdx/internal/snmp_user"
 	"terraform-provider-netscalersdx/internal/snmp_view"
+	"terraform-provider-netscalersdx/internal/ssl_cert"
+	"terraform-provider-netscalersdx/internal/ssl_key"
 	"terraform-provider-netscalersdx/internal/ssl_settings"
 	"terraform-provider-netscalersdx/internal/static_route"
 	"terraform-provider-netscalersdx/internal/syslog_params"
@@ -161,6 +163,8 @@ func (p *sdxprovider) Resources(_ context.Context) []func() resource.Resource {
 		mps_ssl_certkey.MpsSslCertkeyResource,
 		sdx_license.LicenseFileResource,
 		nslaslicense_offline.NslaslicenseOfflineResource,
+		ssl_cert.SslCertResource,
+		ssl_key.SslKeyResource,
 	}
 }
 func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSource {
@@ -198,6 +202,8 @@ func (p *sdxprovider) DataSources(_ context.Context) []func() datasource.DataSou
 		mps_ssl_certkey.MpsSslCertkeyDataSource,
 		aclrule.AclruleDataSource,
 		static_route.StaticRouteDataSource,
+		ssl_cert.SslCertDataSource,
+		ssl_key.SslKeyDataSource,
 	}
 }
 
