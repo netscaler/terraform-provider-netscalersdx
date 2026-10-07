@@ -104,7 +104,7 @@ func (p *sdxprovider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 			},
 			"server_name": schema.StringAttribute{
 				Optional:    true,
-				Description: "TODO",
+				Description: "Overrides the server name used for TLS verification (SNI and certificate hostname/SAN match). Set this only when the name you connect to differs from the certificate's subject/SAN — for example, connecting by IP to an SDX whose certificate is issued for a DNS name. When empty, the host parsed from `host` is used automatically. Only takes effect when `ssl_verify` is true and `root_ca_path` is set. Can be specified with `NETSCALERSDX_SERVER_NAME` environment variable.",
 			},
 			"headers": schema.MapAttribute{
 				ElementType: types.StringType,
@@ -117,7 +117,7 @@ func (p *sdxprovider) Schema(_ context.Context, _ provider.SchemaRequest, resp *
 			},
 			"root_ca_path": schema.StringAttribute{
 				Optional:    true,
-				Description: "TODO",
+				Description: "Path to a PEM file containing one or more CA certificates used to verify the SDX host's TLS certificate. Use this to trust an SDX whose certificate is signed by a private/internal CA without disabling verification (`ssl_verify = false`). Only takes effect when `ssl_verify` is true. Can be specified with `NETSCALERSDX_ROOT_CA_PATH` environment variable.",
 			},
 		},
 	}
@@ -244,6 +244,12 @@ func (p *sdxprovider) Configure(ctx context.Context, req provider.ConfigureReque
 	if params.LogLevel.IsNull() {
 		params.LogLevel = types.StringValue(os.Getenv("NETSCALERSDX_LOG_LEVEL"))
 	}
+	if params.RootCAPath.IsNull() {
+		params.RootCAPath = types.StringValue(os.Getenv("NETSCALERSDX_ROOT_CA_PATH"))
+	}
+	if params.ServerName.IsNull() {
+		params.ServerName = types.StringValue(os.Getenv("NETSCALERSDX_SERVER_NAME"))
+	}
 
 	if params.Host.IsNull() {
 		resp.Diagnostics.AddAttributeError(
@@ -277,11 +283,13 @@ func (p *sdxprovider) Configure(ctx context.Context, req provider.ConfigureReque
 	}
 
 	paramsapi := service.NitroParamsapi{
-		Host:      params.Host.ValueString(),
-		Username:  params.Username.ValueString(),
-		Password:  params.Password.ValueString(),
-		SslVerify: params.SslVerify.ValueBool(),
-		LogLevel:  params.LogLevel.ValueString(),
+		Host:       params.Host.ValueString(),
+		Username:   params.Username.ValueString(),
+		Password:   params.Password.ValueString(),
+		SslVerify:  params.SslVerify.ValueBool(),
+		RootCAPath: params.RootCAPath.ValueString(),
+		ServerName: params.ServerName.ValueString(),
+		LogLevel:   params.LogLevel.ValueString(),
 	}
 
 	c, err := service.NewNitroClientFromParams(paramsapi)

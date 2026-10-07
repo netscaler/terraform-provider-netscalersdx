@@ -18,6 +18,10 @@ Configuration for NetScaler SDX LAS Offline License resource. This resource gene
 resource "netscalersdx_nslaslicense_offline" "license" {
   entitlement_name = "SDX 9195 Premium"
   las_secrets_json = "${path.module}/las_secrets.json"
+
+  # Pinned SDX SSH host key used to verify the appliance identity for the SCP
+  # license transfer. Capture it once with: ssh-keyscan -t rsa <sdx-mgmt-ip>
+  ssh_host_pubkey = "ssh-rsa AAAAB3NzaC1yc2E..."
 }
 ```
 
@@ -29,6 +33,7 @@ Use `restricted_mode = true` in environments where file uploads to the LAS servi
 resource "netscalersdx_nslaslicense_offline" "license" {
   entitlement_name = "SDX 9195 Premium"
   las_secrets_json = "${path.module}/las_secrets.json"
+  ssh_host_pubkey  = "ssh-rsa AAAAB3NzaC1yc2E..."
   restricted_mode  = true
 }
 ```
@@ -40,6 +45,7 @@ resource "netscalersdx_nslaslicense_offline" "license" {
 
 - `entitlement_name` (String) Entitlement name for the SDX license as listed in LAS customer entitlements (e.g., `SDX 9195 Premium`). Must start with a valid SDX model prefix: `SDX 89`, `SDX 91`, `SDX 92`, `SDX 14`, `SDX 15`, `SDX 16`, `SDX 17`, or `SDX 26`.
 - `las_secrets_json` (String, Sensitive) Path to JSON file containing LAS credentials (ccid, client, password, las_endpoint, cc_endpoint).
+- `ssh_host_pubkey` (String) SSH host public key (authorized_keys format, e.g. `ssh-rsa AAAA...`) used to verify the SDX host key for the SCP license transfer. Capture it once with `ssh-keyscan -t rsa <sdx-mgmt-ip>`. The SCP connection is refused if this value is empty or does not match the appliance's actual host key, which prevents a man-in-the-middle on the management network from capturing the `nsroot` credentials.
 
 #### LAS Secrets File
 
@@ -71,8 +77,9 @@ The `las_secrets_json` file must contain the following JSON structure with your 
 
 ## Notes
 
-* This resource requires SSH/SFTP access to the NetScaler SDX device for license application.
+* This resource requires SSH/SFTP access to the NetScaler SDX device for license application. The SDX host key is verified against the required `ssh_host_pubkey`; there is no insecure fallback that accepts an unknown host key.
 * The provider's `username` must be "nsroot" for offline licensing operations.
 * License blobs are saved locally in `/tmp/offline_token_<device_ip>_sdx_activation.blob.tgz`.
 * The resource performs a complete offline licensing workflow: version check, request generation, LAS service interaction, and license application.
+* The NITRO calls this resource makes to the SDX (version check, request-package generation and license apply) use the provider's configured connection: they follow the `host` scheme and honor the provider's `ssl_verify` / `root_ca_path` / `server_name` TLS settings, and never fall back to plaintext HTTP. Use `https` with a trusted certificate (or `root_ca_path`) to keep the `nsroot` credentials off the wire in cleartext.
 * On resource deletion, the license remains active on the device; only the Terraform state is removed.

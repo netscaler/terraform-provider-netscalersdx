@@ -94,6 +94,11 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 	// Extract device IP from provider endpoint
 	deviceIP := extractIPFromEndpoint(endpoint)
 
+	// Pinned SDX SSH host public key used to verify the host identity for the
+	// SCP license transfer (CTXMYT-2537). Threaded into the SCP helpers so they
+	// use ssh.FixedHostKey instead of accepting any presented host key.
+	hostPubKey := data.SshHostPubkey.ValueString()
+
 	// Validate username
 	if username != "nsroot" {
 		resp.Diagnostics.AddError(
@@ -204,7 +209,7 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 	hostname := "sdx" // Use default hostname for SDX
 
 	// Step 1: Get SDX version and determine API selection
-	release, build, err := lasutils.GetMPSVersion(ctx, deviceIP, username, password)
+	release, build, err := lasutils.GetMPSVersion(ctx, r.client)
 	if err != nil {
 		tflog.Warn(ctx, "Failed to get SDX version, using default API", map[string]interface{}{"error": err.Error()})
 	} else {
@@ -224,7 +229,7 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 	}
 
 	// Step 2: Generate offline request package
-	filename, packageData, err := lasutils.GetOfflineRequestPackage(ctx, product, deviceIP, hostname, username, password, useNewAPI)
+	filename, packageData, err := lasutils.GetOfflineRequestPackage(ctx, r.client, product, deviceIP, hostname, hostPubKey, useNewAPI)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Request Package Generation Failed",
@@ -409,7 +414,7 @@ func (r *nslaslicenseOfflineResource) Create(ctx context.Context, req resource.C
 	tflog.Info(ctx, "License blob saved", map[string]interface{}{"path": blobPath})
 
 	// Step 13: Apply license blob to SDX device
-	err = lasutils.ApplyLicenseBlobADM(ctx, deviceIP, username, password, licenseBlob)
+	err = lasutils.ApplyLicenseBlobADM(ctx, r.client, deviceIP, hostPubKey, licenseBlob)
 
 	if err != nil {
 		resp.Diagnostics.AddError(

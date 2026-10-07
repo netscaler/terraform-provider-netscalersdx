@@ -37,7 +37,7 @@ provider "netscalersdx" {
 - `json_log_format` (Boolean) TODO
 - `log_level` (String) Log level (Default is INFO). Can be specified with `NETSCALERSDX_LOG_LEVEL` environment variable.
 - `password` (String, Sensitive) NetScaler SDX password. Can be specified with `NETSCALERSDX_PASSWORD` environment variable.
-- `root_ca_path` (String) TODO
-- `server_name` (String) TODO
+- `root_ca_path` (String) Path to a PEM file containing one or more CA certificates used to verify the SDX host's TLS certificate. Use this to trust an SDX whose certificate is signed by a private/internal CA without disabling verification (`ssl_verify = false`). Only takes effect when `ssl_verify` is true. Can be specified with `NETSCALERSDX_ROOT_CA_PATH` environment variable.
+- `server_name` (String) Overrides the server name used for TLS verification (SNI and certificate hostname/SAN match). Set this only when the name you connect to differs from the certificate's subject/SAN — for example, connecting by IP to an SDX whose certificate is issued for a DNS name. When empty, the host parsed from `host` is used automatically. Only takes effect when `ssl_verify` is true and `root_ca_path` is set. Can be specified with `NETSCALERSDX_SERVER_NAME` environment variable.
 - `ssl_verify` (Boolean) Ignore validity of SDX TLS certificate if true. Can be specified with `NETSCALERSDX_SSL_VERIFY` environment variable.
 - `username` (String) NetScaler SDX username. Can be specified with `NETSCALERSDX_USERNAME` environment variable.

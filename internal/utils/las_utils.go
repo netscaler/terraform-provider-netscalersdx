@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"compress/gzip"
 	"context"
-	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -15,6 +14,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"terraform-provider-netscalersdx/internal/service"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/pkg/sftp"
@@ -115,61 +116,53 @@ var PEMEntitlementMapping = map[string]string{
 
 // LASTokenGenerator handles LAS token generation
 type LASTokenGenerator struct {
-	Endpoint      string
-	LSGUID        string
-	CCID          string
-	SecretClient  string
-	SecretPwd     string
-	BaseURL       string
-	CCTokenURL    string
-	BearerCache   string
-	BearerToken   string
-	HTTPClient    *http.Client
-	InsecureHTTPS bool
+	Endpoint     string
+	LSGUID       string
+	CCID         string
+	SecretClient string
+	SecretPwd    string
+	BaseURL      string
+	CCTokenURL   string
+	BearerCache  string
+	BearerToken  string
+	HTTPClient   *http.Client
 }
 
-// NewLASTokenGenerator creates a new LAS token generator
+// NewLASTokenGenerator creates a new LAS token generator.
+// TLS verification stays enabled: this HTTP client carries Citrix Cloud secrets
+// (clientId/clientSecret and bearer tokens) to public LAS/Cloud endpoints that
+// present valid certificates, so there is no reason to disable verification and
+// doing so would expose those secrets to a man-in-the-middle.
 func NewLASTokenGenerator(endpoint, lsguid, ccid, client, password, baseURL, ccTokenURL string) *LASTokenGenerator {
 	return &LASTokenGenerator{
-		Endpoint:      endpoint,
-		LSGUID:        lsguid,
-		CCID:          ccid,
-		SecretClient:  client,
-		SecretPwd:     password,
-		BaseURL:       baseURL,
-		CCTokenURL:    ccTokenURL,
-		BearerCache:   "/tmp/las_bearer_cache",
-		InsecureHTTPS: true,
+		Endpoint:     endpoint,
+		LSGUID:       lsguid,
+		CCID:         ccid,
+		SecretClient: client,
+		SecretPwd:    password,
+		BaseURL:      baseURL,
+		CCTokenURL:   ccTokenURL,
+		BearerCache:  "/tmp/las_bearer_cache",
 		HTTPClient: &http.Client{
 			Timeout: 60 * time.Second,
-			Transport: &http.Transport{
-				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-			},
 		},
 	}
 }
 
-// RunCurlHTTPSFallback tries HTTPS first, falls back to HTTP
-func RunCurlHTTPSFallback(ctx context.Context, url, method string, auth *BasicAuth, body []byte, headers map[string]string) ([]byte, error) {
-	client := &http.Client{
-		Timeout: 30 * time.Second,
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		},
-	}
-
-	// Try HTTPS first
-	httpsURL := strings.Replace(url, "http://", "https://", 1)
-	resp, err := makeHTTPRequest(ctx, client, httpsURL, method, auth, body, headers)
-	if err == nil {
-		return resp, nil
-	}
-
-	tflog.Debug(ctx, "HTTPS request failed, falling back to HTTP", map[string]interface{}{"error": err.Error()})
-
-	// Fallback to HTTP
-	httpURL := strings.Replace(httpsURL, "https://", "http://", 1)
-	return makeHTTPRequest(ctx, client, httpURL, method, auth, body, headers)
+// nitroHTTP issues a NITRO request against the SDX using the provider's
+// already-configured NitroClient transport. This reuses the scheme from the
+// provider `host` and the provider's TLS settings (ssl_verify / root_ca_path /
+// server_name) — the same client every other resource uses. path is the part
+// after the host, e.g. "/nitro/v1/config/mps".
+//
+// It deliberately replaces the former RunCurlHTTPSFallback helper, which built
+// its own http.Client with TLS verification hardcoded off and then silently
+// downgraded to plaintext HTTP on any failure — re-sending the nsroot Basic
+// Auth in cleartext (CTXMYT-2535). There is no cleartext fallback here.
+func nitroHTTP(ctx context.Context, client *service.NitroClient, path, method string, body []byte, headers map[string]string) ([]byte, error) {
+	url := strings.TrimRight(client.Host(), "/") + path
+	auth := &BasicAuth{Username: client.Username(), Password: client.Password()}
+	return makeHTTPRequest(ctx, client.HTTPClient(), url, method, auth, body, headers)
 }
 
 // BasicAuth holds basic authentication credentials
@@ -239,23 +232,22 @@ func makeHTTPRequest(ctx context.Context, client *http.Client, url, method strin
 }
 
 // GetOfflineRequestPackage generates and retrieves offline activation request package
-func GetOfflineRequestPackage(ctx context.Context, product, ip, hostname, username, password string, useHostname bool) (string, []byte, error) {
-	auth := &BasicAuth{Username: username, Password: password}
-	var url, srcDir string
+func GetOfflineRequestPackage(ctx context.Context, client *service.NitroClient, product, ip, hostname, hostPubKey string, useHostname bool) (string, []byte, error) {
+	var path, srcDir string
 
 	switch product {
 	case "NS":
 		if useHostname {
-			url = fmt.Sprintf("http://%s/nitro/v1/config/nslicenseactivationdata?args=usehostname:true", ip)
+			path = "/nitro/v1/config/nslicenseactivationdata?args=usehostname:true"
 		} else {
-			url = fmt.Sprintf("http://%s/nitro/v1/config/nslicenseactivationdata", ip)
+			path = "/nitro/v1/config/nslicenseactivationdata"
 		}
 		srcDir = "/nsconfig/license/"
 	case "SDX":
-		url = fmt.Sprintf("http://%s/nitro/v1/config/las_activation_request", ip)
+		path = "/nitro/v1/config/las_activation_request"
 		srcDir = "/mpsconfig/license/"
 	case "ADM":
-		url = fmt.Sprintf("http://%s/nitro/v1/config/lic_darksite", ip)
+		path = "/nitro/v1/config/lic_darksite"
 		srcDir = "/mpsconfig/license/"
 	default:
 		return "", nil, fmt.Errorf("unsupported product: %s", product)
@@ -290,7 +282,7 @@ func GetOfflineRequestPackage(ctx context.Context, product, ip, hostname, userna
 	}
 	// For NS with useHostname, keep GET method with usehostname:true in URL params
 
-	respBody, err := RunCurlHTTPSFallback(ctx, url, method, auth, body, headers)
+	respBody, err := nitroHTTP(ctx, client, path, method, body, headers)
 	if err != nil {
 		return "", nil, fmt.Errorf("failed to generate request package: %w", err)
 	}
@@ -327,7 +319,7 @@ func GetOfflineRequestPackage(ctx context.Context, product, ip, hostname, userna
 
 	// Download the file via SCP
 	remotePath := srcDir + filename
-	fileContent, err := SCPDownload(ctx, ip, username, password, remotePath)
+	fileContent, err := SCPDownload(ctx, ip, client.Username(), client.Password(), hostPubKey, remotePath)
 	if err != nil {
 		return "", nil, fmt.Errorf("failed to download request package: %w", err)
 	}
@@ -336,12 +328,45 @@ func GetOfflineRequestPackage(ctx context.Context, product, ip, hostname, userna
 	return filename, fileContent, nil
 }
 
+// hostKeyCallbackFromPubKey builds a verifying ssh.HostKeyCallback from an
+// authorized_keys-format host public key. It is fail-closed: an empty or
+// unparseable key is an error, never a fallback to ssh.InsecureIgnoreHostKey
+// (CTXMYT-2537). Without host-key verification a man-in-the-middle on the
+// management network could capture the nsroot credentials used for the SCP
+// license transfer.
+func hostKeyCallbackFromPubKey(hostPubKey string) (ssh.HostKeyCallback, []string, error) {
+	if strings.TrimSpace(hostPubKey) == "" {
+		return nil, nil, fmt.Errorf("ssh_host_pubkey is required for host-key verification; refusing to connect without a pinned SDX host key")
+	}
+	publickey, _, _, _, err := ssh.ParseAuthorizedKey([]byte(hostPubKey))
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to parse ssh_host_pubkey (expected authorized_keys format, e.g. \"ssh-rsa AAAA...\"): %w", err)
+	}
+	// Constrain host-key negotiation to the pinned key's algorithm so the SDX
+	// presents the key we pinned. Without this, Go negotiates its default-preferred
+	// host-key type (e.g. ecdsa-sha2-nistp256) and FixedHostKey rejects it as a
+	// mismatch whenever the operator pinned a different type (e.g. an RSA key).
+	algos := []string{publickey.Type()}
+	if publickey.Type() == ssh.KeyAlgoRSA {
+		// An "ssh-rsa" key also authenticates with the modern rsa-sha2-256/512
+		// signature algorithms; offer those first since many servers no longer
+		// accept the legacy ssh-rsa (SHA-1) algorithm.
+		algos = []string{ssh.KeyAlgoRSASHA256, ssh.KeyAlgoRSASHA512, ssh.KeyAlgoRSA}
+	}
+	return ssh.FixedHostKey(publickey), algos, nil
+}
+
 // SCPDownload downloads a file via SCP
-func SCPDownload(ctx context.Context, ip, username, password, remotePath string) ([]byte, error) {
+func SCPDownload(ctx context.Context, ip, username, password, hostPubKey, remotePath string) ([]byte, error) {
 	tflog.Debug(ctx, "Starting SFTP download", map[string]interface{}{
 		"ip":         ip,
 		"remotePath": remotePath,
 	})
+
+	hostKeyCallBack, hostKeyAlgos, err := hostKeyCallbackFromPubKey(hostPubKey)
+	if err != nil {
+		return nil, err
+	}
 
 	config := &ssh.ClientConfig{
 		User: username,
@@ -355,8 +380,9 @@ func SCPDownload(ctx context.Context, ip, username, password, remotePath string)
 				return answers, nil
 			}),
 		},
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
-		Timeout:         30 * time.Second,
+		HostKeyCallback:   hostKeyCallBack,
+		HostKeyAlgorithms: hostKeyAlgos,
+		Timeout:           30 * time.Second,
 	}
 
 	client, err := ssh.Dial("tcp", ip+":22", config)
@@ -402,12 +428,17 @@ func SCPDownload(ctx context.Context, ip, username, password, remotePath string)
 }
 
 // SCPUpload uploads a file via SFTP
-func SCPUpload(ctx context.Context, ip, username, password, remotePath string, content []byte) error {
+func SCPUpload(ctx context.Context, ip, username, password, hostPubKey, remotePath string, content []byte) error {
 	tflog.Debug(ctx, "Starting SFTP upload", map[string]interface{}{
 		"ip":         ip,
 		"remotePath": remotePath,
 		"size":       len(content),
 	})
+
+	hostKeyCallBack, hostKeyAlgos, err := hostKeyCallbackFromPubKey(hostPubKey)
+	if err != nil {
+		return err
+	}
 
 	config := &ssh.ClientConfig{
 		User: username,
@@ -421,8 +452,9 @@ func SCPUpload(ctx context.Context, ip, username, password, remotePath string, c
 				return answers, nil
 			}),
 		},
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
-		Timeout:         30 * time.Second,
+		HostKeyCallback:   hostKeyCallBack,
+		HostKeyAlgorithms: hostKeyAlgos,
+		Timeout:           30 * time.Second,
 	}
 
 	client, err := ssh.Dial("tcp", ip+":22", config)
@@ -1008,19 +1040,18 @@ func (ltg *LASTokenGenerator) ExportOfflineActivationResponse(ctx context.Contex
 }
 
 // ApplyLicenseBlobADM applies license blob to ADM/SDX
-func ApplyLicenseBlobADM(ctx context.Context, ip, username, password string, blobContent []byte) error {
+func ApplyLicenseBlobADM(ctx context.Context, client *service.NitroClient, ip, hostPubKey string, blobContent []byte) error {
 	// Create temp filename
 	filename := fmt.Sprintf("offline_token_%s_activation.blob.tgz", ip)
 
 	// Upload blob to device
 	remotePath := "/mpsconfig/license/" + filename
-	if err := SCPUpload(ctx, ip, username, password, remotePath, blobContent); err != nil {
+	if err := SCPUpload(ctx, ip, client.Username(), client.Password(), hostPubKey, remotePath, blobContent); err != nil {
 		return fmt.Errorf("failed to upload license blob: %w", err)
 	}
 
 	// Apply license - SDX API expects form-encoded data with "object" key
-	auth := &BasicAuth{Username: username, Password: password}
-	url := fmt.Sprintf("http://%s/nitro/v1/config/las_lic_apply", ip)
+	path := "/nitro/v1/config/las_lic_apply"
 
 	payload := map[string]interface{}{
 		"las_lic_apply": map[string]string{
@@ -1036,7 +1067,7 @@ func ApplyLicenseBlobADM(ctx context.Context, ip, username, password string, blo
 
 	// Log request
 	tflog.Debug(ctx, "API Call: ApplyLicenseBlobADM", map[string]interface{}{
-		"url":      url,
+		"path":     path,
 		"method":   "POST",
 		"ip":       ip,
 		"filename": filename,
@@ -1045,7 +1076,7 @@ func ApplyLicenseBlobADM(ctx context.Context, ip, username, password string, blo
 		"body": formData,
 	})
 
-	respBody, err := RunCurlHTTPSFallback(ctx, url, "POST", auth, body, headers)
+	respBody, err := nitroHTTP(ctx, client, path, "POST", body, headers)
 	if err != nil {
 		return fmt.Errorf("failed to apply license: %w", err)
 	}
@@ -1172,45 +1203,13 @@ func (ltg *LASTokenGenerator) GetCustomerEntitlements(ctx context.Context, platf
 }
 
 // GetMPSVersion retrieves version and build information from SDX/ADM
-func GetMPSVersion(ctx context.Context, ip, username, password string) (string, string, error) {
-	client := &http.Client{
-		Timeout: 30 * time.Second,
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		},
-	}
-
-	// Try HTTPS first
-	url := fmt.Sprintf("https://%s/nitro/v1/config/mps", ip)
-	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+func GetMPSVersion(ctx context.Context, client *service.NitroClient) (string, string, error) {
+	// Uses the provider's configured NitroClient transport (scheme from `host`,
+	// TLS from ssl_verify / root_ca_path / server_name) with no plaintext HTTP
+	// fallback, so the nsroot credentials are never sent in cleartext (CTXMYT-2535).
+	body, err := nitroHTTP(ctx, client, "/nitro/v1/config/mps", "GET", nil, nil)
 	if err != nil {
-		return "", "", fmt.Errorf("failed to create request: %w", err)
-	}
-	req.SetBasicAuth(username, password)
-
-	resp, err := client.Do(req)
-	if err != nil {
-		// Fallback to HTTP
-		url = fmt.Sprintf("http://%s/nitro/v1/config/mps", ip)
-		req, err = http.NewRequestWithContext(ctx, "GET", url, nil)
-		if err != nil {
-			return "", "", fmt.Errorf("failed to create HTTP request: %w", err)
-		}
-		req.SetBasicAuth(username, password)
-		resp, err = client.Do(req)
-		if err != nil {
-			return "", "", fmt.Errorf("failed to get MPS version: %w", err)
-		}
-	}
-	defer resp.Body.Close()
-
-	tflog.Debug(ctx, "Response Status", map[string]interface{}{
-		"status_code": resp.StatusCode,
-	})
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return "", "", fmt.Errorf("failed to read response: %w", err)
+		return "", "", fmt.Errorf("failed to get MPS version: %w", err)
 	}
 
 	tflog.Debug(ctx, "Response Body", map[string]interface{}{
@@ -1255,7 +1254,7 @@ func GetMPSVersion(ctx context.Context, ip, username, password string) (string, 
 	build := buildMatch[1]
 
 	tflog.Debug(ctx, "Retrieved MPS version", map[string]interface{}{
-		"ip":      ip,
+		"host":    client.Host(),
 		"release": release,
 		"build":   build,
 	})
