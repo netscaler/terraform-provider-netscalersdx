@@ -31,6 +31,10 @@ func nslaslicenseOfflineResourceSchema(ctx context.Context) schema.Schema {
 				MarkdownDescription: "Entitlement name for the license (e.g., 'SDX 9195 Premium')",
 				Required:            true,
 			},
+			"ssh_host_pubkey": schema.StringAttribute{
+				MarkdownDescription: "SSH host public key (authorized_keys format, e.g. \"ssh-rsa AAAA...\") used to verify the SDX host key for the SCP license transfer. Obtain it once via `ssh-keyscan -t rsa <sdx-mgmt-ip>`. Required: the SCP connection is refused if it is empty or does not match the SDX host key, preventing a man-in-the-middle on the management network from capturing the nsroot credentials.",
+				Required:            true,
+			},
 			"lsguid": schema.StringAttribute{
 				MarkdownDescription: "License Server GUID (computed from device)",
 				Computed:            true,
@@ -69,6 +73,7 @@ type nslaslicenseOfflineModel struct {
 	Id              types.String `tfsdk:"id"`
 	LASSecretsJson  types.String `tfsdk:"las_secrets_json"`
 	EntitlementName types.String `tfsdk:"entitlement_name"`
+	SshHostPubkey   types.String `tfsdk:"ssh_host_pubkey"`
 	LSGUID          types.String `tfsdk:"lsguid"`
 	Version         types.String `tfsdk:"version"`
 	Build           types.String `tfsdk:"build"`

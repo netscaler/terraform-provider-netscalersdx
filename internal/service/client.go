@@ -85,6 +85,15 @@ func (c *NitroClient) Password() string {
 	return c.password
 }
 
+// HTTPClient returns the *http.Client configured for this NitroClient, including
+// its TLS settings (verification, RootCAs, ServerName), proxy and timeout. It
+// lets helpers that must issue custom NITRO requests (e.g. the offline LAS
+// licensing flow) reuse the securely-configured transport instead of building
+// their own http.Client with verification disabled.
+func (c *NitroClient) HTTPClient() *http.Client {
+	return c.client
+}
+
 // NewNitroClientFromParams returns a usable NitroClient. Does not check validity of supplied parameters
 func NewNitroClientFromParams(params NitroParamsapi) (*NitroClient, error) {
 	u, err := url.Parse(params.Host)
